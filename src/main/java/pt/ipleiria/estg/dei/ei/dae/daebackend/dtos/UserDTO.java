@@ -34,6 +34,8 @@ public class UserDTO {
                 user.getEmail());
     }
 
+
+
     public static List<UserDTO> from(List<User> users) {
         return users.stream().map(UserDTO::from).collect(Collectors.toList());
     }
