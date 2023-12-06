@@ -1,19 +1,26 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Encomenda {
     @Id
     private int id;
-    private Operador operador;
 
+    @ManyToOne
+    @JoinColumn(name = "operador_id")
+    private Operador operador;
+    @ManyToOne
+    @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
 
+    @OneToMany(mappedBy = "encomenda")
     private List<EmbalagemTransporte> embalagensTransporte;
 
+    @OneToMany(mappedBy = "encomenda")
     private List<Produto> produtos;
 
 

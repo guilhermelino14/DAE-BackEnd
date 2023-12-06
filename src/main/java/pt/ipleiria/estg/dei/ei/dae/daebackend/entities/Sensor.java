@@ -1,8 +1,10 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
+@Entity
 public class Sensor {
     @Id
     private int id;
