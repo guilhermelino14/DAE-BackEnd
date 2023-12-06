@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 
@@ -16,10 +17,12 @@ public class Produto {
     private double peso;
 
     @ManyToOne
+    @JoinColumn(name = "encomenda_id")
     private Encomenda encomenda;
 
 
     @ManyToOne
+    @JoinColumn(name = "fabricante_id")
     private Fabricante fabricante;
 
 

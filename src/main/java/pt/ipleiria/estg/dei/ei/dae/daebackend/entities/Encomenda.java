@@ -17,6 +17,7 @@ public class Encomenda {
     @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
 
+    //ManyToMany embalagens reutilizadas
     @OneToMany(mappedBy = "encomenda")
     private List<EmbalagemTransporte> embalagensTransporte;
 

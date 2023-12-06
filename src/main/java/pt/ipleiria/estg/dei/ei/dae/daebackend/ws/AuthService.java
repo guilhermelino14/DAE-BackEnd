@@ -53,6 +53,7 @@ public class AuthService {
                             .add("name", userDTO.getName())
                             .add("email", userDTO.getEmail())
                             .add("password", userDTO.getPassword())
+                            .add("role", userDTO.getRole())
                             .build())
                     .build();
             return Response.ok(jsonObject).build();
