@@ -14,11 +14,14 @@ public class ConfigBean {
     private OperadorBean operadorBean;
     @EJB
     private ConsumidorBean consumidorBean;
+    @EJB
+    private EmbalagemProdutoBean embalagemProdutoBean;
 
     @PostConstruct
     public void populateDB() {
         fabricanteBean.create("fabricante1", "fabricante1", "fabricante1", "fabricante1@mail.com");
         operadorBean.create("operador1", "operador1", "operador1", "operador1@mail.com");
         consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com");
+        embalagemProdutoBean.create("embalagem1", 1, 1);
     }
 }

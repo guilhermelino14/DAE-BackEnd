@@ -14,7 +14,7 @@ public class EmbalagemTransporte extends Embalagem{
     public EmbalagemTransporte() {
     }
 
-    public EmbalagemTransporte(double altura, double largura) {
-        super(altura, largura);
+    public EmbalagemTransporte(String nome, double altura, double largura) {
+        super(nome, altura, largura);
     }
 }

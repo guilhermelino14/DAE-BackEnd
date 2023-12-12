@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllEmbalagens",
+                query = "SELECT e FROM EmbalagemProduto e " // JPQL
+        )
+})
 public class Fabricante extends User{
     @OneToMany(mappedBy = "fabricante")
     private List<Produto> produtos;

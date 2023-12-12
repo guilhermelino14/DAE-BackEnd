@@ -8,7 +8,7 @@ public class EmbalagemProduto extends Embalagem{
     public EmbalagemProduto() {
     }
 
-    public EmbalagemProduto(double altura, double largura) {
-        super(altura, largura);
+    public EmbalagemProduto(String nome, double altura, double largura) {
+        super(nome, altura, largura);
     }
 }

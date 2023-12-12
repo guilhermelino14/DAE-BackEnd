@@ -1,26 +1,21 @@
-package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
+package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-@Table(name = "embalagens")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Entity
-public class Embalagem {
-    @Id
-    private int id;
+public class EmbalagemProdutoDTO {
     @NotNull
     private String nome;
 
     @NotNull
     private double altura;
+
     @NotNull
     private double largura;
 
-    public Embalagem() {
+    public EmbalagemProdutoDTO() {
     }
 
-    public Embalagem(String nome,double altura, double largura) {
+    public EmbalagemProdutoDTO(String nome, double altura, double largura) {
         this.nome = nome;
         this.altura = altura;
         this.largura = largura;
