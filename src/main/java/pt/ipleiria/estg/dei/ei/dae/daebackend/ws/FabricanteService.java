@@ -1,10 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
 import jakarta.ejb.EJB;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -13,6 +10,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EmbalagemProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.UserBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Embalagem;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
@@ -47,5 +45,20 @@ public class FabricanteService {
     @Path("/embalagens")
     public List<EmbalagemProdutoDTO> getAllEmbalagens() {
         return toDTOsNoEmbalagens(embalagemProdutoBean.getAll());
+    }
+
+
+
+    @POST
+    @Authenticated
+    @Path("/embalagem")
+    public Response createNewEmbalagem(EmbalagemProdutoDTO embalagemProdutoDTO) {
+        embalagemProdutoBean.create(
+                embalagemProdutoDTO.getNome(),
+                embalagemProdutoDTO.getAltura(),
+                embalagemProdutoDTO.getLargura()
+        );
+        EmbalagemProduto newEmbalagemProduto = embalagemProdutoBean.find(embalagemProdutoDTO.getNome());
+        return Response.status(Response.Status.CREATED).entity(toDTONoEmbalagens(newEmbalagemProduto)).build();
     }
 }
