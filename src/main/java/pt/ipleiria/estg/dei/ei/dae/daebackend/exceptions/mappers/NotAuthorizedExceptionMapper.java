@@ -2,7 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.mappers;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
-import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.NotAuthorizedException;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.NotAuthorizedException;
 
 import java.util.logging.Logger;
 

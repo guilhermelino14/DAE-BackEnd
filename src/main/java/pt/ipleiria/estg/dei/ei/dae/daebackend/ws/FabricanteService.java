@@ -12,6 +12,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EmbalagemProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.UserBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Embalagem;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -52,12 +53,13 @@ public class FabricanteService {
     @POST
     @Authenticated
     @Path("/embalagem")
-    public Response createNewEmbalagem(EmbalagemProdutoDTO embalagemProdutoDTO) {
+    public Response createNewEmbalagem(EmbalagemProdutoDTO embalagemProdutoDTO) throws MyEntityNotFoundException {
         embalagemProdutoBean.create(
                 embalagemProdutoDTO.getNome(),
                 embalagemProdutoDTO.getAltura(),
                 embalagemProdutoDTO.getLargura()
         );
+
         EmbalagemProduto newEmbalagemProduto = embalagemProdutoBean.find(embalagemProdutoDTO.getNome());
         return Response.status(Response.Status.CREATED).entity(toDTONoEmbalagens(newEmbalagemProduto)).build();
     }

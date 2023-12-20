@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Embalagem;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 
