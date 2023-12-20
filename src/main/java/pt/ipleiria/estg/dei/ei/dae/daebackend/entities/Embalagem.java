@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Entity
 public class Embalagem {
-    @Id
+    @Id  @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @NotNull
     private String nome;

@@ -23,5 +23,6 @@ public class ConfigBean {
         operadorBean.create("operador1", "operador1", "operador1", "operador1@mail.com");
         consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com");
         embalagemProdutoBean.create("embalagem1", 1, 1);
+        embalagemProdutoBean.create("embalagem2", 2, 2);
     }
 }

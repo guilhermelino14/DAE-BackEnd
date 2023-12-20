@@ -18,7 +18,7 @@ public class EmbalagemProdutoBean {
         entityManager.persist(new EmbalagemProduto(nome, altura, largura));
     }
 
-    public List<EmbalagemProduto> getAll(){
+    public List<EmbalagemProduto> getAll()  {
         return entityManager.createNamedQuery("getAllEmbalagens", EmbalagemProduto.class).getResultList();
     }
 

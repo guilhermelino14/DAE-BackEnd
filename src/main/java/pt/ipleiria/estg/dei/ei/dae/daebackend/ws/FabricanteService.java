@@ -59,8 +59,8 @@ public class FabricanteService {
                 embalagemProdutoDTO.getAltura(),
                 embalagemProdutoDTO.getLargura()
         );
-
-        EmbalagemProduto newEmbalagemProduto = embalagemProdutoBean.find(embalagemProdutoDTO.getNome());
-        return Response.status(Response.Status.CREATED).entity(toDTONoEmbalagens(newEmbalagemProduto)).build();
+        return Response.status(Response.Status.CREATED).build();
+       // EmbalagemProduto newEmbalagemProduto = embalagemProdutoBean.find(embalagemProdutoDTO.getNome());
+        //return Response.status(Response.Status.CREATED).entity(toDTONoEmbalagens(newEmbalagemProduto)).build();
     }
 }
