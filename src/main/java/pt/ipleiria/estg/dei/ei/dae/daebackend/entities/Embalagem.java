@@ -38,6 +38,10 @@ public class Embalagem {
         return largura;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -48,5 +52,9 @@ public class Embalagem {
 
     public void setLargura(double largura) {
         this.largura = largura;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

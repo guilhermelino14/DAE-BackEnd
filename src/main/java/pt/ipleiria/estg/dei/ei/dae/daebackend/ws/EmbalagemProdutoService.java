@@ -22,6 +22,7 @@ public class EmbalagemProdutoService {
 
     private EmbalagemProdutoDTO toDTONoEmbalagens(EmbalagemProduto embalagem) {
         return new EmbalagemProdutoDTO(
+                embalagem.getId(),
                 embalagem.getNome(),
                 embalagem.getAltura(),
                 embalagem.getLargura()

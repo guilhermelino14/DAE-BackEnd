@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull;
 
 public class EmbalagemProdutoDTO {
     @NotNull
+    private int id;
+    @NotNull
     private String nome;
 
     @NotNull
@@ -15,7 +17,8 @@ public class EmbalagemProdutoDTO {
     public EmbalagemProdutoDTO() {
     }
 
-    public EmbalagemProdutoDTO(String nome, double altura, double largura) {
+    public EmbalagemProdutoDTO(int id, String nome, double altura, double largura) {
+        this.id = id;
         this.nome = nome;
         this.altura = altura;
         this.largura = largura;
@@ -33,6 +36,10 @@ public class EmbalagemProdutoDTO {
         return largura;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -43,5 +50,9 @@ public class EmbalagemProdutoDTO {
 
     public void setLargura(double largura) {
         this.largura = largura;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
