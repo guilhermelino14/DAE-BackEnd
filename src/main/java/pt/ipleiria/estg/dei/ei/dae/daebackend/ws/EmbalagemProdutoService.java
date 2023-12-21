@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Authenticated
+@RolesAllowed({"Fabricante"})
 public class EmbalagemProdutoService {
     @EJB
     private EmbalagemProdutoBean embalagemProdutoBean;
