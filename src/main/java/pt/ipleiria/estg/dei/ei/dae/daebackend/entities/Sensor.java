@@ -1,9 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -14,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
         )
 })
 public class Sensor {
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @NotNull
     private String nome;
@@ -24,8 +21,7 @@ public class Sensor {
     public Sensor() {
     }
 
-    public Sensor(int id, String nome, String descricao) {
-        this.id = id;
+    public Sensor(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
     }

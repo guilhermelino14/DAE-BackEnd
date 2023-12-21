@@ -15,4 +15,8 @@ public class SensorBean {
     public List<Sensor> getAll(){
         return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList();
     }
+
+    public void create(String nome, String descricao) {
+        entityManager.persist(new Sensor(nome, descricao));
+    }
 }

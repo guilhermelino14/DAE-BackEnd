@@ -16,6 +16,8 @@ public class ConfigBean {
     private ConsumidorBean consumidorBean;
     @EJB
     private EmbalagemProdutoBean embalagemProdutoBean;
+    @EJB
+    private SensorBean sensorBean;
 
     @PostConstruct
     public void populateDB() {
@@ -24,5 +26,6 @@ public class ConfigBean {
         consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com");
         embalagemProdutoBean.create("embalagem1", 1, 1);
         embalagemProdutoBean.create("embalagem2", 2, 2);
+        sensorBean.create("sensor1", "temperatura");
     }
 }
