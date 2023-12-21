@@ -56,4 +56,18 @@ public class EmbalagemProdutoService {
         // EmbalagemProduto newEmbalagemProduto = embalagemProdutoBean.find(embalagemProdutoDTO.getNome());
         //return Response.status(Response.Status.CREATED).entity(toDTONoEmbalagens(newEmbalagemProduto)).build();
     }
+
+    @GET
+    @Path("{id}")
+    public EmbalagemProdutoDTO getSensorById(@PathParam("id") int id) throws MyEntityNotFoundException {
+        EmbalagemProdutoDTO sensorDTO = toDTONoEmbalagens(embalagemProdutoBean.find(id));
+        return sensorDTO;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteSensor(@PathParam("id") int id) throws MyEntityNotFoundException {
+        embalagemProdutoBean.delete(id);
+        return Response.status(Response.Status.OK).build();
+    }
 }

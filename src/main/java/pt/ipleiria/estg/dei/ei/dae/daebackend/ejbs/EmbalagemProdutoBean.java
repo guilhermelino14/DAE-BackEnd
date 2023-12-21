@@ -3,8 +3,8 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Embalagem;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
@@ -30,5 +30,18 @@ public class EmbalagemProdutoBean {
             );
         }
         return student;
+    }
+
+    public EmbalagemProduto find(int id) throws MyEntityNotFoundException {
+        EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, id);
+        if (embalagemProduto == null) {
+            throw new MyEntityNotFoundException("Embalagem with id " + id + " not found.");
+        }
+        return embalagemProduto;
+    }
+
+    public void delete(int id) throws MyEntityNotFoundException {
+        EmbalagemProduto embalagemProduto = find(id);
+        entityManager.remove(embalagemProduto);
     }
 }
