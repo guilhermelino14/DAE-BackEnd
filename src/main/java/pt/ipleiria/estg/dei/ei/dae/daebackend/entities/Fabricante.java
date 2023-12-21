@@ -8,8 +8,8 @@ import java.util.List;
 @Entity
 @NamedQueries({
         @NamedQuery(
-                name = "getAllEmbalagens",
-                query = "SELECT e FROM EmbalagemProduto e " // JPQL
+                name = "getAllFabricantes",
+                query = "SELECT f FROM Fabricante f " // JPQL
         )
 })
 public class Fabricante extends User{
