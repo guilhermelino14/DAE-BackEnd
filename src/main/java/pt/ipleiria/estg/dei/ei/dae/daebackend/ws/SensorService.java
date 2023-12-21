@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Path("/sensores")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
+@Authenticated
+@RolesAllowed({"Operador"})
 public class SensorService {
     @EJB
     private SensorBean sensorBean;
@@ -40,14 +43,12 @@ public class SensorService {
     }
 
     @GET
-    @Authenticated
     @Path("/")
     public List<SensorDTO> getAllSensores() {
         return toDTOsNoSensores(sensorBean.getAll());
     }
 
     @GET
-    @Authenticated
     @Path("{id}")
     public SensorDTO getSensorById(@PathParam("id") int id) throws MyEntityNotFoundException {
         SensorDTO sensorDTO = toDTONoSensores(sensorBean.find(id));
@@ -55,7 +56,6 @@ public class SensorService {
     }
 
     @POST
-    @Authenticated
     @Path("/")
     public Response createNewSensor(SensorDTO sensorDTO) {
         sensorBean.create(sensorDTO.getNome(), sensorDTO.getDescricao());
@@ -63,7 +63,6 @@ public class SensorService {
     }
 
     @PUT
-    @Authenticated
     @Path("{id}")
     public Response updateSensor(@PathParam("id") int id, SensorDTO sensorDTO) throws MyEntityNotFoundException {
         boolean response = sensorBean.update(id, sensorDTO.getNome(), sensorDTO.getDescricao());
@@ -74,7 +73,6 @@ public class SensorService {
     }
 
     @DELETE
-    @Authenticated
     @Path("{id}")
     public Response deleteSensor(@PathParam("id") int id) throws MyEntityNotFoundException {
         boolean response = sensorBean.delete(id);

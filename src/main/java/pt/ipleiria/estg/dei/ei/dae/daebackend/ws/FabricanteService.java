@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Path("/fabricante")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
+@Authenticated
 public class FabricanteService {
 
     @EJB
@@ -33,7 +34,6 @@ public class FabricanteService {
 
 
     @GET
-    @Authenticated
     @Path("/")
     public Response getAllFabricantes() {
         return Response.ok("ok").build();

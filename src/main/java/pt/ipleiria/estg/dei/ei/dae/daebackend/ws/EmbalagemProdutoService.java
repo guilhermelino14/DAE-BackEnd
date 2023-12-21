@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Path("/embalagensProduto")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
+@Authenticated
 public class EmbalagemProdutoService {
     @EJB
     private EmbalagemProdutoBean embalagemProdutoBean;
@@ -34,7 +35,6 @@ public class EmbalagemProdutoService {
     }
 
     @GET
-    @Authenticated
     @Path("/embalagens")
     public List<EmbalagemProdutoDTO> getAllEmbalagens() {
         return toDTOsNoEmbalagens(embalagemProdutoBean.getAll());
@@ -43,7 +43,6 @@ public class EmbalagemProdutoService {
 
 
     @POST
-    @Authenticated
     @Path("/embalagem")
     public Response createNewEmbalagem(EmbalagemProdutoDTO embalagemProdutoDTO) throws MyEntityNotFoundException {
         embalagemProdutoBean.create(
