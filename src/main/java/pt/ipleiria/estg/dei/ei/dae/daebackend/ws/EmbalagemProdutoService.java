@@ -96,4 +96,11 @@ public class EmbalagemProdutoService {
                 .entity("ERROR_FINDING_EMBALAGEM")
                 .build();
     }
+
+    @POST
+    @Path("{idEmbalagem}/sensor/{idSensor}")
+    public Response associarSensorAEmbalagem(@PathParam("idEmbalagem") int idEmbalagem, @PathParam("idSensor") int idSensor) throws MyEntityNotFoundException {
+        embalagemProdutoBean.associarEmbalagemAoSensor(idEmbalagem, idSensor);
+        return Response.status(Response.Status.CREATED).build();
+    }
 }

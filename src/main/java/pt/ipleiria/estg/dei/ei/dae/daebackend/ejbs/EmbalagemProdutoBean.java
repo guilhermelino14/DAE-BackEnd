@@ -44,4 +44,16 @@ public class EmbalagemProdutoBean {
         EmbalagemProduto embalagemProduto = find(id);
         entityManager.remove(embalagemProduto);
     }
+
+    public void associarEmbalagemAoSensor(int idEmbalagem, int idSensor) throws MyEntityNotFoundException {
+        EmbalagemProduto embalagemProduto = find(idEmbalagem);
+        Sensor sensor = entityManager.find(Sensor.class, idSensor);
+        if (embalagemProduto != null && sensor != null) {
+            if (embalagemProduto.getSensores().contains(sensor)) {
+                throw new MyEntityNotFoundException("Sensor with id " + idSensor + " already associated with Embalagem with id " + idEmbalagem);
+            }
+            embalagemProduto.addSensor(sensor);
+            sensor.addEmbalagem(embalagemProduto);
+        }
+    }
 }

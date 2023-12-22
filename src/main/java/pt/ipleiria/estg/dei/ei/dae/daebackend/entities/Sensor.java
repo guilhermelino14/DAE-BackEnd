@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,11 +36,13 @@ public class Sensor {
     private List<Embalagem> embalagens;
 
     public Sensor() {
+        this.embalagens = new ArrayList<>();
     }
 
     public Sensor(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
+        this.embalagens = new ArrayList<>();
     }
 
     public int getId() {
@@ -64,5 +67,13 @@ public class Sensor {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public void addEmbalagem(Embalagem embalagem) {
+        this.embalagens.add(embalagem);
+    }
+
+    public void removeEmbalagem(Embalagem embalagem) {
+        this.embalagens.remove(embalagem);
     }
 }

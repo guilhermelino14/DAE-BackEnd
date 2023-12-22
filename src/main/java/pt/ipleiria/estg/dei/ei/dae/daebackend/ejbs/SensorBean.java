@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
@@ -47,5 +48,14 @@ public class SensorBean {
         }
         entityManager.remove(sensor);
         return true;
+    }
+
+    public void associarSensorAEmbalagem(int idSensor, int idEmbalagem) throws MyEntityNotFoundException {
+        Sensor sensor = find(idSensor);
+        EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, idEmbalagem);
+        if (sensor != null && embalagemProduto != null) {
+            sensor.addEmbalagem(embalagemProduto);
+            embalagemProduto.addSensor(sensor);
+        }
     }
 }

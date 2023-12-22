@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "embalagens")
@@ -23,12 +24,14 @@ public class Embalagem {
     private List<Sensor> sensores;
 
     public Embalagem() {
+        this.sensores = new ArrayList<>();
     }
 
     public Embalagem(String nome,double altura, double largura) {
         this.nome = nome;
         this.altura = altura;
         this.largura = largura;
+        this.sensores = new ArrayList<>();
     }
 
     public String getNome() {
@@ -69,5 +72,13 @@ public class Embalagem {
 
     public void setSensores(List<Sensor> sensores) {
         this.sensores = sensores;
+    }
+
+    public void addSensor(Sensor sensor) {
+        this.sensores.add(sensor);
+    }
+
+    public void removeSensor(Sensor sensor) {
+        this.sensores.remove(sensor);
     }
 }
