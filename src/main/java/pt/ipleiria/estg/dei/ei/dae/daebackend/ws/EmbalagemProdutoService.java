@@ -37,7 +37,7 @@ public class EmbalagemProdutoService {
     }
 
     @GET
-    @Path("/embalagens")
+    @Path("/")
     public List<EmbalagemProdutoDTO> getAllEmbalagens() {
         return toDTOsNoEmbalagens(embalagemProdutoBean.getAll());
     }
@@ -45,7 +45,7 @@ public class EmbalagemProdutoService {
 
 
     @POST
-    @Path("/embalagem")
+    @Path("/")
     public Response createNewEmbalagem(EmbalagemProdutoDTO embalagemProdutoDTO) throws MyEntityNotFoundException {
         embalagemProdutoBean.create(
                 embalagemProdutoDTO.getNome(),
