@@ -7,10 +7,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.AuthDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.UserBean;
@@ -38,6 +36,12 @@ public class AuthService {
         var user = userBean.findOrFail(username);
         return Response.ok(UserDTO.from(user)).build();
     }
+    @GET
+    @Path("/token/{token}")
+    public Response getToken(@PathParam("token") String token) {
+        return Response.ok(issuer.verifyToken(token)).build();
+    }
+
 
     @POST
     @Path("/login")

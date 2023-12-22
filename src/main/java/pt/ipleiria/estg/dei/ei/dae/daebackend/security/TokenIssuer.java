@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
 import javax.crypto.spec.SecretKeySpec;
@@ -28,4 +27,19 @@ public class TokenIssuer {
                 .signWith(key)
                 .compact();
     }
+
+    public Jws<Claims> verifyToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token);
+            return claims;
+        } catch (ExpiredJwtException e) {
+            throw new JwtException("Token expired");
+        } catch (Exception e) {
+            throw new JwtException("Invalid token");
+        }
+    }
+
 }
