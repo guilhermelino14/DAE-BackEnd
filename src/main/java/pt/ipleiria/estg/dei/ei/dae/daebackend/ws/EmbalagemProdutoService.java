@@ -6,8 +6,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EmbalagemProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
@@ -32,8 +34,20 @@ public class EmbalagemProdutoService {
         );
     }
 
+    private SensorDTO toDTONoSensores(Sensor sensor) {
+        return new SensorDTO(
+                sensor.getId(),
+                sensor.getNome(),
+                sensor.getDescricao()
+        );
+    }
+
     private List<EmbalagemProdutoDTO> toDTOsNoEmbalagens(List<EmbalagemProduto> embalagens) {
         return embalagens.stream().map(this::toDTONoEmbalagens).collect(Collectors.toList());
+    }
+
+    private List<SensorDTO> sensorToDTOs(List<Sensor> subjects) {
+        return subjects.stream().map(this::toDTONoSensores).collect(java.util.stream.Collectors.toList());
     }
 
     @GET
@@ -69,5 +83,17 @@ public class EmbalagemProdutoService {
     public Response deleteSensor(@PathParam("id") int id) throws MyEntityNotFoundException {
         embalagemProdutoBean.delete(id);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("{id}/sensor")
+    public Response getSensorEmbalagem(@PathParam("id") int id) throws MyEntityNotFoundException {
+        EmbalagemProduto embalagemProduto = embalagemProdutoBean.find(id);
+        if (embalagemProduto != null) {
+            return Response.ok(sensorToDTOs(embalagemProduto.getSensores())).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("ERROR_FINDING_EMBALAGEM")
+                .build();
     }
 }
