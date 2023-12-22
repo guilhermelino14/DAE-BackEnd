@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
+import jakarta.json.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -73,9 +74,25 @@ public class EmbalagemProdutoService {
 
     @GET
     @Path("{id}")
-    public EmbalagemProdutoDTO getSensorById(@PathParam("id") int id) throws MyEntityNotFoundException {
-        EmbalagemProdutoDTO sensorDTO = toDTONoEmbalagens(embalagemProdutoBean.find(id));
-        return sensorDTO;
+    public Response getSensorById(@PathParam("id") int id) throws MyEntityNotFoundException {
+        EmbalagemProdutoDTO embalagemProdutoDTO = toDTONoEmbalagens(embalagemProdutoBean.find(id));
+        List<SensorDTO> sensorDTOs = sensorToDTOs(embalagemProdutoBean.find(id).getSensores());
+        JsonObjectBuilder response = Json.createObjectBuilder();
+        response.add("id", embalagemProdutoDTO.getId());
+        response.add("nome", embalagemProdutoDTO.getNome());
+        response.add("altura", embalagemProdutoDTO.getAltura());
+        response.add("largura", embalagemProdutoDTO.getLargura());
+        JsonArrayBuilder sensorList = Json.createArrayBuilder();
+        for (SensorDTO sensorDTO : sensorDTOs) {
+            JsonObject sensor = Json.createObjectBuilder()
+                    .add("id", sensorDTO.getId())
+                    .add("nome", sensorDTO.getNome())
+                    .add("descricao", sensorDTO.getDescricao())
+                    .build();
+            sensorList.add(sensor);
+        }
+        response.add("Sensores", sensorList);
+        return Response.status(Response.Status.OK).entity(response.build()).build();
     }
 
     @DELETE
@@ -102,5 +119,12 @@ public class EmbalagemProdutoService {
     public Response associarSensorAEmbalagem(@PathParam("idEmbalagem") int idEmbalagem, @PathParam("idSensor") int idSensor) throws MyEntityNotFoundException {
         embalagemProdutoBean.associarEmbalagemAoSensor(idEmbalagem, idSensor);
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @DELETE
+    @Path("{idEmbalagem}/sensor/{idSensor}")
+    public Response desassociarSensorAEmbalagem(@PathParam("idEmbalagem") int idEmbalagem, @PathParam("idSensor") int idSensor) throws MyEntityNotFoundException {
+        embalagemProdutoBean.desassociarEmbalagemAoSensor(idEmbalagem, idSensor);
+        return Response.status(Response.Status.OK).build();
     }
 }
