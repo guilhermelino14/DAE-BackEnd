@@ -91,7 +91,7 @@ public class EmbalagemProdutoService {
                     .build();
             sensorList.add(sensor);
         }
-        response.add("Sensores", sensorList);
+        response.add("sensores", sensorList);
         return Response.status(Response.Status.OK).entity(response.build()).build();
     }
 
@@ -100,18 +100,6 @@ public class EmbalagemProdutoService {
     public Response deleteSensor(@PathParam("id") int id) throws MyEntityNotFoundException {
         embalagemProdutoBean.delete(id);
         return Response.status(Response.Status.OK).build();
-    }
-
-    @GET
-    @Path("{id}/sensor")
-    public Response getSensorEmbalagem(@PathParam("id") int id) throws MyEntityNotFoundException {
-        EmbalagemProduto embalagemProduto = embalagemProdutoBean.find(id);
-        if (embalagemProduto != null) {
-            return Response.ok(sensorToDTOs(embalagemProduto.getSensores())).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_EMBALAGEM")
-                .build();
     }
 
     @POST
