@@ -5,7 +5,11 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 
@@ -27,10 +31,20 @@ public class ProdutoBean {
         return entityManager.createNamedQuery("getAllProdutos", Produto.class).getResultList();
     }
 
-    public Produto find(int id) {
+    public Produto find(int id) throws MyEntityNotFoundException {
         Produto produto = entityManager.find(Produto.class, id);
+        if (produto == null) {
+            throw new MyEntityNotFoundException("Produto with id " + id + " not found.");
+        }
         return produto;
     }
 
 
+    public void delete(int id) throws MyEntityNotFoundException, MyConstraintViolationException {
+        Produto produto = find(id);
+        if (!produto.getProdutoFisico().isEmpty()) {
+            throw new MyConstraintViolationException("Produto has Produtos Fisicos.");
+        }
+        entityManager.remove(produto);
+    }
 }

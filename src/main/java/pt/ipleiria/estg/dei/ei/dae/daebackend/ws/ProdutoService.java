@@ -18,6 +18,8 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoFisicoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyConstraintViolationException;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -69,7 +71,7 @@ public class ProdutoService {
 
     @GET
     @Path("{id}")
-    public Response getProdutoDetails(@PathParam("id") int id) {
+    public Response getProdutoDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
         ProdutoDTO produtoDTO = toDTOProduto(produtoBean.find(id));
         List<ProdutoFisicoDTO> produtosFisicoDTO = toDTOsProdutosFisicos(produtoFisicoBean.findProdutosFisicosByProdutoId(id));
         JsonObjectBuilder response = Json.createObjectBuilder();
@@ -92,6 +94,13 @@ public class ProdutoService {
     public Response createNewProduto(ProdutoDTO produtoDTO) {
         produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao());
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteSensor(@PathParam("id") int id) throws MyEntityNotFoundException, MyConstraintViolationException {
+        produtoBean.delete(id);
+        return Response.status(Response.Status.OK).build();
     }
 
 }

@@ -82,4 +82,12 @@ public class Produto {
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
     }
+
+    public List<ProdutoFisico> getProdutoFisico() {
+        return produtoFisico;
+    }
+
+    public void setProdutoFisico(List<ProdutoFisico> produtoFisico) {
+        this.produtoFisico = produtoFisico;
+    }
 }
