@@ -25,4 +25,7 @@ public class FabricanteBean {
     public List<Fabricante> getAll()  {
         return entityManager.createNamedQuery("getAllFabricantes", Fabricante.class).getResultList();
     }
+    public Fabricante find(String username) {
+        return entityManager.find(Fabricante.class, username);
+    }
 }

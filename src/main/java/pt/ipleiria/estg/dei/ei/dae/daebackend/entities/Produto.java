@@ -1,12 +1,19 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.FabricanteBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllProdutos",
+                query = "SELECT p FROM Produto p" // JPQL
+        )
+})
 public class Produto {
     @Id
     private int id;
@@ -14,7 +21,6 @@ public class Produto {
     private String categoria;
 
     private String descricao;
-    private double peso;
 
     @ManyToOne
     @JoinColumn(name = "encomenda_id")
@@ -25,16 +31,19 @@ public class Produto {
     @JoinColumn(name = "fabricante_id")
     private Fabricante fabricante;
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
+    private List<ProdutoFisico> produtoFisico;
+
 
     public Produto() {
+        this.produtoFisico = new ArrayList<>();
     }
 
-    public Produto(int id, String nome, String categoria, String descricao, double peso) {
-        this.id = id;
+    public Produto(String nome, String categoria, String descricao) {
         this.nome = nome;
         this.categoria = categoria;
-        this.descricao = descricao;
-        this.peso = peso;
+        this.descricao = descricao;;
+        this.produtoFisico = new ArrayList<>();
     }
 
     public int getId() {
@@ -53,9 +62,6 @@ public class Produto {
         return descricao;
     }
 
-    public double getPeso() {
-        return peso;
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -73,7 +79,7 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
     }
 }

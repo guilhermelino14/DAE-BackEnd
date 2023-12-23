@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
@@ -25,6 +26,9 @@ public class ConfigBean {
     private SensorBean sensorBean;
     @EJB
     private ObservacoesBean observacoesBean;
+    @EJB
+    private ProdutoBean produtoBean;
+
 
     @PostConstruct
     public void populateDB() throws MyEntityNotFoundException {
@@ -35,6 +39,7 @@ public class ConfigBean {
         embalagemProdutoBean.create("embalagem2", 2, 2);
         sensorBean.create("sensor1", "temperatura", SensorType.FABRICANTE);
         observacoesBean.create(sensorBean.find(1), "observacao1", new Date());
+        produtoBean.create("produto1", "categoria1", "descricao1");
 
     }
 }
