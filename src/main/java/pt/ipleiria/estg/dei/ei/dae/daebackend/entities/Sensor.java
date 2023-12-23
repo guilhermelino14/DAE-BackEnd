@@ -21,6 +21,9 @@ public class Sensor {
     @NotNull
     private String descricao;
 
+    @Enumerated(EnumType.STRING)
+    private SensorType sensorType;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "sensores_embalagens",
@@ -39,10 +42,11 @@ public class Sensor {
         this.embalagens = new ArrayList<>();
     }
 
-    public Sensor(String nome, String descricao) {
+    public Sensor(String nome, String descricao, SensorType sensorType) {
         this.nome = nome;
         this.descricao = descricao;
         this.embalagens = new ArrayList<>();
+        this.sensorType = sensorType;
     }
 
     public int getId() {
@@ -75,5 +79,21 @@ public class Sensor {
 
     public void removeEmbalagem(Embalagem embalagem) {
         this.embalagens.remove(embalagem);
+    }
+
+    public SensorType getSensorType() {
+        return sensorType;
+    }
+
+    public void setSensorType(SensorType sensorType) {
+        this.sensorType = sensorType;
+    }
+
+    public List<Embalagem> getEmbalagens() {
+        return embalagens;
+    }
+
+    public void setEmbalagens(List<Embalagem> embalagens) {
+        this.embalagens = embalagens;
     }
 }

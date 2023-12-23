@@ -3,23 +3,40 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.ForbiddenException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.NotAuthorizedException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 public class SensorBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Sensor> getAll(){
-        return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList();
+
+    public List<Sensor> getAll(SensorType sensorType){
+        return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList().stream()
+                .filter(sensor -> sensorType == sensor.getSensorType())
+                .collect(Collectors.toList());
     }
 
-    public void create(String nome, String descricao) {
-        entityManager.persist(new Sensor(nome, descricao));
+    public List<Sensor> getAllAvailable(SensorType sensorType){
+        return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList().stream()
+                .filter(sensor -> sensorType == sensor.getSensorType())
+                .filter(sensor -> sensor.getEmbalagens().isEmpty())
+                .collect(Collectors.toList());
+
+    }
+
+    public void create(String nome, String descricao, SensorType sensorType) {
+        entityManager.persist(new Sensor(nome, descricao, sensorType));
     }
 
     public Sensor find(int id) throws MyEntityNotFoundException {

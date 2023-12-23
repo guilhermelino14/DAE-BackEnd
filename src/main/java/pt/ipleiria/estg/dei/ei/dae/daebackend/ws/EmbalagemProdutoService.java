@@ -61,7 +61,7 @@ public class EmbalagemProdutoService {
 
     @POST
     @Path("/")
-    public Response createNewEmbalagem(EmbalagemProdutoDTO embalagemProdutoDTO) throws MyEntityNotFoundException {
+    public Response createNewEmbalagem(EmbalagemProdutoDTO embalagemProdutoDTO){
         embalagemProdutoBean.create(
                 embalagemProdutoDTO.getNome(),
                 embalagemProdutoDTO.getAltura(),

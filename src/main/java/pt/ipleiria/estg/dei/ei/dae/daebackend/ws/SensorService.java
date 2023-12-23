@@ -3,18 +3,18 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.ForbiddenException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Authenticated
-@RolesAllowed({"Operador"})
+@RolesAllowed({"Operador", "Fabricante"})
 public class SensorService {
     @EJB
     private SensorBean sensorBean;
@@ -45,7 +45,22 @@ public class SensorService {
     @GET
     @Path("/")
     public List<SensorDTO> getAllSensores() {
-        return toDTOsNoSensores(sensorBean.getAll());
+        System.out.println(securityContext.isUserInRole("Operador"));
+        if (securityContext.isUserInRole("Operador"))
+            return toDTOsNoSensores(sensorBean.getAll(SensorType.OPERADOR));
+        if (securityContext.isUserInRole("Fabricante"))
+            return toDTOsNoSensores(sensorBean.getAll(SensorType.FABRICANTE));
+        return toDTOsNoSensores(new LinkedList<>());
+    }
+
+    @GET
+    @Path("/available")
+    public List<SensorDTO> getAllSensoresAvailable() {
+        if (securityContext.isUserInRole("Operador"))
+            return toDTOsNoSensores(sensorBean.getAllAvailable(SensorType.OPERADOR));
+        if (securityContext.isUserInRole("Fabricante"))
+            return toDTOsNoSensores(sensorBean.getAllAvailable(SensorType.FABRICANTE));
+        return toDTOsNoSensores(new LinkedList<>());
     }
 
     @GET
@@ -58,7 +73,12 @@ public class SensorService {
     @POST
     @Path("/")
     public Response createNewSensor(SensorDTO sensorDTO) {
-        sensorBean.create(sensorDTO.getNome(), sensorDTO.getDescricao());
+        if (securityContext.isUserInRole("Operador"))
+            sensorBean.create(sensorDTO.getNome(), sensorDTO.getDescricao(), SensorType.OPERADOR);
+        else if (securityContext.isUserInRole("Fabricante"))
+            sensorBean.create(sensorDTO.getNome(), sensorDTO.getDescricao(), SensorType.FABRICANTE);
+        else
+            return Response.status(Response.Status.FORBIDDEN).build();
         return Response.status(Response.Status.CREATED).build();
     }
 

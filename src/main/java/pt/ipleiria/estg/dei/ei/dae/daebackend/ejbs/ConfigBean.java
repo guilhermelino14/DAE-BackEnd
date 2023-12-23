@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
 
 @Startup
 @Singleton
@@ -26,6 +27,6 @@ public class ConfigBean {
         consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com");
         embalagemProdutoBean.create("embalagem1", 1, 1);
         embalagemProdutoBean.create("embalagem2", 2, 2);
-        sensorBean.create("sensor1", "temperatura");
+        sensorBean.create("sensor1", "temperatura", SensorType.FABRICANTE);
     }
 }
