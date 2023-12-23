@@ -23,4 +23,12 @@ public class ObservacoesBean {
     public List<Observacoes> getAll() {
         return entityManager.createNamedQuery("getAllObservacoes", Observacoes.class).getResultList();
     }
+
+    public Observacoes find(int id) {
+        return entityManager.find(Observacoes.class, id);
+    }
+
+    public List<Observacoes> findBySensorId(int id) {
+        return entityManager.createNamedQuery("getObservacoesBySensorId", Observacoes.class).setParameter("id", id).getResultList();
+    }
 }

@@ -10,6 +10,10 @@ import java.util.Date;
         @NamedQuery(
                 name = "getAllObservacoes",
                 query = "SELECT o FROM Observacoes o " // JPQL
+        ),
+        @NamedQuery(
+                name = "getObservacoesBySensorId",
+                query = "SELECT o FROM Observacoes o WHERE o.sensor.id = :id" // JPQL
         )
 })
 public class Observacoes {

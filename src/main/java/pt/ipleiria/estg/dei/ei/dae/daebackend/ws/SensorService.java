@@ -2,12 +2,19 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ObservacoesDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Observacoes;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.ForbiddenException;
@@ -26,6 +33,8 @@ import java.util.stream.Collectors;
 public class SensorService {
     @EJB
     private SensorBean sensorBean;
+    @EJB
+    private ObservacoesBean observacoesBean;
 
     @Context
     private SecurityContext securityContext;
@@ -40,6 +49,18 @@ public class SensorService {
 
     private List<SensorDTO> toDTOsNoSensores(List<Sensor> sensors) {
         return sensors.stream().map(this::toDTONoSensores).collect(Collectors.toList());
+    }
+
+    private ObservacoesDTO toDTONoObservacoes(Observacoes observacao) {
+        return new ObservacoesDTO(
+                observacao.getId(),
+                observacao.getObservacao(),
+                observacao.getData()
+        );
+    }
+
+    private List<ObservacoesDTO> toDTOsNoObservacoes(List<Observacoes> observacoes)  {
+        return observacoes.stream().map(this::toDTONoObservacoes).collect(Collectors.toList());
     }
 
     @GET
@@ -65,9 +86,24 @@ public class SensorService {
 
     @GET
     @Path("{id}")
-    public SensorDTO getSensorById(@PathParam("id") int id) throws MyEntityNotFoundException {
+    public Response getSensorById(@PathParam("id") int id) throws MyEntityNotFoundException {
         SensorDTO sensorDTO = toDTONoSensores(sensorBean.find(id));
-        return sensorDTO;
+        List<ObservacoesDTO> observacoesDTO = toDTOsNoObservacoes(observacoesBean.findBySensorId(id));
+        JsonObjectBuilder response = Json.createObjectBuilder();
+        response.add("id", sensorDTO.getId());
+        response.add("nome", sensorDTO.getNome());
+        response.add("descricao", sensorDTO.getDescricao());
+        JsonArrayBuilder observacoesList = Json.createArrayBuilder();
+        for (ObservacoesDTO observacaoDTO : observacoesDTO) {
+            JsonObject observacao = Json.createObjectBuilder()
+                    .add("id", observacaoDTO.getId())
+                    .add("observacao", observacaoDTO.getObservacao())
+                    .add("data", observacaoDTO.getData().toString())
+                    .build();
+            observacoesList.add(observacao);
+        }
+        response.add("observacoes", observacoesList);
+        return Response.status(Response.Status.OK).entity(response.build()).build();
     }
 
     @POST
