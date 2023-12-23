@@ -24,8 +24,7 @@ public class ProdutoFisico {
     public ProdutoFisico() {
     }
 
-    public ProdutoFisico(int referencia, Produto produto) {
-        this.referencia = referencia;
+    public ProdutoFisico(Produto produto) {
         this.produto = produto;
     }
 

@@ -13,8 +13,8 @@ public class ProdutoFisicoBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(int referencia, Produto produto) {
-        entityManager.persist(new ProdutoFisico(referencia, produto));
+    public void create(Produto produto) {
+        entityManager.persist(new ProdutoFisico(produto));
     }
 
     public ProdutoFisico find(int referencia) {

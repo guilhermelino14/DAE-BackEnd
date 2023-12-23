@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs;
 
+
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -27,7 +28,8 @@ public class ProdutoBean {
     }
 
     public Produto find(int id) {
-        return entityManager.find(Produto.class, id);
+        Produto produto = entityManager.find(Produto.class, id);
+        return produto;
     }
 
 
