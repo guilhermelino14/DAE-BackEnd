@@ -38,8 +38,12 @@ public class Sensor {
     )
     private List<Embalagem> embalagens;
 
+    @OneToMany(mappedBy = "sensor", cascade = CascadeType.REMOVE)
+    private List<Observacoes> observacoes;
+
     public Sensor() {
         this.embalagens = new ArrayList<>();
+        this.observacoes = new ArrayList<>();
     }
 
     public Sensor(String nome, String descricao, SensorType sensorType) {
@@ -47,6 +51,7 @@ public class Sensor {
         this.descricao = descricao;
         this.embalagens = new ArrayList<>();
         this.sensorType = sensorType;
+        this.observacoes = new ArrayList<>();
     }
 
     public int getId() {
@@ -60,6 +65,7 @@ public class Sensor {
     public String getDescricao() {
         return descricao;
     }
+
 
     public void setId(int id) {
         this.id = id;
@@ -95,5 +101,13 @@ public class Sensor {
 
     public void setEmbalagens(List<Embalagem> embalagens) {
         this.embalagens = embalagens;
+    }
+
+    public List<Observacoes> getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(List<Observacoes> observacoes) {
+        this.observacoes = observacoes;
     }
 }
