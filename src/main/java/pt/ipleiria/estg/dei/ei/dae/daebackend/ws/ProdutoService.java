@@ -12,10 +12,12 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoFisicoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -83,6 +85,13 @@ public class ProdutoService {
         }
         response.add("produtosFisicos", produtosFisicos);
         return Response.status(Response.Status.OK).entity(response.build()).build();
+    }
+
+    @POST
+    @Path("/")
+    public Response createNewProduto(ProdutoDTO produtoDTO) {
+        produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao());
+        return Response.status(Response.Status.CREATED).build();
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
         )
 })
 public class Produto {
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String nome;
     private String categoria;
