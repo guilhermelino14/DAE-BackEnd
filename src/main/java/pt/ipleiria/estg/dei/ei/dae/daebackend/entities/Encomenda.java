@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 public class Encomenda {
-    @Id
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
