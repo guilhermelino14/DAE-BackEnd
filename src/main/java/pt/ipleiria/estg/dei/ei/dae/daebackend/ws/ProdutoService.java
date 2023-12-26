@@ -103,4 +103,11 @@ public class ProdutoService {
         return Response.status(Response.Status.OK).build();
     }
 
+    @POST
+    @Path("{id}/addStock/{total}")
+    public Response createProdutosFisicosForProduto(@PathParam("id") int id, @PathParam("total") int total) throws MyEntityNotFoundException {
+        produtoBean.addToStock(id, total);
+        return Response.status(Response.Status.CREATED).build();
+    }
+
 }
