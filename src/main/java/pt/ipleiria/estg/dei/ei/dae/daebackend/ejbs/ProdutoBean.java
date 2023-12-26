@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
@@ -46,5 +47,13 @@ public class ProdutoBean {
             throw new MyConstraintViolationException("Produto has Produtos Fisicos.");
         }
         entityManager.remove(produto);
+    }
+
+    public void addToStock(int id, int total) throws MyEntityNotFoundException {
+        Produto produto = find(id);
+        for (int i = 0; i < total; i++) {
+            ProdutoFisico produtoFisico = new ProdutoFisico(produto);
+            entityManager.persist(produtoFisico);
+        }
     }
 }
