@@ -15,8 +15,8 @@ public class ConsumidorBean {
     @Inject
     private Hasher hasher;
 
-    public void create(String username, String password, String name, String email) {
-        entityManager.persist(new Consumidor(username, hasher.hash(password), name, email));
+    public void create(String username, String password, String name, String email, String morada) {
+        entityManager.persist(new Consumidor(username, hasher.hash(password), name, email, morada));
     }
 
     public Consumidor find(String username) {

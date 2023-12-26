@@ -38,7 +38,7 @@ public class ConfigBean {
     public void populateDB() throws MyEntityNotFoundException {
         fabricanteBean.create("fabricante1", "fabricante1", "fabricante1", "fabricante1@mail.com");
         operadorBean.create("operador1", "operador1", "operador1", "operador1@mail.com");
-        consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com");
+        consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com", "Morada1");
         embalagemProdutoBean.create("embalagem1", 1, 1);
         embalagemProdutoBean.create("embalagem2", 2, 2);
         sensorBean.create("sensor1", "temperatura", SensorType.FABRICANTE);
