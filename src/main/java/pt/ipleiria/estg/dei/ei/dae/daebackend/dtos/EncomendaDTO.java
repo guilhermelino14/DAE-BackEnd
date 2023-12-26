@@ -1,42 +1,33 @@
-package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
+package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@NamedQueries({
-        @NamedQuery(
-                name = "getAllEncomendas",
-                query = "SELECT e FROM Encomenda e ORDER BY e.id"
-        ) // JPQL
-})
-public class Encomenda {
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+public class EncomendaDTO {
+    @NotNull
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "operador_id")
+    @NotNull
     private Operador operador;
-    @ManyToOne
-    @JoinColumn(name = "consumidor_id")
+
+    @NotNull
     private Consumidor consumidor;
 
-    //ManyToMany embalagens reutilizadas
-    @OneToMany(mappedBy = "encomenda")
     private List<EmbalagemTransporte> embalagensTransporte;
-
-    @OneToMany(mappedBy = "encomenda")
     private List<Produto> produtos;
-
-
-    public Encomenda() {
-        embalagensTransporte = new ArrayList<>();
-        produtos = new ArrayList<>();
+    public EncomendaDTO() {
+        this.embalagensTransporte = new ArrayList<>();
+        this.produtos = new ArrayList<>();
     }
 
-    public Encomenda(Operador operador, Consumidor consumidor) {
+    public EncomendaDTO(int id, Operador operador, Consumidor consumidor) {
+        this.id = id;
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();

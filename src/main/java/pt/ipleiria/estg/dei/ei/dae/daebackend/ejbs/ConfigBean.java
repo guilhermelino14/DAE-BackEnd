@@ -31,6 +31,8 @@ public class ConfigBean {
 
     @EJB
     private ProdutoFisicoBean produtoFisicoBean;
+    @EJB
+    private EncomendaBean encomendaBean;
 
     @PostConstruct
     public void populateDB() throws MyEntityNotFoundException {
@@ -43,5 +45,6 @@ public class ConfigBean {
         observacoesBean.create(sensorBean.find(1), "observacao1", new Date());
         produtoBean.create("produto1", "categoria1", "descricao1");
         produtoFisicoBean.create(produtoBean.find(1));
+        encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"));
     }
 }

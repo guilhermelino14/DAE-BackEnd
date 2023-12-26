@@ -18,4 +18,8 @@ public class ConsumidorBean {
     public void create(String username, String password, String name, String email) {
         entityManager.persist(new Consumidor(username, hasher.hash(password), name, email));
     }
+
+    public Consumidor find(String username) {
+        return entityManager.find(Consumidor.class, username);
+    }
 }
