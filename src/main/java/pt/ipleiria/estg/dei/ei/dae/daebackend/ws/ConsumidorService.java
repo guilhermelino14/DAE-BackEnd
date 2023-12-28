@@ -31,7 +31,6 @@ public class ConsumidorService {
                 consumidor.getName(),
                 consumidor.getEmail(),
                 consumidor.getMorada()
-
         );
     }
 

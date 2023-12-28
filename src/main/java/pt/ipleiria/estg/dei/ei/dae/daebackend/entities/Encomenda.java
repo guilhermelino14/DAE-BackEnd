@@ -24,7 +24,7 @@ public class Encomenda {
     @JoinColumn(name = "operador_id")
     private Operador operador;
     @ManyToOne
-    @JoinColumn(name = "consumidor_username")
+    @JoinColumn(name = "username")
     private Consumidor consumidor;
 
     //ManyToMany embalagens reutilizadas

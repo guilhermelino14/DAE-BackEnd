@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 public class Consumidor extends User{
-    @OneToMany(mappedBy = "consumidor")
+    @OneToMany(mappedBy = "id")
     private List<Encomenda> encomendas;
 
     private String morada;
@@ -29,4 +29,5 @@ public class Consumidor extends User{
     public void setMorada(String morada) {
         this.morada = morada;
     }
+
 }
