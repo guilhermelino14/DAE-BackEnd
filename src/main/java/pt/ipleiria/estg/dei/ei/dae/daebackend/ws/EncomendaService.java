@@ -54,6 +54,13 @@ public class EncomendaService {
         return toDTOs(encomendaBean.getAll());
     }
 
+    @GET
+    @Path("{username}")
+    public List<EncomendaDTO> getEncomendaFromUser(@PathParam("username") String username){
+        return toDTOs(encomendaBean.getEncomendaByConsumidorUsername(username));
+    }
+
+
     @POST
     @Path("/")
     public Response createEncomenda() {

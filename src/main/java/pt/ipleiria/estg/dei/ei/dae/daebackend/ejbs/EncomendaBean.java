@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Observacoes;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
 
 import java.util.List;
@@ -25,5 +26,9 @@ public class EncomendaBean {
 
     public List<Encomenda> getAll() {
         return entityManager.createNamedQuery("getAllEncomendas", Encomenda.class).getResultList();
+    }
+
+    public List<Encomenda> getEncomendaByConsumidorUsername(String username){
+        return entityManager.createNamedQuery("getAllEncomendasByConsumidorUsername", Encomenda.class).setParameter("username", username).getResultList();
     }
 }
