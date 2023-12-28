@@ -22,27 +22,11 @@ public class Consumidor extends User{
         this.morada = morada;
     }
 
-    public List<Encomenda> getEncomendas() {
-        return encomendas;
-    }
-
     public String getMorada() {
         return morada;
     }
 
-    public void setEncomendas(List<Encomenda> encomendas) {
-        this.encomendas = encomendas;
-    }
-
     public void setMorada(String morada) {
         this.morada = morada;
-    }
-
-    public void addEncomenda(Encomenda encomenda){
-        encomendas.add(encomenda);
-    }
-
-    public void removeEncomenda(Encomenda encomenda){
-        encomendas.remove(encomenda);
     }
 }

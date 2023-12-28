@@ -1,6 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
+import jakarta.ejb.EJB;
 import jakarta.validation.constraints.NotNull;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
@@ -18,6 +20,9 @@ public class EncomendaDTO {
 
     @NotNull
     private Consumidor consumidor;
+
+    @EJB
+    ConsumidorBean consumidorBean;
 
     private List<EmbalagemTransporte> embalagensTransporte;
     private List<Produto> produtos;

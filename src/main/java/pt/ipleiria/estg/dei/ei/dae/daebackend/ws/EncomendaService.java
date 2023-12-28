@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;

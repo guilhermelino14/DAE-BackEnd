@@ -20,7 +20,7 @@ public class Encomenda {
     @JoinColumn(name = "operador_id")
     private Operador operador;
     @ManyToOne
-    @JoinColumn(name = "consumidor_id")
+    @JoinColumn(name = "consumidor_username")
     private Consumidor consumidor;
 
     //ManyToMany embalagens reutilizadas
@@ -82,4 +82,5 @@ public class Encomenda {
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
     }
+
 }
