@@ -30,4 +30,7 @@ public class Consumidor extends User{
         this.morada = morada;
     }
 
+    public List<Encomenda> encomendas() {
+        return this.encomendas;
+    }
 }
