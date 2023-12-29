@@ -16,6 +16,9 @@ public class Fabricante extends User{
     @OneToMany(mappedBy = "fabricante")
     private List<Produto> produtos;
 
+    @OneToMany(mappedBy = "fabricante")
+    List<ProdutoFisico> produtosFisicos;
+
     public Fabricante() {
         produtos = new ArrayList<>();
     }

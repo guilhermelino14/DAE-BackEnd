@@ -25,6 +25,11 @@ public class ProdutoFisico {
     @JoinColumn(name = "encomenda_id")
     private Encomenda encomenda;
 
+    @ManyToOne
+    @JoinColumn(name = "Fabricante")
+    private Fabricante fabricante;
+
+
     public ProdutoFisico() {
     }
 
