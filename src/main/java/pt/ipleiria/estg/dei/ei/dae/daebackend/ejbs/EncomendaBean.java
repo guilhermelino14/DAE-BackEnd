@@ -8,6 +8,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Observacoes;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
 
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -16,8 +17,8 @@ public class EncomendaBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(Operador operador, Consumidor consumidor) {
-        entityManager.persist(new Encomenda(operador, consumidor));
+    public void create(Operador operador, Consumidor consumidor, Date date) {
+        entityManager.persist(new Encomenda(operador, consumidor, date));
     }
 
     public Encomenda find(int id) {

@@ -9,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EncomendaDTO {
@@ -21,6 +22,9 @@ public class EncomendaDTO {
     @NotNull
     private Consumidor consumidor;
 
+    @NotNull
+    private Date date;
+
     @EJB
     ConsumidorBean consumidorBean;
 
@@ -31,12 +35,14 @@ public class EncomendaDTO {
         this.produtos = new ArrayList<>();
     }
 
-    public EncomendaDTO(int id, Operador operador, Consumidor consumidor) {
+    public EncomendaDTO(int id, Operador operador, Consumidor consumidor, Date date) {
         this.id = id;
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtos = new ArrayList<>();
+        this.date = date;
+
     }
 
     public int getId() {
@@ -59,6 +65,10 @@ public class EncomendaDTO {
         return produtos;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -77,5 +87,9 @@ public class EncomendaDTO {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

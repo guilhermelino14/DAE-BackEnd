@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -34,17 +35,20 @@ public class Encomenda {
     @OneToMany(mappedBy = "encomenda")
     private List<Produto> produtos;
 
+    private Date date;
+
 
     public Encomenda() {
         embalagensTransporte = new ArrayList<>();
         produtos = new ArrayList<>();
     }
 
-    public Encomenda(Operador operador, Consumidor consumidor) {
+    public Encomenda(Operador operador, Consumidor consumidor, Date date) {
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtos = new ArrayList<>();
+        this.date = date;
     }
 
     public int getId() {
@@ -67,6 +71,10 @@ public class Encomenda {
         return produtos;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -87,4 +95,7 @@ public class Encomenda {
         this.produtos = produtos;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

@@ -17,6 +17,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,8 @@ public class EncomendaService {
         return new EncomendaDTO(
                 encomenda.getId(),
                 encomenda.getOperador(),
-                encomenda.getConsumidor()
+                encomenda.getConsumidor(),
+                encomenda.getDate()
         );
     }
 
@@ -68,7 +70,7 @@ public class EncomendaService {
         Consumidor consumidorFinded = consumidorBean.find(username);
         Operador operadorFinded = operadorBean.find("operador1");
 
-        encomendaBean.create(operadorFinded, consumidorFinded);
+        encomendaBean.create(operadorFinded, consumidorFinded, new Date());
 
         // retrun a response with status 201 and the newly created encomenda
         return Response.ok("Encomenda criada com sucesso!").build();

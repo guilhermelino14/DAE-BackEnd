@@ -51,7 +51,8 @@ public class ConsumidorService {
         return new EncomendaDTO(
                 encomenda.getId(),
                 encomenda.getOperador(),
-                encomenda.getConsumidor()
+                encomenda.getConsumidor(),
+                encomenda.getDate()
         );
     }
 
