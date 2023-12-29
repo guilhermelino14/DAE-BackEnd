@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.Hibernate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +33,7 @@ public class Encomenda {
     @OneToMany(mappedBy = "encomenda")
     private List<EmbalagemTransporte> embalagensTransporte;
 
-    @OneToMany(mappedBy = "encomenda")
+    @OneToMany(mappedBy = "encomenda", fetch = FetchType.EAGER)
     private List<Produto> produtos;
 
     private Date date;
@@ -107,5 +108,13 @@ public class Encomenda {
 
     public void setStatus(EncomendaStatus status) {
         this.status = status;
+    }
+
+    public void addProduto(Produto produto) {
+        produtos.add(produto);
+    }
+
+    public void removeProduto(Produto produto) {
+        produtos.remove(produto);
     }
 }

@@ -96,4 +96,9 @@ public class EncomendaDTO {
     public void setStatus(EncomendaStatus status) {
         this.status = status;
     }
+
+    public void addProduto(Produto produto){
+        this.produtos.add(produto);
+    }
+
 }

@@ -12,9 +12,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.OperadorBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
@@ -38,6 +36,10 @@ public class EncomendaService {
     private ConsumidorBean consumidorBean;
     @EJB
     private OperadorBean operadorBean;
+    @EJB
+    private ProdutoBean produtoBean;
+    @EJB
+    private ProdutoFisicoBean produtoFisicoBean;
 
     private EncomendaDTO toDTO(Encomenda encomenda) {
         return new EncomendaDTO(
@@ -74,7 +76,11 @@ public class EncomendaService {
     @GET
     @Path("{username}")
     public List<EncomendaDTO> getEncomendaFromUser(@PathParam("username") String username){
-        return toDTOs(encomendaBean.getEncomendaByConsumidorUsername(username));
+        List<EncomendaDTO> encomendaDTOS = toDTOs(encomendaBean.getEncomendaByConsumidorUsername(username));
+        if (encomendaDTOS.isEmpty()) {
+            throw new NotFoundException("No encomendas found");
+        }
+        return encomendaDTOS;
     }
 
 
@@ -86,9 +92,10 @@ public class EncomendaService {
         Operador operadorFinded = operadorBean.find("operador1");
 
         encomendaBean.create(operadorFinded, consumidorFinded, new Date(), EncomendaStatus.PENDENTE);
-
-        // retrun a response with status 201 and the newly created encomenda
-        return Response.ok("Encomenda criada com sucesso!").build();
+        Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
+        encomenda.addProduto(new Produto("produto1", "categoria1", "descricao1"));
+        EncomendaDTO encomendaDTO = toDTO(encomenda);
+        return Response.ok(encomendaDTO).build();
     }
 
     @GET
