@@ -98,25 +98,25 @@ public class EncomendaService {
         return Response.ok(encomendaDTO).build();
     }
 
-    @GET
-    @Path("{id}")
-    public Response getEncomendasDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
-        EncomendaDTO encomendaDTO = toDTO(encomendaBean.find(id));
-        List<ProdutoDTO> produtosDTO = toDTOsProdutos(encomendaDTO.getProdutos());
-        JsonObjectBuilder response = Json.createObjectBuilder();
-        response.add("id", encomendaDTO.getId());
-        response.add("date", encomendaDTO.getDate().toString());
-        response.add("status", encomendaDTO.getStatus().toString());
-        JsonArrayBuilder produtos = Json.createArrayBuilder();
-        for (ProdutoDTO produtoDTO : produtosDTO) {
-            JsonObjectBuilder produtoFisico = Json.createObjectBuilder();
-            produtoFisico.add("id", produtoDTO.getId());
-            produtoFisico.add("nome", produtoDTO.getNome());
-            produtoFisico.add("categoria", produtoDTO.getCategoria());
-            produtoFisico.add("descricao", produtoDTO.getDescricao());
-            produtos.add(produtoFisico);
-        }
-        response.add("produtos", produtos);
-        return Response.status(Response.Status.OK).entity(response.build()).build();
-    }
+//    @GET
+//    @Path("{id}")
+//    public Response getEncomendasDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
+//        EncomendaDTO encomendaDTO = toDTO(encomendaBean.find(id));
+//        List<ProdutoDTO> produtosDTO = toDTOsProdutos(encomendaDTO.getProdutos());
+//        JsonObjectBuilder response = Json.createObjectBuilder();
+//        response.add("id", encomendaDTO.getId());
+//        response.add("date", encomendaDTO.getDate().toString());
+//        response.add("status", encomendaDTO.getStatus().toString());
+//        JsonArrayBuilder produtos = Json.createArrayBuilder();
+//        for (ProdutoDTO produtoDTO : produtosDTO) {
+//            JsonObjectBuilder produtoFisico = Json.createObjectBuilder();
+//            produtoFisico.add("id", produtoDTO.getId());
+//            produtoFisico.add("nome", produtoDTO.getNome());
+//            produtoFisico.add("categoria", produtoDTO.getCategoria());
+//            produtoFisico.add("descricao", produtoDTO.getDescricao());
+//            produtos.add(produtoFisico);
+//        }
+//        response.add("produtos", produtos);
+//        return Response.status(Response.Status.OK).entity(response.build()).build();
+//    }
 }
