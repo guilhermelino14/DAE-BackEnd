@@ -2,20 +2,21 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
-import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.OperadorBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EncomendaStatus;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.Date;
@@ -48,6 +49,18 @@ public class EncomendaService {
         );
     }
 
+    private ProdutoDTO toDTOProduto(Produto produto) {
+        return new ProdutoDTO(
+                produto.getId(),
+                produto.getNome(),
+                produto.getCategoria(),
+                produto.getDescricao()
+        );
+    }
+    private List<ProdutoDTO> toDTOsProdutos(List<Produto> produtos) {
+        return produtos.stream().map(this::toDTOProduto).collect(Collectors.toList());
+    }
+
     private List<EncomendaDTO> toDTOs(List<Encomenda> encomendas) {
         return encomendas.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -76,5 +89,27 @@ public class EncomendaService {
 
         // retrun a response with status 201 and the newly created encomenda
         return Response.ok("Encomenda criada com sucesso!").build();
+    }
+
+    @GET
+    @Path("{id}")
+    public Response getEncomendasDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
+        EncomendaDTO encomendaDTO = toDTO(encomendaBean.find(id));
+        List<ProdutoDTO> produtosDTO = toDTOsProdutos(encomendaDTO.getProdutos());
+        JsonObjectBuilder response = Json.createObjectBuilder();
+        response.add("id", encomendaDTO.getId());
+        response.add("date", encomendaDTO.getDate().toString());
+        response.add("status", encomendaDTO.getStatus().toString());
+        JsonArrayBuilder produtos = Json.createArrayBuilder();
+        for (ProdutoDTO produtoDTO : produtosDTO) {
+            JsonObjectBuilder produtoFisico = Json.createObjectBuilder();
+            produtoFisico.add("id", produtoDTO.getId());
+            produtoFisico.add("nome", produtoDTO.getNome());
+            produtoFisico.add("categoria", produtoDTO.getCategoria());
+            produtoFisico.add("descricao", produtoDTO.getDescricao());
+            produtos.add(produtoFisico);
+        }
+        response.add("produtos", produtos);
+        return Response.status(Response.Status.OK).entity(response.build()).build();
     }
 }
