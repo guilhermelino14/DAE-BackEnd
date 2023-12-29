@@ -37,18 +37,20 @@ public class Encomenda {
 
     private Date date;
 
+    private EncomendaStatus status;
 
     public Encomenda() {
         embalagensTransporte = new ArrayList<>();
         produtos = new ArrayList<>();
     }
 
-    public Encomenda(Operador operador, Consumidor consumidor, Date date) {
+    public Encomenda(Operador operador, Consumidor consumidor, Date date, EncomendaStatus status) {
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtos = new ArrayList<>();
         this.date = date;
+        this.status = status;
     }
 
     public int getId() {
@@ -75,6 +77,10 @@ public class Encomenda {
         return date;
     }
 
+    public EncomendaStatus getStatus() {
+        return status;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -97,5 +103,9 @@ public class Encomenda {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setStatus(EncomendaStatus status) {
+        this.status = status;
     }
 }

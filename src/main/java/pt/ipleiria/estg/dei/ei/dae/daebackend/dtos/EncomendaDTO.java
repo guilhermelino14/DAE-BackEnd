@@ -3,10 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 import jakarta.ejb.EJB;
 import jakarta.validation.constraints.NotNull;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,9 +21,8 @@ public class EncomendaDTO {
 
     @NotNull
     private Date date;
-
-    @EJB
-    ConsumidorBean consumidorBean;
+    @NotNull
+    private EncomendaStatus status;
 
     private List<EmbalagemTransporte> embalagensTransporte;
     private List<Produto> produtos;
@@ -35,14 +31,14 @@ public class EncomendaDTO {
         this.produtos = new ArrayList<>();
     }
 
-    public EncomendaDTO(int id, Operador operador, Consumidor consumidor, Date date) {
+    public EncomendaDTO(int id, Operador operador, Consumidor consumidor, Date date, EncomendaStatus status) {
         this.id = id;
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtos = new ArrayList<>();
         this.date = date;
-
+        this.status = status;
     }
 
     public int getId() {
@@ -69,6 +65,10 @@ public class EncomendaDTO {
         return date;
     }
 
+    public EncomendaStatus getStatus() {
+        return status;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -91,5 +91,9 @@ public class EncomendaDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setStatus(EncomendaStatus status) {
+        this.status = status;
     }
 }

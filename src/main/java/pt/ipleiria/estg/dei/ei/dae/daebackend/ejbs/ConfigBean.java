@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EncomendaStatus;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
@@ -45,6 +46,6 @@ public class ConfigBean {
         observacoesBean.create(sensorBean.find(1), "observacao1", new Date());
         produtoBean.create("produto1", "categoria1", "descricao1");
         produtoFisicoBean.create(produtoBean.find(1));
-        encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"), new Date());
+        encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"), new Date(), EncomendaStatus.PENDENTE);
     }
 }
