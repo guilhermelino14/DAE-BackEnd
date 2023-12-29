@@ -21,6 +21,10 @@ public class ProdutoFisico {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    @ManyToOne
+    @JoinColumn(name = "encomenda_id")
+    private Encomenda encomenda;
+
     public ProdutoFisico() {
     }
 
@@ -42,5 +46,13 @@ public class ProdutoFisico {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public Encomenda getEncomenda() {
+        return encomenda;
+    }
+
+    public void setEncomenda(Encomenda encomenda) {
+        this.encomenda = encomenda;
     }
 }

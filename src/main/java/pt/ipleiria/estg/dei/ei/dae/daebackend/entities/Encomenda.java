@@ -33,7 +33,7 @@ public class Encomenda {
     private List<EmbalagemTransporte> embalagensTransporte;
 
     @OneToMany(mappedBy = "encomenda")
-    private List<Produto> produtos;
+    private List<ProdutoFisico> produtos;
 
     private Date date;
 
@@ -69,7 +69,7 @@ public class Encomenda {
         return embalagensTransporte;
     }
 
-    public List<Produto> getProdutos() {
+    public List<ProdutoFisico> getProdutos() {
         return produtos;
     }
 
@@ -97,7 +97,7 @@ public class Encomenda {
         this.embalagensTransporte = embalagensTransporte;
     }
 
-    public void setProdutos(List<Produto> produtos) {
+    public void setProdutos(List<ProdutoFisico> produtos) {
         this.produtos = produtos;
     }
 
