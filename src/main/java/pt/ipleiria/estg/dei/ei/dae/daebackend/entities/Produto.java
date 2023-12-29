@@ -58,6 +58,13 @@ public class Produto {
         return descricao;
     }
 
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public List<ProdutoFisico> getProdutoFisico() {
+        return produtoFisico;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -77,10 +84,6 @@ public class Produto {
 
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
-    }
-
-    public List<ProdutoFisico> getProdutoFisico() {
-        return produtoFisico;
     }
 
     public void setProdutoFisico(List<ProdutoFisico> produtoFisico) {

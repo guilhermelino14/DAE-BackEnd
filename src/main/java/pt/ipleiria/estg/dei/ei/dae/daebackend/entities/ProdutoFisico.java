@@ -49,6 +49,10 @@ public class ProdutoFisico {
         return encomenda;
     }
 
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
     public void setReferencia(int referencia) {
         this.referencia = referencia;
     }
@@ -59,5 +63,9 @@ public class ProdutoFisico {
 
     public void setEncomenda(Encomenda encomenda) {
         this.encomenda = encomenda;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
     }
 }
