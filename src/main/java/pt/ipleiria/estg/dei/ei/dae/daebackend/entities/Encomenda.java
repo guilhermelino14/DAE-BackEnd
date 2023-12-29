@@ -76,4 +76,12 @@ public class Encomenda {
     public void setProdutosFisicos(List<ProdutoFisico> produtosFisicos) {
         this.produtosFisicos = produtosFisicos;
     }
+
+    public void addProdutoFisico(ProdutoFisico produtoFisico) {
+        this.produtosFisicos.add(produtoFisico);
+    }
+
+    public void removeProdutoFisico(ProdutoFisico produtoFisico) {
+        this.produtosFisicos.remove(produtoFisico);
+    }
 }

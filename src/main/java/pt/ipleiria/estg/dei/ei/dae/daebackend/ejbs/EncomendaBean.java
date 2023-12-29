@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 
 import java.util.List;
 
@@ -25,5 +26,16 @@ public class EncomendaBean {
 
     public List<Encomenda> getAll() {
         return entityManager.createNamedQuery("getAllEncomendas", Encomenda.class).getResultList();
+    }
+
+    public boolean addProduct(int id, int productReference) {
+        Encomenda encomenda = entityManager.find(Encomenda.class, id);
+        ProdutoFisico produtoFisico = entityManager.find(ProdutoFisico.class, productReference);
+        if (encomenda != null && produtoFisico != null) {
+            encomenda.addProdutoFisico(produtoFisico);
+            produtoFisico.addEncomenda(encomenda);
+            return true;
+        }
+        return false;
     }
 }

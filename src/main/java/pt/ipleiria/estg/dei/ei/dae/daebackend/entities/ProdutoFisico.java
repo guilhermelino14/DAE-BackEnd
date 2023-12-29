@@ -68,4 +68,12 @@ public class ProdutoFisico {
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
     }
+
+    public void addEncomenda(Encomenda encomenda) {
+        this.encomenda = encomenda;
+    }
+
+    public void removeEncomenda(Encomenda encomenda) {
+        this.encomenda = null;
+    }
 }
