@@ -1,10 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +17,10 @@ public class EncomendaDTO {
     private Consumidor consumidor;
 
     private List<EmbalagemTransporte> embalagensTransporte;
-    private List<Produto> produtos;
+    private List<ProdutoFisicoDTO> produtosFisicos;
     public EncomendaDTO() {
         this.embalagensTransporte = new ArrayList<>();
-        this.produtos = new ArrayList<>();
+        this.produtosFisicos = new ArrayList<>();
     }
 
     public EncomendaDTO(int id, Operador operador, Consumidor consumidor) {
@@ -31,7 +28,7 @@ public class EncomendaDTO {
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
-        this.produtos = new ArrayList<>();
+        this.produtosFisicos = new ArrayList<>();
     }
 
     public int getId() {
@@ -50,8 +47,8 @@ public class EncomendaDTO {
         return embalagensTransporte;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<ProdutoFisicoDTO> getProdutosFisicos() {
+        return produtosFisicos;
     }
 
     public void setId(int id) {
@@ -70,7 +67,7 @@ public class EncomendaDTO {
         this.embalagensTransporte = embalagensTransporte;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setProdutosFisicos(List<ProdutoFisicoDTO> produtosFisicos) {
+        this.produtosFisicos = produtosFisicos;
     }
 }

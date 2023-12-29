@@ -15,15 +15,12 @@ import java.util.List;
 public class Encomenda {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
-
     @ManyToOne
     @JoinColumn(name = "operador_id")
     private Operador operador;
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
-
-    //ManyToMany embalagens reutilizadas
     @OneToMany(mappedBy = "encomenda")
     private List<EmbalagemTransporte> embalagensTransporte;
 
@@ -71,9 +68,6 @@ public class Encomenda {
         this.operador = operador;
     }
 
-    public void setConsumidor(Consumidor consumidor) {
-        this.consumidor = consumidor;
-    }
 
     public void setEmbalagensTransporte(List<EmbalagemTransporte> embalagensTransporte) {
         this.embalagensTransporte = embalagensTransporte;
