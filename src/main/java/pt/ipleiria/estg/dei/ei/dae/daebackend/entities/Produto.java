@@ -22,10 +22,6 @@ public class Produto {
 
     private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "encomenda_id")
-    private Encomenda encomenda;
-
 
     @ManyToOne
     @JoinColumn(name = "fabricante_id")

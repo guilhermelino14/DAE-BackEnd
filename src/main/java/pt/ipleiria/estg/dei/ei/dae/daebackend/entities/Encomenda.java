@@ -28,19 +28,19 @@ public class Encomenda {
     private List<EmbalagemTransporte> embalagensTransporte;
 
     @OneToMany(mappedBy = "encomenda")
-    private List<Produto> produtos;
+    private List<ProdutoFisico> produtosFisicos;
 
 
     public Encomenda() {
         embalagensTransporte = new ArrayList<>();
-        produtos = new ArrayList<>();
+        produtosFisicos = new ArrayList<>();
     }
 
     public Encomenda(Operador operador, Consumidor consumidor) {
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
-        this.produtos = new ArrayList<>();
+        this.produtosFisicos = new ArrayList<>();
     }
 
     public int getId() {
@@ -59,8 +59,8 @@ public class Encomenda {
         return embalagensTransporte;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<ProdutoFisico> getProdutosFisicos() {
+        return produtosFisicos;
     }
 
     public void setId(int id) {
@@ -79,7 +79,7 @@ public class Encomenda {
         this.embalagensTransporte = embalagensTransporte;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setProdutosFisicos(List<ProdutoFisico> produtosFisicos) {
+        this.produtosFisicos = produtosFisicos;
     }
 }
