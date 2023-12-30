@@ -81,6 +81,9 @@ public class EncomendaService {
     @Path("{id}")
     public Response getEncomendaDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
         EncomendaDTO encomendaDTO = toDTO(encomendaBean.find(id));
+        if (encomendaDTO == null){
+            throw new MyEntityNotFoundException("Encomenda com o id " + id + " não existe");
+        }
         return Response.status(Response.Status.OK).entity(encomendaDTO).build();
     }
 }
