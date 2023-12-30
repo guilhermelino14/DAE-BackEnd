@@ -42,7 +42,9 @@ public class EncomendaService {
         var dto = new EncomendaDTO(
                 encomenda.getId(),
                 encomenda.getOperador(),
-                encomenda.getConsumidor()
+                encomenda.getConsumidor(),
+                encomenda.getStatus(),
+                encomenda.getData()
         );
         dto.produtosFisicos = encomenda.getProdutosFisicos().stream().map(this::toDTO).collect(Collectors.toList());
         return dto;

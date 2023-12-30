@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -10,6 +11,10 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllEncomendas",
                 query = "SELECT e FROM Encomenda e ORDER BY e.id"
+        ),
+        @NamedQuery(
+                name = "getAllEncomendasByConsumidorUsername",
+                query = "SELECT e FROM Encomenda e WHERE e.consumidor.id = :username ORDER BY e.id"
         ) // JPQL
 })
 public class Encomenda {
@@ -27,17 +32,23 @@ public class Encomenda {
     @OneToMany(mappedBy = "encomenda", fetch = FetchType.EAGER)
     private List<ProdutoFisico> produtosFisicos;
 
+    private Date data;
+
+    private EncomendaStatus status;
+
 
     public Encomenda() {
         embalagensTransporte = new ArrayList<>();
         produtosFisicos = new ArrayList<>();
     }
 
-    public Encomenda(Operador operador, Consumidor consumidor) {
+    public Encomenda(Operador operador, Consumidor consumidor, EncomendaStatus status, Date data) {
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
+        this.status = status;
+        this.data = data;
     }
 
     public int getId() {
@@ -58,6 +69,14 @@ public class Encomenda {
 
     public List<ProdutoFisico> getProdutosFisicos() {
         return produtosFisicos;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public EncomendaStatus getStatus() {
+        return status;
     }
 
     public void setId(int id) {
@@ -83,5 +102,13 @@ public class Encomenda {
 
     public void removeProdutoFisico(ProdutoFisico produtoFisico) {
         this.produtosFisicos.remove(produtoFisico);
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public void setStatus(EncomendaStatus status) {
+        this.status = status;
     }
 }

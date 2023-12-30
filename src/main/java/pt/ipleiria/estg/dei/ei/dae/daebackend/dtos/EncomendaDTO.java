@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EncomendaDTO {
@@ -18,17 +19,24 @@ public class EncomendaDTO {
 
     private List<EmbalagemTransporte> embalagensTransporte;
     public List<ProdutoFisicoDTO> produtosFisicos;
+
+    public EncomendaStatus status;
+
+    public Date data;
+
     public EncomendaDTO() {
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
     }
 
-    public EncomendaDTO(int id, Operador operador, Consumidor consumidor) {
+    public EncomendaDTO(int id, Operador operador, Consumidor consumidor, EncomendaStatus status, Date data) {
         this.id = id;
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
+        this.status = status;
+        this.data = data;
     }
 
     public int getId() {
@@ -51,6 +59,14 @@ public class EncomendaDTO {
         return produtosFisicos;
     }
 
+    public EncomendaStatus getStatus() {
+        return status;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -69,5 +85,13 @@ public class EncomendaDTO {
 
     public void setProdutosFisicos(List<ProdutoFisicoDTO> produtosFisicos) {
         this.produtosFisicos = produtosFisicos;
+    }
+
+    public void setStatus(EncomendaStatus status) {
+        this.status = status;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 }

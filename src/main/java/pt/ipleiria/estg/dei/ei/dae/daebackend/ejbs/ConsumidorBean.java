@@ -5,7 +5,10 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Hasher;
+
+import java.util.List;
 
 @Stateless
 public class ConsumidorBean {
@@ -22,4 +25,9 @@ public class ConsumidorBean {
     public Consumidor find(String username) {
         return entityManager.find(Consumidor.class, username);
     }
+
+    public List<Encomenda> getAllEncomendasFromConsumidor(String username) {
+        return entityManager.createNamedQuery("getAllEncomendasByConsumidorUsername", Encomenda.class).setParameter("username", username).getResultList();
+    }
+
 }

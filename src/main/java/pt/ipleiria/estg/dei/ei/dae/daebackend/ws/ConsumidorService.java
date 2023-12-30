@@ -7,8 +7,10 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ConsumidorDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -34,8 +36,22 @@ public class ConsumidorService {
         );
     }
 
+    private EncomendaDTO toDTOEncomenda(Encomenda encomenda) {
+        return new EncomendaDTO(
+                encomenda.getId(),
+                encomenda.getOperador(),
+                encomenda.getConsumidor(),
+                encomenda.getStatus(),
+                encomenda.getData()
+        );
+    }
+
     private List<ConsumidorDTO> toDTOs(List<Consumidor> consumidores) {
         return consumidores.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private List<EncomendaDTO> toDTOsEncomenda(List<Encomenda> encomendas) {
+        return encomendas.stream().map(this::toDTOEncomenda).collect(Collectors.toList());
     }
 
     @GET
@@ -43,6 +59,13 @@ public class ConsumidorService {
     public Response getConsumidor(@PathParam("username") String username) {
         var consumidor = consumidorBean.find(username);
         return Response.ok(toDTO(consumidor)).build();
+    }
+
+    @GET
+    @Path("{username}/encomendas")
+    public Response getEncomendas(@PathParam("username") String username) {
+         List< Encomenda> encomendas = consumidorBean.getAllEncomendasFromConsumidor(username);
+        return Response.ok(toDTOsEncomenda(encomendas)).build();
     }
 
 }
