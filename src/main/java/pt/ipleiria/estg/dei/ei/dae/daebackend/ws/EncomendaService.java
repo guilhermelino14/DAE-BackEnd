@@ -16,6 +16,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -74,5 +75,12 @@ public class EncomendaService {
 
         // retrun a response with status 201 and the newly created encomenda
         return Response.ok("Encomenda criada com sucesso!").build();
+    }
+
+    @GET
+    @Path("{id}")
+    public Response getEncomendaDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
+        EncomendaDTO encomendaDTO = toDTO(encomendaBean.find(id));
+        return Response.status(Response.Status.OK).entity(encomendaDTO).build();
     }
 }

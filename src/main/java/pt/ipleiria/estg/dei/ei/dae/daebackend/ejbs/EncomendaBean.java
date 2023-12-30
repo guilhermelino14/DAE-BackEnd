@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 
@@ -20,8 +21,12 @@ public class EncomendaBean {
         entityManager.persist(new Encomenda(operador, consumidor));
     }
 
-    public Encomenda find(int id) {
-        return entityManager.find(Encomenda.class, id);
+    public Encomenda find(int id) throws MyEntityNotFoundException {
+        Encomenda encomenda = entityManager.find(Encomenda.class, id);
+        if (encomenda == null) {
+            throw new MyEntityNotFoundException("Produto with id " + id + " not found.");
+        }
+        return encomenda;
     }
 
     public List<Encomenda> getAll() {
