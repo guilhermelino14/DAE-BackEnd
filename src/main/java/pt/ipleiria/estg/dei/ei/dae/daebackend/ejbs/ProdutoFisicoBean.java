@@ -27,5 +27,11 @@ public class ProdutoFisicoBean {
                 .getResultList();
     }
 
+    public ProdutoFisico findFirstProdutoFisicoByProdutoId(int produtoId) {
+        return entityManager.createNamedQuery("getAllProdutosFisicosByProdutoId", ProdutoFisico.class)
+                .setParameter("produtoId", produtoId)
+                .getSingleResult();
+    }
+
 
 }

@@ -13,10 +13,12 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.OperadorBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoFisicoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,8 @@ public class EncomendaService {
     private ConsumidorBean consumidorBean;
     @EJB
     private OperadorBean operadorBean;
+    @EJB
+    private ProdutoFisicoBean produtoFisicoBean;
 
     private EncomendaDTO toDTO(Encomenda encomenda) {
         var dto = new EncomendaDTO(
@@ -73,6 +77,10 @@ public class EncomendaService {
         return produtoFisicos.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    private List<ProdutoDTO> toDTOsProdutos(List<Produto> produtos) {
+        return produtos.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<EncomendaDTO> getAll() {
@@ -81,16 +89,26 @@ public class EncomendaService {
 
     @POST
     @Path("/")
-    public Response createEncomenda(List<ProdutoFisico> produtoFisicos) {
+    public Response createEncomenda(List<Produto> produtos) throws MyEntityNotFoundException{
+        List<ProdutoFisico> produtoFisicos= new ArrayList<>();
+        for (Produto produto : produtos) {
+            ProdutoFisico productFinded = produtoFisicoBean.findFirstProdutoFisicoByProdutoId(produto.getId());
+            if (productFinded == null) {
+                throw new MyEntityNotFoundException("Produto com o id " + produto.getId() + " não tem stock");
+            }
+            produtoFisicos.add(productFinded);
+        }
         String username = securityContext.getUserPrincipal().getName();
         Consumidor consumidorFinded = consumidorBean.find(username);
         Operador operadorFinded = operadorBean.find("operador1");
 
         encomendaBean.create(operadorFinded, consumidorFinded);
         Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
+
         for (ProdutoFisico produtoFisico : produtoFisicos) {
             encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
         }
+
         return Response.ok("Encomenda criada com sucesso!").build();
     }
 

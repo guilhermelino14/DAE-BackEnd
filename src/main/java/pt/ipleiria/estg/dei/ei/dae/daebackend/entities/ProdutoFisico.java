@@ -10,7 +10,7 @@ import jakarta.persistence.*;
         ),
         @NamedQuery(
                 name = "getAllProdutosFisicosByProdutoId",
-                query = "SELECT pf FROM ProdutoFisico pf WHERE pf.produto.id = :produtoId "// JPQL
+                query = "SELECT pf FROM ProdutoFisico pf WHERE pf.produto.id = :produtoId and pf.encomenda = null"// JPQL
         )
 })
 public class ProdutoFisico {
