@@ -17,7 +17,7 @@ public class EncomendaDTO {
     private Consumidor consumidor;
 
     private List<EmbalagemTransporte> embalagensTransporte;
-    private List<ProdutoFisicoDTO> produtosFisicos;
+    public List<ProdutoFisicoDTO> produtosFisicos;
     public EncomendaDTO() {
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();

@@ -8,12 +8,14 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.OperadorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -36,10 +38,18 @@ public class EncomendaService {
     private OperadorBean operadorBean;
 
     private EncomendaDTO toDTO(Encomenda encomenda) {
-        return new EncomendaDTO(
+        var dto = new EncomendaDTO(
                 encomenda.getId(),
                 encomenda.getOperador(),
                 encomenda.getConsumidor()
+        );
+        dto.produtosFisicos = encomenda.getProdutosFisicos().stream().map(this::toDTO).collect(Collectors.toList());
+        return dto;
+    }
+
+    private ProdutoFisicoDTO toDTO(ProdutoFisico produtoFisico) {
+        return new ProdutoFisicoDTO(
+                produtoFisico.getReferencia()
         );
     }
 

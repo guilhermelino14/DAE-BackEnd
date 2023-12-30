@@ -24,7 +24,7 @@ public class Encomenda {
     @OneToMany(mappedBy = "encomenda")
     private List<EmbalagemTransporte> embalagensTransporte;
 
-    @OneToMany(mappedBy = "encomenda")
+    @OneToMany(mappedBy = "encomenda", fetch = FetchType.EAGER)
     private List<ProdutoFisico> produtosFisicos;
 
 
