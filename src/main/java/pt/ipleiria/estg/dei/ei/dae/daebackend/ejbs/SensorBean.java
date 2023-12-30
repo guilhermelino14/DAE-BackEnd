@@ -68,7 +68,7 @@ public class SensorBean {
     }
 
     public void associarSensorAEmbalagem(int idSensor, int idEmbalagem) throws MyEntityNotFoundException {
-        Sensor sensor = find(idSensor);
+        Sensor sensor = entityManager.find(Sensor.class, idSensor);
         EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, idEmbalagem);
         if (sensor != null && embalagemProduto != null) {
             sensor.addEmbalagem(embalagemProduto);

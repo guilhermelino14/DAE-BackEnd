@@ -38,7 +38,7 @@ public class Sensor {
     )
     private List<Embalagem> embalagens;
 
-    @OneToMany(mappedBy = "sensor", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "sensor", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Observacoes> observacoes;
 
     public Sensor() {

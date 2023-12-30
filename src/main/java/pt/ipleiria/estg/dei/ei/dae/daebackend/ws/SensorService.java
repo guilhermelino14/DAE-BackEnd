@@ -8,15 +8,13 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ObservacoesDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Observacoes;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.ForbiddenException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
@@ -40,15 +38,27 @@ public class SensorService {
     private SecurityContext securityContext;
 
     private SensorDTO toDTONoSensores(Sensor sensor) {
-        return new SensorDTO(
+        var dto = new SensorDTO(
                 sensor.getId(),
                 sensor.getNome(),
                 sensor.getDescricao()
         );
+        dto.observacoes = sensor.getObservacoes().stream().map(this::toDTONoObservacoes).collect(Collectors.toList());
+        dto.embalagens = sensor.getEmbalagens().stream().map(this::toDTOEmbalagens).collect(Collectors.toList());
+        return dto;
     }
 
     private List<SensorDTO> toDTOsNoSensores(List<Sensor> sensors) {
         return sensors.stream().map(this::toDTONoSensores).collect(Collectors.toList());
+    }
+
+    private EmbalagemDTO toDTOEmbalagens(Embalagem embalagem) {
+        return new EmbalagemDTO(
+                embalagem.getId(),
+                embalagem.getNome(),
+                embalagem.getAltura(),
+                embalagem.getLargura()
+        );
     }
 
     private ObservacoesDTO toDTONoObservacoes(Observacoes observacao) {
