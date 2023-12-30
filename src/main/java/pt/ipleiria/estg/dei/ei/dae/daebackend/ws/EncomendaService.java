@@ -90,14 +90,18 @@ public class EncomendaService {
     @POST
     @Path("/")
     public Response createEncomenda(List<Produto> produtos) throws MyEntityNotFoundException{
+        // CRIAR UMA LISTA DE ITEMS VAZIA
         List<ProdutoFisico> produtoFisicos= new ArrayList<>();
+        // RECEBEMOS OS PRODUTOS POR PARAMETRO E VERIFICAMOS SE EXISTE STOCK (PRODUTOS FISICOS)
         for (Produto produto : produtos) {
+            // FALTA VERIFICAR O STOCK
             ProdutoFisico productFinded = produtoFisicoBean.findFirstProdutoFisicoByProdutoId(produto.getId());
             if (productFinded == null) {
                 throw new MyEntityNotFoundException("Produto com o id " + produto.getId() + " não tem stock");
             }
             produtoFisicos.add(productFinded);
         }
+        //SE EXISTIR STOCK, CRIAMOS A ENCOMENDA
         String username = securityContext.getUserPrincipal().getName();
         Consumidor consumidorFinded = consumidorBean.find(username);
         Operador operadorFinded = operadorBean.find("operador1");
@@ -105,6 +109,7 @@ public class EncomendaService {
         encomendaBean.create(operadorFinded, consumidorFinded);
         Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
 
+        //ADICIONAMOS OS PRODUTOS FISICOS A ENCOMENDA
         for (ProdutoFisico produtoFisico : produtoFisicos) {
             encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
         }
