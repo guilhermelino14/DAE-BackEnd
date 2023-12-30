@@ -16,7 +16,7 @@ public class ProdutoDTO {
     @NotNull
     private String descricao;
 
-    private Fabricante fabricante;
+    public Fabricante fabricante;
 
     public List<ProdutoFisicoDTO> produtoFisicos;
 

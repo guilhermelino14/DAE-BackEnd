@@ -53,5 +53,15 @@ public class ProdutoBean {
         }
     }
 
+    public boolean associateFabricante(int id, String username) throws MyEntityNotFoundException {
+        Produto produto = entityManager.find(Produto.class, id);
+        Fabricante fabricante = fabricanteBean.find(username);
+        if ( produto != null && fabricante != null) {
+            produto.setFabricante(fabricante);
+            fabricante.addProduto(produto);
+            return true;
+        }
+        return false;
+    }
 
 }

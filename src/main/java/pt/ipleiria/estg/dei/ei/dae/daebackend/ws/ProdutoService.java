@@ -48,6 +48,7 @@ public class ProdutoService {
                 produto.getDescricao()
         );
         dto.produtoFisicos = produto.getProdutoFisicos().stream().map(this::toDTOProdutoFisico).collect(Collectors.toList());
+        dto.fabricante = produto.getFabricante();
         return dto;
     }
 
