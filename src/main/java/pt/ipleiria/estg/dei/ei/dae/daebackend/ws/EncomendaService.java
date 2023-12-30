@@ -60,6 +60,10 @@ public class EncomendaService {
         return encomendas.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    private List<ProdutoFisicoDTO> toDTOsProdutoFisicos(List<ProdutoFisico> produtoFisicos) {
+        return produtoFisicos.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<EncomendaDTO> getAll() {
@@ -68,14 +72,16 @@ public class EncomendaService {
 
     @POST
     @Path("/")
-    public Response createEncomenda() {
+    public Response createEncomenda(List<ProdutoFisico> produtoFisicos) {
         String username = securityContext.getUserPrincipal().getName();
         Consumidor consumidorFinded = consumidorBean.find(username);
         Operador operadorFinded = operadorBean.find("operador1");
 
         encomendaBean.create(operadorFinded, consumidorFinded);
-
-        // retrun a response with status 201 and the newly created encomenda
+        Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
+        for (ProdutoFisico produtoFisico : produtoFisicos) {
+            encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
+        }
         return Response.ok("Encomenda criada com sucesso!").build();
     }
 
