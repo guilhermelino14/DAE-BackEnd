@@ -8,17 +8,17 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.OperadorBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoFisicoBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +37,8 @@ public class EncomendaService {
     private ConsumidorBean consumidorBean;
     @EJB
     private OperadorBean operadorBean;
+    @EJB
+    private ProdutoFisicoBean produtoFisicoBean;
 
     private EncomendaDTO toDTO(Encomenda encomenda) {
         var dto = new EncomendaDTO(
@@ -51,8 +53,19 @@ public class EncomendaService {
     }
 
     private ProdutoFisicoDTO toDTO(ProdutoFisico produtoFisico) {
-        return new ProdutoFisicoDTO(
+        var dto = new ProdutoFisicoDTO(
                 produtoFisico.getReferencia()
+        );
+        dto.produto = toDTO(produtoFisico.getProduto());
+        return dto;
+    }
+
+    private ProdutoDTO toDTO(Produto produto) {
+        return new ProdutoDTO(
+                produto.getId(),
+                produto.getNome(),
+                produto.getCategoria(),
+                produto.getDescricao()
         );
     }
 
@@ -64,6 +77,10 @@ public class EncomendaService {
         return produtoFisicos.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    private List<ProdutoDTO> toDTOsProdutos(List<Produto> produtos) {
+        return produtos.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<EncomendaDTO> getAll() {
@@ -72,16 +89,31 @@ public class EncomendaService {
 
     @POST
     @Path("/")
-    public Response createEncomenda(List<ProdutoFisico> produtoFisicos) {
+    public Response createEncomenda(List<Produto> produtos) throws MyEntityNotFoundException{
+        // CRIAR UMA LISTA DE ITEMS VAZIA
+        List<ProdutoFisico> produtoFisicos= new ArrayList<>();
+        // RECEBEMOS OS PRODUTOS POR PARAMETRO E VERIFICAMOS SE EXISTE STOCK (PRODUTOS FISICOS)
+        for (Produto produto : produtos) {
+            // FALTA VERIFICAR O STOCK
+            ProdutoFisico productFinded = produtoFisicoBean.findFirstProdutoFisicoByProdutoId(produto.getId());
+            if (productFinded == null) {
+                throw new MyEntityNotFoundException("Produto com o id " + produto.getId() + " não tem stock");
+            }
+            produtoFisicos.add(productFinded);
+        }
+        //SE EXISTIR STOCK, CRIAMOS A ENCOMENDA
         String username = securityContext.getUserPrincipal().getName();
         Consumidor consumidorFinded = consumidorBean.find(username);
         Operador operadorFinded = operadorBean.find("operador1");
 
         encomendaBean.create(operadorFinded, consumidorFinded);
         Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
+
+        //ADICIONAMOS OS PRODUTOS FISICOS A ENCOMENDA
         for (ProdutoFisico produtoFisico : produtoFisicos) {
             encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
         }
+
         return Response.ok("Encomenda criada com sucesso!").build();
     }
 
