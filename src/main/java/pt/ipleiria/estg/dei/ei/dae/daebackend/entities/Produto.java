@@ -11,7 +11,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllProdutos",
-                query = "SELECT p FROM Produto p" // JPQL
+                query = "SELECT p FROM Produto p order by p.id" // JPQL
         )
 })
 public class Produto {

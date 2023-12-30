@@ -43,11 +43,20 @@ public class ConfigBean {
         embalagemProdutoBean.create("embalagem2", 2, 2);
         sensorBean.create("sensor1", "temperatura", SensorType.FABRICANTE);
         observacoesBean.create(sensorBean.find(1), "observacao1", new Date());
-        produtoBean.create("produto1", "categoria1", "descricao1");
-        produtoBean.associateFabricante(1, "fabricante1");
+//        produtoBean.create("produto1", "categoria1", "descricao1");
+//        produtoBean.associateFabricante(1, "fabricante1");
+        createAListOfProducts(10);
         produtoFisicoBean.create(produtoBean.find(1));
+        produtoFisicoBean.create(produtoBean.find(2));
         encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"));
         encomendaBean.addProduct(1, 1);
         sensorBean.associarSensorAEmbalagem(1, 1);
+    }
+
+    public void createAListOfProducts(int numberOfProducts) throws MyEntityNotFoundException{
+        for(int i = 0; i < numberOfProducts; i++){
+            produtoBean.create("produto" + i, "categoria" + i, "descricao" + i);
+            produtoBean.associateFabricante(i, "fabricante1");
+        }
     }
 }
