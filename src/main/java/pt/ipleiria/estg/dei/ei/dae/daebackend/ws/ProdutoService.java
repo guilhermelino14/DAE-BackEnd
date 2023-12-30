@@ -68,6 +68,7 @@ public class ProdutoService {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Fabricante", "Consumidor"})
     public List<ProdutoDTO> getAllProdutos() {
         return toDTOsProdutos(produtoBean.getAll());
     }
