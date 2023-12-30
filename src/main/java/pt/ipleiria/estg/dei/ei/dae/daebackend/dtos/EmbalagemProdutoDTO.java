@@ -2,6 +2,9 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EmbalagemProdutoDTO {
     @NotNull
     private int id;
@@ -14,7 +17,10 @@ public class EmbalagemProdutoDTO {
     @NotNull
     private double largura;
 
+    public List<SensorDTO> sensores;
+
     public EmbalagemProdutoDTO() {
+        this.sensores = new ArrayList<>();
     }
 
     public EmbalagemProdutoDTO(int id, String nome, double altura, double largura) {
@@ -22,6 +28,7 @@ public class EmbalagemProdutoDTO {
         this.nome = nome;
         this.altura = altura;
         this.largura = largura;
+        this.sensores = new ArrayList<>();
     }
 
     public String getNome() {
@@ -40,6 +47,10 @@ public class EmbalagemProdutoDTO {
         return id;
     }
 
+    public List<SensorDTO> getSensores() {
+        return sensores;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -54,5 +65,9 @@ public class EmbalagemProdutoDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setSensores(List<SensorDTO> sensores) {
+        this.sensores = sensores;
     }
 }

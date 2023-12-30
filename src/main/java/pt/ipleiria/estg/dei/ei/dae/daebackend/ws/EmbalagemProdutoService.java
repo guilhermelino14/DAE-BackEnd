@@ -27,12 +27,14 @@ public class EmbalagemProdutoService {
     private EmbalagemProdutoBean embalagemProdutoBean;
 
     private EmbalagemProdutoDTO toDTONoEmbalagens(EmbalagemProduto embalagem) {
-        return new EmbalagemProdutoDTO(
+        var dto = new EmbalagemProdutoDTO(
                 embalagem.getId(),
                 embalagem.getNome(),
                 embalagem.getAltura(),
                 embalagem.getLargura()
         );
+        dto.sensores = embalagem.getSensores().stream().map(this::toDTONoSensores).collect(Collectors.toList());
+        return dto;
     }
 
     private SensorDTO toDTONoSensores(Sensor sensor) {
