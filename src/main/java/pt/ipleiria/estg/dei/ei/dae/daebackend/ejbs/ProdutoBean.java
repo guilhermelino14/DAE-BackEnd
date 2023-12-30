@@ -5,10 +5,7 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
@@ -24,7 +21,6 @@ public class ProdutoBean {
 
     public void create(String nome, String categoria, String descricao) {
         Produto produto = new Produto(nome, categoria, descricao);
-        produto.setFabricante(fabricanteBean.find("fabricante1"));
         entityManager.persist(produto);
     }
 
@@ -43,7 +39,7 @@ public class ProdutoBean {
 
     public void delete(int id) throws MyEntityNotFoundException, MyConstraintViolationException {
         Produto produto = find(id);
-        if (!produto.getProdutoFisico().isEmpty()) {
+        if (!produto.getProdutoFisicos().isEmpty()) {
             throw new MyConstraintViolationException("Produto has Produtos Fisicos.");
         }
         entityManager.remove(produto);
@@ -56,4 +52,6 @@ public class ProdutoBean {
             entityManager.persist(produtoFisico);
         }
     }
+
+
 }

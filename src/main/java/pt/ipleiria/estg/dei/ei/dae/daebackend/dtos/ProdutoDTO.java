@@ -1,6 +1,10 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Fabricante;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProdutoDTO {
     @NotNull
@@ -12,7 +16,12 @@ public class ProdutoDTO {
     @NotNull
     private String descricao;
 
+    private Fabricante fabricante;
+
+    public List<ProdutoFisicoDTO> produtoFisicos;
+
     public ProdutoDTO() {
+        this.produtoFisicos = new ArrayList<>();
     }
 
     public ProdutoDTO(int id, String nome, String categoria, String descricao) {
@@ -20,6 +29,7 @@ public class ProdutoDTO {
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;
+        this.produtoFisicos = new ArrayList<>();
     }
 
     public int getId() {
@@ -38,6 +48,14 @@ public class ProdutoDTO {
         return descricao;
     }
 
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public List<ProdutoFisicoDTO> getProdutoFisicos() {
+        return produtoFisicos;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -52,5 +70,13 @@ public class ProdutoDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
+    }
+
+    public void setProdutoFisicos(List<ProdutoFisicoDTO> produtoFisicos) {
+        this.produtoFisicos = produtoFisicos;
     }
 }

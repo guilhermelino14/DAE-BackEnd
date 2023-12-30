@@ -41,12 +41,14 @@ public class ProdutoService {
     private ProdutoFisicoBean produtoFisicoBean;
 
     private ProdutoDTO toDTOProduto(Produto produto) {
-        return new ProdutoDTO(
+        var dto =  new ProdutoDTO(
                 produto.getId(),
                 produto.getNome(),
                 produto.getCategoria(),
                 produto.getDescricao()
         );
+        dto.produtoFisicos = produto.getProdutoFisicos().stream().map(this::toDTOProdutoFisico).collect(Collectors.toList());
+        return dto;
     }
 
     private List<ProdutoDTO> toDTOsProdutos(List<Produto> produtos) {

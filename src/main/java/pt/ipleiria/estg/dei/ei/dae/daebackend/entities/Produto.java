@@ -27,19 +27,19 @@ public class Produto {
     @JoinColumn(name = "fabricante_id")
     private Fabricante fabricante;
 
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE)
-    private List<ProdutoFisico> produtoFisico;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<ProdutoFisico> produtoFisicos;
 
 
     public Produto() {
-        this.produtoFisico = new ArrayList<>();
+        this.produtoFisicos = new ArrayList<>();
     }
 
     public Produto(String nome, String categoria, String descricao) {
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;;
-        this.produtoFisico = new ArrayList<>();
+        this.produtoFisicos = new ArrayList<>();
     }
 
     public int getId() {
@@ -62,8 +62,8 @@ public class Produto {
         return fabricante;
     }
 
-    public List<ProdutoFisico> getProdutoFisico() {
-        return produtoFisico;
+    public List<ProdutoFisico> getProdutoFisicos() {
+        return produtoFisicos;
     }
 
     public void setId(int id) {
@@ -86,7 +86,8 @@ public class Produto {
         this.fabricante = fabricante;
     }
 
-    public void setProdutoFisico(List<ProdutoFisico> produtoFisico) {
-        this.produtoFisico = produtoFisico;
+    public void setProdutoFisicos(List<ProdutoFisico> produtoFisico) {
+        this.produtoFisicos = produtoFisicos;
     }
+
 }

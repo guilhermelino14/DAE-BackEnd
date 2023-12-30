@@ -27,4 +27,8 @@ public class Fabricante extends User{
         super(username, password, name, email);
         this.produtos = new ArrayList<>();
     }
+
+    public void addProduto(Produto produto) {
+        this.produtos.add(produto);
+    }
 }
