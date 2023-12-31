@@ -42,6 +42,7 @@ public class ConfigBean {
         embalagemProdutoBean.create("embalagem1", 1, 1);
         embalagemProdutoBean.create("embalagem2", 2, 2);
         sensorBean.create("sensor1", "temperatura", SensorType.FABRICANTE);
+        sensorBean.create("sensor2", "temperatura", SensorType.OPERADOR);
         observacoesBean.create(sensorBean.find(1), "observacao1", new Date());
 //        produtoBean.create("produto1", "categoria1", "descricao1");
 //        produtoBean.associateFabricante(1, "fabricante1");
