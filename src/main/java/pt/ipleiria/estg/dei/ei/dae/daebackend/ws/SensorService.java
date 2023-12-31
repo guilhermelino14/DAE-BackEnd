@@ -98,22 +98,7 @@ public class SensorService {
     @Path("{id}")
     public Response getSensorById(@PathParam("id") int id) throws MyEntityNotFoundException {
         SensorDTO sensorDTO = toDTONoSensores(sensorBean.find(id));
-        List<ObservacoesDTO> observacoesDTO = toDTOsNoObservacoes(observacoesBean.findBySensorId(id));
-        JsonObjectBuilder response = Json.createObjectBuilder();
-        response.add("id", sensorDTO.getId());
-        response.add("nome", sensorDTO.getNome());
-        response.add("descricao", sensorDTO.getDescricao());
-        JsonArrayBuilder observacoesList = Json.createArrayBuilder();
-        for (ObservacoesDTO observacaoDTO : observacoesDTO) {
-            JsonObject observacao = Json.createObjectBuilder()
-                    .add("id", observacaoDTO.getId())
-                    .add("observacao", observacaoDTO.getObservacao())
-                    .add("data", observacaoDTO.getData().toString())
-                    .build();
-            observacoesList.add(observacao);
-        }
-        response.add("observacoes", observacoesList);
-        return Response.status(Response.Status.OK).entity(response.build()).build();
+        return Response.status(Response.Status.OK).entity(sensorDTO).build();
     }
 
     @POST
