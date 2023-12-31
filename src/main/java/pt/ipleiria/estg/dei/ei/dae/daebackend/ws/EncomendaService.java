@@ -126,4 +126,15 @@ public class EncomendaService {
         }
         return Response.status(Response.Status.OK).entity(encomendaDTO).build();
     }
+
+    @PUT
+    @Path("{id}/status/{status}")
+    public Response updateEncomendaStatus(@PathParam("id") int id, @PathParam("status") EncomendaStatus status) throws MyEntityNotFoundException {
+        Encomenda encomenda = encomendaBean.find(id);
+        if (encomenda == null){
+            throw new MyEntityNotFoundException("Encomenda com o id " + id + " não existe");
+        }
+        encomendaBean.updateStatus(id, status);
+        return Response.ok("Encomenda atualizada com sucesso!").build();
+    }
 }
