@@ -40,5 +40,10 @@ public class ProdutoFisicoBean {
         return query.get(0);
     }
 
+    public long getCountProdutosFisicosByProdutoIdWithoutEncomenda(int produtoId) {
+        return entityManager.createNamedQuery("getCountProdutosFisicosByProdutoIdWithoutEncomenda", Long.class)
+                .setParameter("produtoId", produtoId)
+                .getSingleResult();
+    }
 
 }

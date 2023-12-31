@@ -20,6 +20,8 @@ public class ProdutoDTO {
 
     public List<ProdutoFisicoDTO> produtoFisicos;
 
+    public long stock;
+
     public ProdutoDTO() {
         this.produtoFisicos = new ArrayList<>();
     }

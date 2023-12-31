@@ -11,7 +11,11 @@ import jakarta.persistence.*;
         @NamedQuery(
                 name = "getAllProdutosFisicosByProdutoId",
                 query = "SELECT pf FROM ProdutoFisico pf WHERE pf.produto.id = :produtoId and pf.encomenda = null"// JPQL
-        )
+        ),
+        @NamedQuery(
+                name = "getCountProdutosFisicosByProdutoIdWithoutEncomenda",
+                query = "SELECT COUNT(pf) FROM ProdutoFisico pf WHERE pf.produto.id = :produtoId and pf.encomenda = null"// JPQL
+        ),
 })
 public class ProdutoFisico {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -28,6 +32,9 @@ public class ProdutoFisico {
     @ManyToOne
     @JoinColumn(name = "Fabricante")
     private Fabricante fabricante;
+
+    // many to many com embalagem de produto
+
 
 
     public ProdutoFisico() {

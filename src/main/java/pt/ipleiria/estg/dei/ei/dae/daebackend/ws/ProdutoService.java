@@ -49,6 +49,7 @@ public class ProdutoService {
         );
         dto.produtoFisicos = produto.getProdutoFisicos().stream().map(this::toDTOProdutoFisico).collect(Collectors.toList());
         dto.fabricante = produto.getFabricante();
+        dto.stock = produtoFisicoBean.getCountProdutosFisicosByProdutoIdWithoutEncomenda(produto.getId());
         return dto;
     }
 
