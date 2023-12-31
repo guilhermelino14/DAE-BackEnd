@@ -96,7 +96,20 @@ public class ProdutoService {
     @Path("{id}")
     public Response getProdutoDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
         ProdutoDTO produtoDTO = toDTOProduto(produtoBean.find(id));
-        return Response.status(Response.Status.OK).entity(produtoDTO).build();
+        List<ProdutoFisicoDTO> produtosFisicoDTO = toDTOsProdutosFisicos(produtoFisicoBean.findProdutosFisicosByProdutoId(id));
+        JsonObjectBuilder response = Json.createObjectBuilder();
+        response.add("id", produtoDTO.getId());
+        response.add("nome", produtoDTO.getNome());
+        response.add("categoria", produtoDTO.getCategoria());
+        response.add("descricao", produtoDTO.getDescricao());
+        JsonArrayBuilder produtosFisicos = Json.createArrayBuilder();
+        for (ProdutoFisicoDTO produtoFisicoDTO : produtosFisicoDTO) {
+            JsonObjectBuilder produtoFisico = Json.createObjectBuilder();
+            produtoFisico.add("referencia", produtoFisicoDTO.getReferencia());
+            produtosFisicos.add(produtoFisico);
+        }
+        response.add("produtosFisicos", produtosFisicos);
+        return Response.status(Response.Status.OK).entity(response.build()).build();
     }
 
     @POST
