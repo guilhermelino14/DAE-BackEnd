@@ -2,6 +2,9 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NamedQueries({
         @NamedQuery(
@@ -34,6 +37,19 @@ public class ProdutoFisico {
     private Fabricante fabricante;
 
     // many to many com embalagem de produto
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "produtosFisicos_embalagensProduto",
+            joinColumns = @JoinColumn(
+                    name = "produtoFisico_id",
+                    referencedColumnName = "referencia"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "embalagemProduto_id",
+                    referencedColumnName = "id"
+            )
+    )
+    private List<EmbalagemProduto> embalagens;
 
 
 
@@ -42,6 +58,7 @@ public class ProdutoFisico {
 
     public ProdutoFisico(Produto produto) {
         this.produto = produto;
+        this.embalagens = new ArrayList<>();
     }
 
     public int getReferencia() {
@@ -82,5 +99,13 @@ public class ProdutoFisico {
 
     public void removeEncomenda(Encomenda encomenda) {
         this.encomenda = null;
+    }
+
+    public List<EmbalagemProduto> getEmbalagens() {
+        return new ArrayList<>(this.embalagens);
+    }
+
+    public void setEmbalagens(List<EmbalagemProduto> embalagens) {
+        this.embalagens = embalagens;
     }
 }

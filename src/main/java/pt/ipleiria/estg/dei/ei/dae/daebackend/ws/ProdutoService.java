@@ -115,4 +115,11 @@ public class ProdutoService {
         return Response.status(Response.Status.CREATED).build();
     }
 
+    @GET
+    @Path("{id}/embalagens")
+    public Response getProdutoEmbalagens(@PathParam("id") int id) throws MyEntityNotFoundException {
+        ProdutoFisicoDTO produtoFisicoDTO = toDTOProdutoFisico(produtoFisicoBean.find(id));
+        return Response.status(Response.Status.OK).entity(produtoFisicoDTO.getEmbalagens()).build();
+    }
+
 }

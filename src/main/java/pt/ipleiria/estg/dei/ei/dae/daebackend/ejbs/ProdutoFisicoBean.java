@@ -19,8 +19,12 @@ public class ProdutoFisicoBean {
         entityManager.persist(new ProdutoFisico(produto));
     }
 
-    public ProdutoFisico find(int referencia) {
-        return entityManager.find(ProdutoFisico.class, referencia);
+    public ProdutoFisico find(int referencia) throws MyEntityNotFoundException {
+        ProdutoFisico produtoFisico = entityManager.find(ProdutoFisico.class, referencia);
+        if(produtoFisico == null){
+            throw new MyEntityNotFoundException("ProdutoFisico not found");
+        }
+        return  produtoFisico;
     }
 
     public List<ProdutoFisico> findProdutosFisicosByProdutoId(int produtoId) {
