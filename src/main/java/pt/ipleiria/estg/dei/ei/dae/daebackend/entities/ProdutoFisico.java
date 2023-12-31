@@ -41,7 +41,7 @@ public class ProdutoFisico {
     @JoinTable(
             name = "produtosFisicos_embalagensProduto",
             joinColumns = @JoinColumn(
-                    name = "produtoFisico_id",
+                    name = "produtoFisico_referencia",
                     referencedColumnName = "referencia"
             ),
             inverseJoinColumns = @JoinColumn(
@@ -49,16 +49,17 @@ public class ProdutoFisico {
                     referencedColumnName = "id"
             )
     )
-    private List<EmbalagemProduto> embalagens;
+    private List<EmbalagemProduto> embalagensProduto;
 
 
 
     public ProdutoFisico() {
+        this.embalagensProduto = new ArrayList<>();
     }
 
     public ProdutoFisico(Produto produto) {
         this.produto = produto;
-        this.embalagens = new ArrayList<>();
+        this.embalagensProduto = new ArrayList<>();
     }
 
     public int getReferencia() {
@@ -101,11 +102,11 @@ public class ProdutoFisico {
         this.encomenda = null;
     }
 
-    public List<EmbalagemProduto> getEmbalagens() {
-        return new ArrayList<>(this.embalagens);
+    public List<EmbalagemProduto> getEmbalagensProduto() {
+        return embalagensProduto;
     }
 
-    public void setEmbalagens(List<EmbalagemProduto> embalagens) {
-        this.embalagens = embalagens;
+    public void setEmbalagensProduto(List<EmbalagemProduto> embalagensProduto) {
+        this.embalagensProduto = embalagensProduto;
     }
 }
