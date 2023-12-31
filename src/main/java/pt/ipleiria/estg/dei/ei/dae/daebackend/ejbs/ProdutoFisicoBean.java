@@ -4,6 +4,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
@@ -48,6 +49,16 @@ public class ProdutoFisicoBean {
         return entityManager.createNamedQuery("getCountProdutosFisicosByProdutoIdWithoutEncomenda", Long.class)
                 .setParameter("produtoId", produtoId)
                 .getSingleResult();
+    }
+
+    public void addEmbalagemProduto(int referencia, int embalagemProdutoId) throws MyEntityNotFoundException {
+        ProdutoFisico produtoFisico = find(referencia);
+        EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, embalagemProdutoId);
+        if (embalagemProduto == null) {
+            throw new MyEntityNotFoundException("EmbalagemProduto with id: " + embalagemProdutoId + " not found");
+        }
+        produtoFisico.addEmbalagemProduto(embalagemProduto);
+        embalagemProduto.addProdutoFisico(produtoFisico);
     }
 
 }

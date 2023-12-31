@@ -10,11 +10,13 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoFisicoBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
@@ -58,9 +60,25 @@ public class ProdutoService {
     }
 
     private ProdutoFisicoDTO toDTOProdutoFisico(ProdutoFisico produtoFisico) {
-        return new ProdutoFisicoDTO(
+        var dto = new ProdutoFisicoDTO(
                 produtoFisico.getReferencia()
         );
+        dto.embalagensProduto = toDTOsEmbalagensProduto(produtoFisico.getEmbalagensProduto());
+        return dto;
+    }
+
+    private EmbalagemProdutoDTO toDTOEmbalagemProduto(EmbalagemProduto embalagemProduto) {
+        var dto = new EmbalagemProdutoDTO(
+                embalagemProduto.getId(),
+                embalagemProduto.getNome(),
+                embalagemProduto.getAltura(),
+                embalagemProduto.getLargura()
+        );
+        return dto;
+    }
+
+    private List<EmbalagemProdutoDTO> toDTOsEmbalagensProduto(List<EmbalagemProduto> embalagensProduto) {
+        return embalagensProduto.stream().map(this::toDTOEmbalagemProduto).collect(Collectors.toList());
     }
 
     private List<ProdutoFisicoDTO> toDTOsProdutosFisicos(List<ProdutoFisico> produtosFisicos) {
@@ -119,7 +137,7 @@ public class ProdutoService {
     @Path("{id}/embalagens")
     public Response getProdutoEmbalagens(@PathParam("id") int id) throws MyEntityNotFoundException {
         ProdutoFisicoDTO produtoFisicoDTO = toDTOProdutoFisico(produtoFisicoBean.find(id));
-        return Response.status(Response.Status.OK).entity(produtoFisicoDTO.getEmbalagens()).build();
+        return Response.status(Response.Status.OK).entity(produtoFisicoDTO.getEmbalagensProduto()).build();
     }
 
 }

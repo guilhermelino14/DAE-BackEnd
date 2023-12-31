@@ -31,4 +31,12 @@ public class EmbalagemProduto extends Embalagem{
     public void setProdutoFisicos(List<ProdutoFisico> produtoFisicos) {
         this.produtoFisicos = produtoFisicos;
     }
+
+    public void addProdutoFisico(ProdutoFisico produtoFisico) {
+        this.produtoFisicos.add(produtoFisico);
+    }
+
+    public void removeProdutoFisico(ProdutoFisico produtoFisico) {
+        this.produtoFisicos.remove(produtoFisico);
+    }
 }

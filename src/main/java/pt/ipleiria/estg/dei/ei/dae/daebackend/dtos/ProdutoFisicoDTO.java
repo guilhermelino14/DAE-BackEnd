@@ -14,13 +14,14 @@ public class ProdutoFisicoDTO {
 
     public ProdutoDTO produto;
 
-    public List<EmbalagemProduto> embalagens;
+    public List<EmbalagemProdutoDTO> embalagensProduto;
     public ProdutoFisicoDTO() {
+        this.embalagensProduto = new ArrayList<>();
     }
 
     public ProdutoFisicoDTO(int referencia) {
         this.referencia = referencia;
-        this.embalagens = new ArrayList<>();
+        this.embalagensProduto = new ArrayList<>();
     }
 
     public int getReferencia() {
@@ -39,11 +40,11 @@ public class ProdutoFisicoDTO {
         this.produto = produto;
     }
 
-    public List<EmbalagemProduto> getEmbalagens() {
-        return new ArrayList<>(embalagens);
+    public List<EmbalagemProdutoDTO> getEmbalagensProduto() {
+        return embalagensProduto;
     }
 
-    public void setEmbalagens(List<EmbalagemProduto> embalagens) {
-        this.embalagens = embalagens;
+    public void setEmbalagensProduto(List<EmbalagemProdutoDTO> embalagensProduto) {
+        this.embalagensProduto = embalagensProduto;
     }
 }

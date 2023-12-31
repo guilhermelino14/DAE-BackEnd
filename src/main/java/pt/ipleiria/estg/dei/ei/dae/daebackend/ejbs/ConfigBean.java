@@ -51,6 +51,7 @@ public class ConfigBean {
         encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"));
         encomendaBean.addProduct(1, 1);
         sensorBean.associarSensorAEmbalagem(1, 1);
+        produtoFisicoBean.addEmbalagemProduto(1, 1);
     }
 
     public void createAListOfProducts(int numberOfProducts) throws MyEntityNotFoundException{

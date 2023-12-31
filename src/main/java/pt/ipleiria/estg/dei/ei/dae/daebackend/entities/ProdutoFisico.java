@@ -109,4 +109,12 @@ public class ProdutoFisico {
     public void setEmbalagensProduto(List<EmbalagemProduto> embalagensProduto) {
         this.embalagensProduto = embalagensProduto;
     }
+
+    public void addEmbalagemProduto(EmbalagemProduto embalagemProduto) {
+        this.embalagensProduto.add(embalagemProduto);
+    }
+
+    public void removeEmbalagemProduto(EmbalagemProduto embalagemProduto) {
+        this.embalagensProduto.remove(embalagemProduto);
+    }
 }
