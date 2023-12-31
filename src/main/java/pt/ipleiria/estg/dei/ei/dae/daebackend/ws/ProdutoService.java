@@ -104,11 +104,11 @@ public class ProdutoService {
         response.add("descricao", produtoDTO.getDescricao());
         JsonArrayBuilder produtosFisicos = Json.createArrayBuilder();
         for (ProdutoFisicoDTO produtoFisicoDTO : produtosFisicoDTO) {
-            JsonObjectBuilder produtoFisico = Json.createObjectBuilder();
-            produtoFisico.add("referencia", produtoFisicoDTO.getReferencia());
-            produtosFisicos.add(produtoFisico);
+            JsonObjectBuilder produtoFisicos = Json.createObjectBuilder();
+            produtoFisicos.add("referencia", produtoFisicoDTO.getReferencia());
+            produtosFisicos.add(produtoFisicos);
         }
-        response.add("produtosFisicos", produtosFisicos);
+        response.add("produtoFisicos", produtosFisicos);
         return Response.status(Response.Status.OK).entity(response.build()).build();
     }
 
