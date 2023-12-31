@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Authenticated
-@RolesAllowed({"Operador", "Consumidor"})
+@RolesAllowed({"Operador", "Consumidor", "Fabricante"})
 public class EncomendaService {
     @Context
     private SecurityContext securityContext;
