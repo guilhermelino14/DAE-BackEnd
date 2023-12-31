@@ -31,4 +31,8 @@ public class ObservacoesBean {
     public List<Observacoes> findBySensorId(int id) {
         return entityManager.createNamedQuery("getObservacoesBySensorId", Observacoes.class).setParameter("id", id).getResultList();
     }
+
+    public void deleteWhereSensorId(int id) {
+        entityManager.createNamedQuery("deleteObservacoesBySensorId").setParameter("id", id).executeUpdate();
+    }
 }

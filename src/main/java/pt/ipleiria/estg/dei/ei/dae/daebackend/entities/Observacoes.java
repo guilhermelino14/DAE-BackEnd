@@ -14,6 +14,10 @@ import java.util.Date;
         @NamedQuery(
                 name = "getObservacoesBySensorId",
                 query = "SELECT o FROM Observacoes o WHERE o.sensor.id = :id" // JPQL
+        ),
+        @NamedQuery(
+                name = "deleteObservacoesBySensorId",
+                query = "DELETE FROM Observacoes o WHERE o.sensor.id = :id" // JPQL
         )
 })
 public class Observacoes {

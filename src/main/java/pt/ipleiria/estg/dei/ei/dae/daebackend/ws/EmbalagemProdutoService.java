@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EmbalagemProdutoBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class EmbalagemProdutoService {
     @EJB
     private EmbalagemProdutoBean embalagemProdutoBean;
+    @EJB
+    private ObservacoesBean observacoesBean;
 
     private EmbalagemProdutoDTO toDTONoEmbalagens(EmbalagemProduto embalagem) {
         var dto = new EmbalagemProdutoDTO(
@@ -99,6 +102,7 @@ public class EmbalagemProdutoService {
     @Path("{idEmbalagem}/sensor/{idSensor}")
     public Response desassociarSensorAEmbalagem(@PathParam("idEmbalagem") int idEmbalagem, @PathParam("idSensor") int idSensor) throws MyEntityNotFoundException {
         embalagemProdutoBean.desassociarEmbalagemAoSensor(idEmbalagem, idSensor);
+        observacoesBean.deleteWhereSensorId(idSensor);
         return Response.status(Response.Status.OK).build();
     }
 }
