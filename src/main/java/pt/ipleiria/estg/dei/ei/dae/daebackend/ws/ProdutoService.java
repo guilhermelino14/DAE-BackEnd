@@ -140,4 +140,20 @@ public class ProdutoService {
         return Response.status(Response.Status.OK).entity(produtoFisicoDTO.getEmbalagensProduto()).build();
     }
 
+    @PATCH
+    @Path("{id}/embalagens/{embalagemId}")
+    public Response associarEmbalagemProduto(@PathParam("id") int id, @PathParam("embalagemId") int embalagemId) throws MyEntityNotFoundException {
+        ProdutoFisicoDTO produtoFisicoDTO = toDTOProdutoFisico(produtoFisicoBean.find(id));
+        produtoFisicoBean.addEmbalagemProduto(produtoFisicoDTO.getReferencia(), embalagemId);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @DELETE
+    @Path("{id}/embalagens/{embalagemId}")
+    public Response desassociarEmbalagemProduto(@PathParam("id") int id, @PathParam("embalagemId") int embalagemId) throws MyEntityNotFoundException {
+        ProdutoFisicoDTO produtoFisicoDTO = toDTOProdutoFisico(produtoFisicoBean.find(id));
+        produtoFisicoBean.removeProdutoEmbalagem(produtoFisicoDTO.getReferencia(), embalagemId);
+        return Response.status(Response.Status.OK).build();
+    }
+
 }

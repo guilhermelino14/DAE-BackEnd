@@ -67,4 +67,13 @@ public class ProdutoFisicoBean {
         embalagemProduto.addProdutoFisico(produtoFisico);
     }
 
+    public void removeProdutoEmbalagem(int referencia, int embalagemId) throws MyEntityNotFoundException {
+        ProdutoFisico produtoFisico = find(referencia);
+        EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, embalagemId);
+        if (embalagemProduto == null) {
+            throw new MyEntityNotFoundException("EmbalagemProduto with id: " + embalagemId + " not found");
+        }
+        produtoFisico.removeEmbalagemProduto(embalagemProduto);
+        embalagemProduto.removeProdutoFisico(produtoFisico);
+    }
 }
