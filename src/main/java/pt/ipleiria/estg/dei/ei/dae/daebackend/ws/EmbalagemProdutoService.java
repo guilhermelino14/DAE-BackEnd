@@ -115,4 +115,12 @@ public class EmbalagemProdutoService {
         observacoesBean.deleteWhereSensorId(idSensor);
         return Response.status(Response.Status.OK).build();
     }
+
+    @DELETE
+    @Path("{id}/produto/{idProduto}")
+    public Response desassociarSensorAEmbalagem(@PathParam("id") int idEmbalagem, @PathParam("idProduto") int idProduto) throws MyEntityNotFoundException {
+        embalagemProdutoBean.desassociarEmbalagemAoSensor(idEmbalagem, idProduto);
+        observacoesBean.deleteWhereSensorId(idProduto);
+        return Response.status(Response.Status.OK).build();
+    }
 }
