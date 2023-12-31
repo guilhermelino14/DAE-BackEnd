@@ -28,13 +28,19 @@ public class ProdutoFisicoBean {
         return  produtoFisico;
     }
 
+    public List<ProdutoFisico> findProdutosFisicosByProdutoIds(List<Integer> produtoIds) {
+        return entityManager.createNamedQuery("getAllProdutosFisicosByProdutoIds", ProdutoFisico.class)
+                .setParameter("produtoIds", produtoIds)
+                .getResultList();
+    }
     public List<ProdutoFisico> findProdutosFisicosByProdutoId(int produtoId) {
         return entityManager.createNamedQuery("getAllProdutosFisicosByProdutoId", ProdutoFisico.class)
                 .setParameter("produtoId", produtoId)
                 .getResultList();
     }
 
-    public ProdutoFisico findFirstProdutoFisicoByProdutoId(int produtoId) throws MyEntityNotFoundException {
+
+    public List<ProdutoFisico> findFirstProdutoFisicoByProdutoId(int produtoId) throws MyEntityNotFoundException {
         List<ProdutoFisico> query = entityManager.createNamedQuery("getAllProdutosFisicosByProdutoId", ProdutoFisico.class)
                 .setParameter("produtoId", produtoId)
                 .getResultList();
@@ -42,7 +48,7 @@ public class ProdutoFisicoBean {
         if (query.isEmpty()) {
             throw new MyEntityNotFoundException("Produto with produtoId: " + produtoId + " dont have stock");
         }
-        return query.get(0);
+        return query;
     }
 
     public long getCountProdutosFisicosByProdutoIdWithoutEncomenda(int produtoId) {

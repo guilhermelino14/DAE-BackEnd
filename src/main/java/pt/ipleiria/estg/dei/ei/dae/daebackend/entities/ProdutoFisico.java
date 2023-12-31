@@ -15,6 +15,11 @@ import java.util.List;
                 name = "getAllProdutosFisicosByProdutoId",
                 query = "SELECT pf FROM ProdutoFisico pf WHERE pf.produto.id = :produtoId and pf.encomenda = null"// JPQL
         ),
+
+        @NamedQuery(
+                name = "getAllProdutosFisicosByProdutoIds",
+                query = "SELECT pf FROM ProdutoFisico pf WHERE pf.produto.id in :produtoIds and pf.encomenda = null"// JPQL
+        ),
         @NamedQuery(
                 name = "getCountProdutosFisicosByProdutoIdWithoutEncomenda",
                 query = "SELECT COUNT(pf) FROM ProdutoFisico pf WHERE pf.produto.id = :produtoId and pf.encomenda = null"// JPQL
