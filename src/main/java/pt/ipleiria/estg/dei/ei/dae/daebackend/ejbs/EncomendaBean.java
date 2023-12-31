@@ -43,7 +43,11 @@ public class EncomendaBean {
     }
 
     public List<Encomenda> getEncomendasPendentes() {
-        return entityManager.createNamedQuery("getAllEncomendasStatus", Encomenda.class).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
+        return entityManager.createNamedQuery("getAllEncomendasStatusPendetes", Encomenda.class).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
+    }
+
+    public List<Encomenda> getEncomendasNotPendentes() {
+        return entityManager.createNamedQuery("getAllEncomendasStatusNotPendetes", Encomenda.class).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
     }
 
     public void updateStatus(int id, EncomendaStatus status) throws MyEntityNotFoundException {

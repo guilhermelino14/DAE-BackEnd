@@ -13,8 +13,12 @@ import java.util.List;
                 query = "SELECT e FROM Encomenda e ORDER BY e.id"
         ),
         @NamedQuery(
-                name = "getAllEncomendasStatus",
+                name = "getAllEncomendasStatusPendetes",
                 query = "SELECT e FROM Encomenda e WHERE e.status = :status ORDER BY e.id"
+        ),
+        @NamedQuery(
+                name = "getAllEncomendasStatusNotPendetes",
+                query = "SELECT e FROM Encomenda e WHERE e.status != :status ORDER BY e.id"
         ),
         @NamedQuery(
                 name = "getAllEncomendasByConsumidorUsername",
