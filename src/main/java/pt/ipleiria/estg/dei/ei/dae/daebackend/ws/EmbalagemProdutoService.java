@@ -7,10 +7,12 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EmbalagemProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
@@ -37,6 +39,7 @@ public class EmbalagemProdutoService {
                 embalagem.getLargura()
         );
         dto.sensores = embalagem.getSensores().stream().map(this::toDTONoSensores).collect(Collectors.toList());
+        dto.produtoFisicos = embalagem.getProdutoFisicos().stream().map(this::toDTONoProdutoFisico).collect(Collectors.toList());
         return dto;
     }
 
@@ -46,6 +49,13 @@ public class EmbalagemProdutoService {
                 sensor.getNome(),
                 sensor.getDescricao()
         );
+    }
+
+    private ProdutoFisicoDTO toDTONoProdutoFisico(ProdutoFisico produtoFisico) {
+        var dto = new ProdutoFisicoDTO(
+                produtoFisico.getReferencia()
+        );
+        return dto;
     }
 
     private List<EmbalagemProdutoDTO> toDTOsNoEmbalagens(List<EmbalagemProduto> embalagens) {
