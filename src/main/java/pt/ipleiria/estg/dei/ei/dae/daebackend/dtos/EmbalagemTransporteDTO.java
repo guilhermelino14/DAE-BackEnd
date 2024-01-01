@@ -19,8 +19,11 @@ public class EmbalagemTransporteDTO {
 
     public List<EncomendaDTO> encomendas;
 
+    public List<SensorDTO> sensores;
+
     public EmbalagemTransporteDTO() {
         this.encomendas = new ArrayList<>();
+        this.sensores = new ArrayList<>();
     }
 
     public EmbalagemTransporteDTO(int id, String nome, double altura, double largura) {
@@ -29,6 +32,7 @@ public class EmbalagemTransporteDTO {
         this.altura = altura;
         this.largura = largura;
         this.encomendas = new ArrayList<>();
+        this.sensores = new ArrayList<>();
     }
 
     public int getId() {
@@ -51,6 +55,10 @@ public class EmbalagemTransporteDTO {
         return encomendas;
     }
 
+    public List<SensorDTO> getSensores() {
+        return sensores;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -69,5 +77,9 @@ public class EmbalagemTransporteDTO {
 
     public void setEncomendas(List<EncomendaDTO> encomendas) {
         this.encomendas = encomendas;
+    }
+
+    public void setSensores(List<SensorDTO> sensores) {
+        this.sensores = sensores;
     }
 }

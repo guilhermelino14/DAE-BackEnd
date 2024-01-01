@@ -8,9 +8,11 @@ import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemTransporteDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EmbalagemTransporteBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -34,6 +36,7 @@ public class EmbalagemTransporteService {
                 embalagemTransporte.getLargura()
         );
         dto.encomendas = embalagemTransporte.getEncomendas().stream().map(this::toDTOEncomendas).collect(Collectors.toList());
+        dto.sensores = embalagemTransporte.getSensores().stream().map(this::toDTONoSensores).collect(Collectors.toList());
         return dto;
     }
 
@@ -46,6 +49,14 @@ public class EmbalagemTransporteService {
                 encomenda.getData()
         );
     }
+
+    private SensorDTO toDTONoSensores(Sensor sensor) {
+        return new SensorDTO(
+                sensor.getId(),
+                sensor.getNome(),
+                sensor.getDescricao()
+        );
+    }
     private List<EmbalagemTransporteDTO> toDTOs(List<EmbalagemTransporte> embalagensTransporte) {
         return embalagensTransporte.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -54,10 +65,24 @@ public class EmbalagemTransporteService {
         return encomendas.stream().map(this::toDTOEncomendas).collect(Collectors.toList());
     }
 
+    private List<SensorDTO> sensorToDTOs(List<Sensor> subjects) {
+        return subjects.stream().map(this::toDTONoSensores).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<EmbalagemTransporteDTO> getEmbalagensTransporte() {
         return toDTOs(embalagemTransporteBean.getAll());
+    }
+
+    @GET
+    @Path("{id}")
+    public Response getEmbalagemTransporteDetails(@PathParam("id") int id) {
+        EmbalagemTransporte embalagemTransporte = embalagemTransporteBean.find(id);
+        if (embalagemTransporte != null) {
+            return Response.status(Response.Status.OK).entity(toDTO(embalagemTransporte)).build();
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Embalagem de transporte não encontrada").build();
     }
 
     @POST
