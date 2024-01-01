@@ -34,11 +34,23 @@ public class Encomenda {
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
-    @OneToMany(mappedBy = "encomenda")
-    private List<EmbalagemTransporte> embalagensTransporte;
 
     @OneToMany(mappedBy = "encomenda", fetch = FetchType.EAGER)
     private List<ProdutoFisico> produtosFisicos;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "encomenda_embalagensTransporte",
+            joinColumns = @JoinColumn(
+                    name = "encomenda_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "embalagemTransporte_id",
+                    referencedColumnName = "id"
+            )
+    )
+    private List<EmbalagemTransporte> embalagensTransporte;
 
     private Date data;
 
@@ -118,5 +130,13 @@ public class Encomenda {
 
     public void setStatus(EncomendaStatus status) {
         this.status = status;
+    }
+
+    public void addEmbalagemTransporte(EmbalagemTransporte embalagemTransporte) {
+        this.embalagensTransporte.add(embalagemTransporte);
+    }
+
+    public void removeEmbalagemTransporte(EmbalagemTransporte embalagemTransporte) {
+        this.embalagensTransporte.remove(embalagemTransporte);
     }
 }

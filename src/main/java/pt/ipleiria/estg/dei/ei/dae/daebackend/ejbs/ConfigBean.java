@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
@@ -23,6 +24,8 @@ public class ConfigBean {
     @EJB
     private EmbalagemProdutoBean embalagemProdutoBean;
     @EJB
+    private EmbalagemTransporteBean embalagemTransporteBean;
+    @EJB
     private SensorBean sensorBean;
     @EJB
     private ObservacoesBean observacoesBean;
@@ -41,6 +44,8 @@ public class ConfigBean {
         consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com", "Morada1");
         embalagemProdutoBean.create("embalagem1", 1, 1);
         embalagemProdutoBean.create("embalagem2", 2, 2);
+        embalagemTransporteBean.create("embalagemTransporte1", 1, 1);
+        embalagemTransporteBean.create("embalagemTransporte2", 2, 2);
         sensorBean.create("sensor1", "temperatura", SensorType.FABRICANTE);
         sensorBean.create("sensor2", "temperatura", SensorType.OPERADOR);
         observacoesBean.create(sensorBean.find(1), "observacao1", new Date());
@@ -52,6 +57,7 @@ public class ConfigBean {
         produtoFisicoBean.create(produtoBean.find(1));
         encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"));
         encomendaBean.addProduct(1, 1);
+        encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"));
         sensorBean.associarSensorAEmbalagem(1, 1);
         produtoFisicoBean.addEmbalagemProduto(1, 1);
     }
