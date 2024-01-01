@@ -76,4 +76,5 @@ public class ProdutoFisicoBean {
         produtoFisico.removeEmbalagemProduto(embalagemProduto);
         embalagemProduto.removeProdutoFisico(produtoFisico);
     }
+
 }

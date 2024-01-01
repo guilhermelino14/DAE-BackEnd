@@ -75,4 +75,14 @@ public class SensorBean {
             embalagemProduto.addSensor(sensor);
         }
     }
+
+    public void dissociarSensoresFromEmbalagem(int idEmbalagem) throws MyEntityNotFoundException {
+        EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, idEmbalagem);
+        if (embalagemProduto != null) {
+            embalagemProduto.getSensores().forEach(sensor -> {
+                sensor.removeEmbalagem(embalagemProduto);
+            });
+            embalagemProduto.getSensores().clear();
+        }
+    }
 }
