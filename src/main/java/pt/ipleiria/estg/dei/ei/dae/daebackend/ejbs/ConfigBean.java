@@ -57,7 +57,6 @@ public class ConfigBean {
         produtoFisicoBean.create(produtoBean.find(1));
         encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"));
         encomendaBean.addProduct(1, 1);
-        encomendaBean.create(operadorBean.find("operador1"), consumidorBean.find("consumidor1"));
         sensorBean.associarSensorAEmbalagem(1, 1);
         produtoFisicoBean.addEmbalagemProduto(1, 1);
     }
