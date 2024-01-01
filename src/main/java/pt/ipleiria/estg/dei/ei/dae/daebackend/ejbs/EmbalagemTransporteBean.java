@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
 
@@ -50,6 +52,30 @@ public class EmbalagemTransporteBean {
         if (embalagemTransporte != null && encomenda != null) {
             embalagemTransporte.removeEncomenda(encomenda);
             encomenda.removeEmbalagemTransporte(embalagemTransporte);
+        }
+    }
+
+    public void associarEmbalagemAoSensor(int idEmbalagem, int idSensor) throws MyEntityNotFoundException {
+        EmbalagemTransporte embalagemTransporte = find(idEmbalagem);
+        Sensor sensor = entityManager.find(Sensor.class, idSensor);
+        if (embalagemTransporte != null && sensor != null) {
+            if (embalagemTransporte.getSensores().contains(sensor)) {
+                throw new MyEntityNotFoundException("Sensor with id " + idSensor + " already associated with Embalagem with id " + idEmbalagem);
+            }
+            embalagemTransporte.addSensor(sensor);
+            sensor.addEmbalagem(embalagemTransporte);
+        }
+    }
+
+    public void desassociarEmbalagemAoSensor(int idEmbalagem, int idSensor) throws MyEntityNotFoundException {
+        EmbalagemTransporte embalagemTransporte = find(idEmbalagem);
+        Sensor sensor = entityManager.find(Sensor.class, idSensor);
+        if (embalagemTransporte != null && sensor != null) {
+            if (!embalagemTransporte.getSensores().contains(sensor)) {
+                throw new MyEntityNotFoundException("Sensor with id " + idSensor + " not associated with Embalagem with id " + idEmbalagem);
+            }
+            embalagemTransporte.removeSensor(sensor);
+            sensor.removeEmbalagem(embalagemTransporte);
         }
     }
 }

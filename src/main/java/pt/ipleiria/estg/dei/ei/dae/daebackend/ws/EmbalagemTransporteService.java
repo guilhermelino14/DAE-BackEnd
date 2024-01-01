@@ -10,9 +10,11 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemTransporteDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EmbalagemTransporteBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -27,6 +29,8 @@ public class EmbalagemTransporteService {
 
     @EJB
     private EmbalagemTransporteBean embalagemTransporteBean;
+    @EJB
+    private ObservacoesBean observacoesBean;
 
     private EmbalagemTransporteDTO toDTO(EmbalagemTransporte embalagemTransporte) {
         var dto = new EmbalagemTransporteDTO(
@@ -117,4 +121,18 @@ public class EmbalagemTransporteService {
         return Response.ok("Encomenda removida com sucesso").build();
     }
 
+    @POST
+    @Path("{id}/sensor/{idSensor}")
+    public Response addSensor(@PathParam("id") int id, @PathParam("idSensor") int idSensor) throws MyEntityNotFoundException {
+        embalagemTransporteBean.associarEmbalagemAoSensor(id, idSensor);
+        return Response.ok("Sensor adicionado com sucesso").build();
+    }
+
+    @DELETE
+    @Path("{id}/sensor/{idSensor}")
+    public Response removeSensor(@PathParam("id") int id, @PathParam("idSensor") int idSensor) throws MyEntityNotFoundException {
+        embalagemTransporteBean.desassociarEmbalagemAoSensor(id, idSensor);
+        observacoesBean.deleteWhereSensorId(idSensor);
+        return Response.ok("Sensor removido com sucesso").build();
+    }
 }
