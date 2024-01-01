@@ -61,6 +61,24 @@ public class EmbalagemTransporteService {
     }
 
     @POST
+    @Path("/")
+    public Response createNewEmbalagemTransporte(EmbalagemTransporteDTO embalagemTransporteDTO){
+        embalagemTransporteBean.create(
+                embalagemTransporteDTO.getNome(),
+                embalagemTransporteDTO.getAltura(),
+                embalagemTransporteDTO.getLargura()
+        );
+        return Response.ok("Embalagem de transporte criada com sucesso").build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteEmbalagemTransporte(@PathParam("id") int id) {
+        embalagemTransporteBean.remove(id);
+        return Response.ok("Embalagem de transporte removida com sucesso").build();
+    }
+
+    @POST
     @Path("{id}/addEncomenda/{idEncomenda}")
     public Response addEncomenda(@PathParam("id") int id, @PathParam("idEncomenda") int idEncomenda) throws Exception {
         embalagemTransporteBean.addEncomenda(id, idEncomenda);

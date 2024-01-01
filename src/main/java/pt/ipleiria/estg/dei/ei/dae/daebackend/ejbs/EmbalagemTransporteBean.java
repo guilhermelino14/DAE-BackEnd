@@ -21,6 +21,13 @@ public class EmbalagemTransporteBean {
         return entityManager.find(EmbalagemTransporte.class, id);
     }
 
+    public void remove(int id) {
+        EmbalagemTransporte embalagemTransporte = find(id);
+        if (embalagemTransporte != null) {
+            entityManager.remove(embalagemTransporte);
+        }
+    }
+
     public List<EmbalagemTransporte> getAll()  {
         return entityManager.createNamedQuery("getAllEmbalagensTransporte", EmbalagemTransporte.class).getResultList();
     }
