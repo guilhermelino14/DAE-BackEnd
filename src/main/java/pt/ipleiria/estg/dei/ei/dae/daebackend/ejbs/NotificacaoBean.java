@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Notificacao;
 
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -19,6 +20,7 @@ public class NotificacaoBean {
             notificacao.setConsumidor(consumidor);
             consumidor.addNotificacao(notificacao);
         }
+        notificacao.setData(new Date());
         entityManager.persist(notificacao);
     }
 

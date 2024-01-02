@@ -55,7 +55,8 @@ public class ConsumidorService {
     private NotificacaoDTO toDTONotificacao(Notificacao notificacao) {
         return new NotificacaoDTO(
                 notificacao.getId(),
-                notificacao.getMensagem()
+                notificacao.getMensagem(),
+                notificacao.getData()
         );
     }
 

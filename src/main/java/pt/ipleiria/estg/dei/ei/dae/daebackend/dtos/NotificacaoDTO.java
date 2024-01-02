@@ -2,6 +2,8 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Date;
+
 public class NotificacaoDTO {
     @NotNull
     private int id;
@@ -10,14 +12,19 @@ public class NotificacaoDTO {
     @NotNull
     private boolean lida;
 
+    @NotNull
+    private Date data;
+
     public NotificacaoDTO() {
         lida = false;
     }
 
-    public NotificacaoDTO(int id,String mensagem) {
+    public NotificacaoDTO(int id, String mensagem, Date data) {
         this.id = id;
         this.mensagem = mensagem;
         this.lida = false;
+        this.data = data;
+
     }
 
     public int getId() {
@@ -26,6 +33,10 @@ public class NotificacaoDTO {
 
     public String getMensagem() {
         return mensagem;
+    }
+
+    public Date getData() {
+        return data;
     }
 
     public boolean isLida() {
@@ -38,5 +49,9 @@ public class NotificacaoDTO {
 
     public void setLida(boolean lida) {
         this.lida = lida;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 }

@@ -2,6 +2,8 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @NamedQueries({
         @NamedQuery(
@@ -21,6 +23,8 @@ public class Notificacao {
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
+
+    private Date data;
 
     private boolean lida;
 
@@ -45,6 +49,10 @@ public class Notificacao {
         return consumidor;
     }
 
+    public Date getData() {
+        return data;
+    }
+
     public boolean isLida() {
         return lida;
     }
@@ -59,5 +67,9 @@ public class Notificacao {
 
     public void setConsumidor(Consumidor consumidor) {
         this.consumidor = consumidor;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 }
