@@ -92,4 +92,11 @@ public class ConsumidorService {
         return Response.ok(toDTOsNotificacao(notificacoes)).build();
     }
 
+    @PUT
+    @Path("{username}/notificacoes/{id}/lida")
+    public Response lida(@PathParam("username") String username, @PathParam("id") int id) {
+        notificacaoBean.lida(id);
+        return Response.ok().build();
+    }
+
 }
