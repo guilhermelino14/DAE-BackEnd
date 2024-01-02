@@ -7,10 +7,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemTransporteDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.OperadorBean;
@@ -59,6 +56,7 @@ public class EncomendaService {
                 produtoFisico.getReferencia()
         );
         dto.produto = toDTO(produtoFisico.getProduto());
+        dto.embalagensProduto = produtoFisico.getEmbalagensProduto().stream().map(this::toDTO).collect(Collectors.toList());
         return dto;
     }
 
@@ -81,6 +79,26 @@ public class EncomendaService {
         return dto;
     }
 
+    private EmbalagemProdutoDTO toDTO(EmbalagemProduto embalagemProduto) {
+        var dto = new EmbalagemProdutoDTO(
+                embalagemProduto.getId(),
+                embalagemProduto.getNome(),
+                embalagemProduto.getAltura(),
+                embalagemProduto.getLargura()
+        );
+        return dto;
+    }
+
+    private ObservacoesDTO toDTO(Observacoes observacoes) {
+        var dto = new ObservacoesDTO(
+                observacoes.getId(),
+                observacoes.getObservacao(),
+                observacoes.getData()
+        );
+        return dto;
+    }
+
+
     private List<EncomendaDTO> toDTOs(List<Encomenda> encomendas) {
         return encomendas.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -95,6 +113,14 @@ public class EncomendaService {
 
     private List<EmbalagemTransporteDTO> toDTOsEmbalagensTransporte(List<EmbalagemTransporte> embalagensTransporte) {
         return embalagensTransporte.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private List<EmbalagemProdutoDTO> toDTOsEmbalagensProduto(List<EmbalagemProduto> embalagensProduto) {
+        return embalagensProduto.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private List<ObservacoesDTO> toDTOsObservacoes(List<Observacoes> observacoes) {
+        return observacoes.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @GET
@@ -191,5 +217,30 @@ public class EncomendaService {
         }
         encomendaBean.updateStatus(id, status);
         return Response.ok("Encomenda atualizada com sucesso!").build();
+    }
+
+    @GET
+    @Path("{id}/observacoes")
+    public Response getEncomendaObservacoes(@PathParam("id") int id) throws MyEntityNotFoundException {
+        Encomenda encomenda = encomendaBean.find(id);
+        List<Observacoes> observacoes = new ArrayList<>();
+        List<EmbalagemTransporte> embalagensTransporte = encomenda.getEmbalagensTransporte();
+        List<ProdutoFisico> produtoFisicos = encomenda.getProdutosFisicos();
+        for (EmbalagemTransporte embalagemTransporte : embalagensTransporte) {
+            List<Sensor> sensores = embalagemTransporte.getSensores();
+            for (Sensor sensor : sensores) {
+                observacoes.addAll(sensor.getObservacoes());
+            }
+        }
+        for (ProdutoFisico produtoFisico : produtoFisicos) {
+            List<EmbalagemProduto> embalagensProduto = produtoFisico.getEmbalagensProduto();
+            for (EmbalagemProduto embalagemProduto : embalagensProduto) {
+                List<Sensor> sensores = embalagemProduto.getSensores();
+                for (Sensor sensor : sensores) {
+                    observacoes.addAll(sensor.getObservacoes());
+                }
+            }
+        }
+        return Response.ok(toDTOsObservacoes(observacoes)).build();
     }
 }
