@@ -42,7 +42,8 @@ public class ConsumidorService {
                 encomenda.getOperador(),
                 encomenda.getConsumidor(),
                 encomenda.getStatus(),
-                encomenda.getData()
+                encomenda.getData(),
+                encomenda.getLocalizacao()
         );
     }
 

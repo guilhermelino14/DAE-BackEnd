@@ -24,12 +24,14 @@ public class EncomendaDTO {
 
     public Date data;
 
+    public String localizacao;
+
     public EncomendaDTO() {
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
     }
 
-    public EncomendaDTO(int id, Operador operador, Consumidor consumidor, EncomendaStatus status, Date data) {
+    public EncomendaDTO(int id, Operador operador, Consumidor consumidor, EncomendaStatus status, Date data, String localizacao) {
         this.id = id;
         this.operador = operador;
         this.consumidor = consumidor;
@@ -37,6 +39,7 @@ public class EncomendaDTO {
         this.produtosFisicos = new ArrayList<>();
         this.status = status;
         this.data = data;
+        this.localizacao = localizacao;
     }
 
     public int getId() {
@@ -67,6 +70,10 @@ public class EncomendaDTO {
         return data;
     }
 
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -93,5 +100,9 @@ public class EncomendaDTO {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 }

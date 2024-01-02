@@ -56,19 +56,22 @@ public class Encomenda {
 
     private EncomendaStatus status;
 
+    private String localizacao;
+
 
     public Encomenda() {
         embalagensTransporte = new ArrayList<>();
         produtosFisicos = new ArrayList<>();
     }
 
-    public Encomenda(Operador operador, Consumidor consumidor, EncomendaStatus status, Date data) {
+    public Encomenda(Operador operador, Consumidor consumidor, EncomendaStatus status, Date data, String localizacao) {
         this.operador = operador;
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
         this.status = status;
         this.data = data;
+        this.localizacao = localizacao;
     }
 
     public int getId() {
@@ -97,6 +100,10 @@ public class Encomenda {
 
     public EncomendaStatus getStatus() {
         return status;
+    }
+
+    public String getLocalizacao() {
+        return localizacao;
     }
 
     public void setId(int id) {
@@ -138,5 +145,9 @@ public class Encomenda {
 
     public void removeEmbalagemTransporte(EmbalagemTransporte embalagemTransporte) {
         this.embalagensTransporte.remove(embalagemTransporte);
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 }

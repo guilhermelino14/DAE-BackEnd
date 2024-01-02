@@ -16,7 +16,7 @@ public class EncomendaBean {
     private EntityManager entityManager;
 
     public void create(Operador operador, Consumidor consumidor) {
-        entityManager.persist(new Encomenda(operador, consumidor, EncomendaStatus.PENDENTE, new Date()));
+        entityManager.persist(new Encomenda(operador, consumidor, EncomendaStatus.PENDENTE, new Date(), "Fabrica"));
     }
 
     public Encomenda find(int id) throws MyEntityNotFoundException {
@@ -52,6 +52,12 @@ public class EncomendaBean {
 
     public void updateStatus(int id, EncomendaStatus status) throws MyEntityNotFoundException {
         Encomenda encomenda = find(id);
+        if (status == EncomendaStatus.CONFIRMACAO){
+            encomenda.setLocalizacao("Armazem");
+        }
+        if (status == EncomendaStatus.EM_TRANSITO){
+            encomenda.setLocalizacao("Rua do Quim");
+        }
         encomenda.setStatus(status);
         entityManager.merge(encomenda);
     }

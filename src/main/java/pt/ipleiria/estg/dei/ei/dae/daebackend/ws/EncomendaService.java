@@ -45,7 +45,8 @@ public class EncomendaService {
                 encomenda.getOperador(),
                 encomenda.getConsumidor(),
                 encomenda.getStatus(),
-                encomenda.getData()
+                encomenda.getData(),
+                encomenda.getLocalizacao()
         );
         dto.produtosFisicos = encomenda.getProdutosFisicos().stream().map(this::toDTO).collect(Collectors.toList());
         dto.embalagensTransporte = encomenda.getEmbalagensTransporte().stream().map(this::toDTO).collect(Collectors.toList());
