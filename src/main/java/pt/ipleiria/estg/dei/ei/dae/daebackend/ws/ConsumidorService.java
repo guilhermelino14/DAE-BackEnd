@@ -8,9 +8,12 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ConsumidorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.NotificacaoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.NotificacaoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Notificacao;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -26,6 +29,8 @@ public class ConsumidorService {
 
     @EJB
     private ConsumidorBean consumidorBean;
+    @EJB
+    private NotificacaoBean notificacaoBean;
 
     private ConsumidorDTO toDTO(Consumidor consumidor) {
         return new ConsumidorDTO(
@@ -47,12 +52,23 @@ public class ConsumidorService {
         );
     }
 
+    private NotificacaoDTO toDTONotificacao(Notificacao notificacao) {
+        return new NotificacaoDTO(
+                notificacao.getId(),
+                notificacao.getMensagem()
+        );
+    }
+
     private List<ConsumidorDTO> toDTOs(List<Consumidor> consumidores) {
         return consumidores.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private List<EncomendaDTO> toDTOsEncomenda(List<Encomenda> encomendas) {
         return encomendas.stream().map(this::toDTOEncomenda).collect(Collectors.toList());
+    }
+
+    private List<NotificacaoDTO> toDTOsNotificacao(List<Notificacao> notificacoes) {
+        return notificacoes.stream().map(this::toDTONotificacao).collect(Collectors.toList());
     }
 
     @GET
@@ -67,6 +83,13 @@ public class ConsumidorService {
     public Response getEncomendas(@PathParam("username") String username) {
          List< Encomenda> encomendas = consumidorBean.getAllEncomendasFromConsumidor(username);
         return Response.ok(toDTOsEncomenda(encomendas)).build();
+    }
+
+    @GET
+    @Path("{username}/notificacoes")
+    public Response getNotificacoes(@PathParam("username") String username) {
+        List<Notificacao> notificacoes = notificacaoBean.getAllFromConsumidor(username);
+        return Response.ok(toDTOsNotificacao(notificacoes)).build();
     }
 
 }
