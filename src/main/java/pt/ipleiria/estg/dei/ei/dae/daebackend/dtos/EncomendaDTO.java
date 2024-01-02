@@ -17,7 +17,7 @@ public class EncomendaDTO {
     @NotNull
     private Consumidor consumidor;
 
-    private List<EmbalagemTransporte> embalagensTransporte;
+    public List<EmbalagemTransporteDTO> embalagensTransporte;
     public List<ProdutoFisicoDTO> produtosFisicos;
 
     public EncomendaStatus status;
@@ -51,7 +51,7 @@ public class EncomendaDTO {
         return consumidor;
     }
 
-    public List<EmbalagemTransporte> getEmbalagensTransporte() {
+    public List<EmbalagemTransporteDTO> getEmbalagensTransporte() {
         return embalagensTransporte;
     }
 
@@ -79,7 +79,7 @@ public class EncomendaDTO {
         this.consumidor = consumidor;
     }
 
-    public void setEmbalagensTransporte(List<EmbalagemTransporte> embalagensTransporte) {
+    public void setEmbalagensTransporte(List<EmbalagemTransporteDTO> embalagensTransporte) {
         this.embalagensTransporte = embalagensTransporte;
     }
 

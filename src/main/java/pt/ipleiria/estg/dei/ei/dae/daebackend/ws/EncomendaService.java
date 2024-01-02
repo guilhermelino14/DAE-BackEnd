@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemTransporteDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
@@ -49,6 +50,7 @@ public class EncomendaService {
                 encomenda.getData()
         );
         dto.produtosFisicos = encomenda.getProdutosFisicos().stream().map(this::toDTO).collect(Collectors.toList());
+        dto.embalagensTransporte = encomenda.getEmbalagensTransporte().stream().map(this::toDTO).collect(Collectors.toList());
         return dto;
     }
 
@@ -69,6 +71,16 @@ public class EncomendaService {
         );
     }
 
+    private EmbalagemTransporteDTO toDTO(EmbalagemTransporte embalagemTransporte) {
+        var dto = new EmbalagemTransporteDTO(
+                embalagemTransporte.getId(),
+                embalagemTransporte.getNome(),
+                embalagemTransporte.getAltura(),
+                embalagemTransporte.getLargura()
+        );
+        return dto;
+    }
+
     private List<EncomendaDTO> toDTOs(List<Encomenda> encomendas) {
         return encomendas.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -79,6 +91,10 @@ public class EncomendaService {
 
     private List<ProdutoDTO> toDTOsProdutos(List<Produto> produtos) {
         return produtos.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private List<EmbalagemTransporteDTO> toDTOsEmbalagensTransporte(List<EmbalagemTransporte> embalagensTransporte) {
+        return embalagensTransporte.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @GET
