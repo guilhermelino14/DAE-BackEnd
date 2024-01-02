@@ -58,6 +58,9 @@ public class EncomendaBean {
         if (status == EncomendaStatus.EM_TRANSITO){
             encomenda.setLocalizacao("Rua do Quim");
         }
+        if (status == EncomendaStatus.ENTREGUE){
+            encomenda.setLocalizacao("Rua do xico esperto");
+        }
         encomenda.setStatus(status);
         entityManager.merge(encomenda);
     }
