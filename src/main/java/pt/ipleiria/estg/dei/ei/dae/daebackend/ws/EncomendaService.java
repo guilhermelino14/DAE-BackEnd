@@ -17,6 +17,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundExcepti
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -241,6 +242,7 @@ public class EncomendaService {
                 }
             }
         }
+        observacoes.sort(Comparator.comparing(Observacoes::getData));
         return Response.ok(toDTOsObservacoes(observacoes)).build();
     }
 }
