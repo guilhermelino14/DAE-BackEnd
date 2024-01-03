@@ -33,10 +33,6 @@ public class Consumidor extends User{
         return morada;
     }
 
-    public List<Notificacao> getNotificacoes() {
-        return notificacoes;
-    }
-
     public void setMorada(String morada) {
         this.morada = morada;
     }
