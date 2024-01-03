@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs;
 
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -14,6 +15,9 @@ public class EncomendaBean {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @EJB
+    private NotificacaoBean notificacaoBean;
 
     public void create(Operador operador, Consumidor consumidor) {
         entityManager.persist(new Encomenda(operador, consumidor, EncomendaStatus.PENDENTE, new Date(), "Fabrica"));
@@ -57,9 +61,11 @@ public class EncomendaBean {
         }
         if (status == EncomendaStatus.EM_TRANSITO){
             encomenda.setLocalizacao("Rua do Quim");
+            notificacaoBean.create("Encomenda numero "+ encomenda.getId() +" enviada com sucesso, encomenda encontra-se em Rua do Quim", encomenda.getConsumidor());
         }
         if (status == EncomendaStatus.ENTREGUE){
             encomenda.setLocalizacao("Rua do xico esperto");
+            notificacaoBean.create("Encomenda numero "+ encomenda.getId() +" entregue com sucesso", encomenda.getConsumidor());
         }
         encomenda.setStatus(status);
         entityManager.merge(encomenda);
