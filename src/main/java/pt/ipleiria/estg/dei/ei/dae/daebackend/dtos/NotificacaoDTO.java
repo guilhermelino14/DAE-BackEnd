@@ -16,13 +16,12 @@ public class NotificacaoDTO {
     private Date data;
 
     public NotificacaoDTO() {
-        lida = false;
     }
 
-    public NotificacaoDTO(int id, String mensagem, Date data) {
+    public NotificacaoDTO(int id, String mensagem, Date data, boolean lida) {
         this.id = id;
         this.mensagem = mensagem;
-        this.lida = false;
+        this.lida = lida;
         this.data = data;
 
     }

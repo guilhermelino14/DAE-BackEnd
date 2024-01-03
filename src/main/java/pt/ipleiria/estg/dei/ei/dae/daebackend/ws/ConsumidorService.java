@@ -56,7 +56,8 @@ public class ConsumidorService {
         return new NotificacaoDTO(
                 notificacao.getId(),
                 notificacao.getMensagem(),
-                notificacao.getData()
+                notificacao.getData(),
+                notificacao.isLida()
         );
     }
 

@@ -12,7 +12,7 @@ import java.util.Date;
         ),
         @NamedQuery(
                 name = "getAllNotificacoesFromConsumidor",
-                query = "SELECT n FROM Notificacao n WHERE n.consumidor.id = :username ORDER BY n.id"
+                query = "SELECT n FROM Notificacao n WHERE n.consumidor.id = :username ORDER BY n.id DESC"
         ) // JPQL
 })
 public class Notificacao {

@@ -35,6 +35,7 @@ public class NotificacaoBean {
     public void lida(int id){
         Notificacao notificacao = entityManager.find(Notificacao.class, id);
         notificacao.setLida(true);
+        entityManager.merge(notificacao);
     }
 
     public void delete(int id){
