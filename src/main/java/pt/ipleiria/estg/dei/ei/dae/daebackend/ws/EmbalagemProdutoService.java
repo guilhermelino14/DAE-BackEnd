@@ -7,10 +7,12 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
@@ -54,10 +56,21 @@ public class EmbalagemProdutoService {
         );
     }
 
+    private ProdutoDTO toDTOProduto(Produto produto) {
+        var dto =  new ProdutoDTO(
+                produto.getId(),
+                produto.getNome(),
+                produto.getCategoria(),
+                produto.getDescricao()
+        );
+        return dto;
+    }
+
     private ProdutoFisicoDTO toDTONoProdutoFisico(ProdutoFisico produtoFisico) {
         var dto = new ProdutoFisicoDTO(
                 produtoFisico.getReferencia()
         );
+        dto.produto = toDTOProduto(produtoFisico.getProduto());
         return dto;
     }
 
