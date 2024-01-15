@@ -51,7 +51,7 @@ public class EncomendaService {
                 encomenda.getData(),
                 encomenda.getLocalizacao()
         );
-//        dto.produtosFisicos = encomenda.getProdutosFisicos().stream().map(this::toDTO).collect(Collectors.toList());
+        dto.produtosFisicos = encomenda.getProdutosFisicos().stream().map(this::toDTO).collect(Collectors.toList());
         dto.embalagensTransporte = encomenda.getEmbalagensTransporte().stream().map(this::toDTO).collect(Collectors.toList());
         List<EmbalagemProduto> embalagensProduto = new ArrayList<>();
         for (ProdutoFisico produtoFisico : encomenda.getProdutosFisicos()) {
@@ -63,8 +63,6 @@ public class EncomendaService {
         }
 
         dto.embalagensProduto = embalagensProduto.stream().map(this::toDTO).collect(Collectors.toList());
-        // add to dto.emabalagensProduto the produtos fisicos associated
-
         return dto;
     }
 
