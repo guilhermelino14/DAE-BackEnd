@@ -16,8 +16,10 @@ public class ProdutoFisicoBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(Produto produto) {
-        entityManager.persist(new ProdutoFisico(produto));
+    public ProdutoFisico create(Produto produto) {
+        ProdutoFisico produtoFisico = new ProdutoFisico(produto);
+        entityManager.persist(produtoFisico);
+        return produtoFisico;
     }
 
     public ProdutoFisico find(int referencia) throws MyEntityNotFoundException {
@@ -26,6 +28,11 @@ public class ProdutoFisicoBean {
             throw new MyEntityNotFoundException("ProdutoFisico not found");
         }
         return  produtoFisico;
+    }
+
+    public List<ProdutoFisico> getAll() {
+        TypedQuery<ProdutoFisico> query = entityManager.createNamedQuery("getAllProdutosFisicos", ProdutoFisico.class);
+        return query.getResultList();
     }
 
     public List<ProdutoFisico> findProdutosFisicosByProdutoIds(List<Integer> produtoIds) {

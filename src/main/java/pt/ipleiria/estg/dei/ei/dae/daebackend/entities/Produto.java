@@ -22,6 +22,8 @@ public class Produto {
 
     private String descricao;
 
+    private int quantidade;
+
 
     @ManyToOne
     @JoinColumn(name = "fabricante_id")
@@ -35,11 +37,12 @@ public class Produto {
         this.produtoFisicos = new ArrayList<>();
     }
 
-    public Produto(String nome, String categoria, String descricao) {
+    public Produto(String nome, String categoria, String descricao, int quantidade) {
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;;
         this.produtoFisicos = new ArrayList<>();
+        this.quantidade = quantidade;
     }
 
     public int getId() {
@@ -66,6 +69,10 @@ public class Produto {
         return produtoFisicos;
     }
 
+    public int getQuantidade() {
+        return quantidade;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -80,6 +87,10 @@ public class Produto {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public void setFabricante(Fabricante fabricante) {

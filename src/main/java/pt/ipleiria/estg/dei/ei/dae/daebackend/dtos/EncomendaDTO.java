@@ -20,6 +20,8 @@ public class EncomendaDTO {
     public List<EmbalagemTransporteDTO> embalagensTransporte;
     public List<ProdutoFisicoDTO> produtosFisicos;
 
+    public List<EmbalagemProdutoDTO> embalagensProduto;
+
     public EncomendaStatus status;
 
     public Date data;
@@ -29,6 +31,7 @@ public class EncomendaDTO {
     public EncomendaDTO() {
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
+        this.embalagensProduto = new ArrayList<>();
     }
 
     public EncomendaDTO(int id, Operador operador, Consumidor consumidor, EncomendaStatus status, Date data, String localizacao) {
@@ -37,6 +40,7 @@ public class EncomendaDTO {
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
+        this.embalagensProduto = new ArrayList<>();
         this.status = status;
         this.data = data;
         this.localizacao = localizacao;

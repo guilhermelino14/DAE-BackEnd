@@ -52,7 +52,7 @@ public class ConfigBean {
         observacoesBean.create(sensorBean.find(2), "Velocidade atingiu 150km/h", new Date());
 //        produtoBean.create("produto1", "categoria1", "descricao1");
 //        produtoBean.associateFabricante(1, "fabricante1");
-        createAListOfProducts(10);
+        createAListOfProducts();
         produtoFisicoBean.create(produtoBean.find(1));
         produtoFisicoBean.create(produtoBean.find(2));
         produtoFisicoBean.create(produtoBean.find(1));
@@ -62,10 +62,12 @@ public class ConfigBean {
         produtoFisicoBean.addEmbalagemProduto(1, 1);
     }
 
-    public void createAListOfProducts(int numberOfProducts) throws MyEntityNotFoundException{
-        for(int i = 0; i < numberOfProducts; i++){
-            produtoBean.create("produto" + i, "categoria" + i, "descricao" + i);
-            produtoBean.associateFabricante(i, "fabricante1");
-        }
+    public void createAListOfProducts() throws MyEntityNotFoundException{
+        produtoBean.create("Cholocate 1 unidade", "Chocolate", "Uma barra de chocolate", 1 );
+        produtoBean.create("Cholocate 4 unidade", "Chocolate", "Quatro barra de chocolate", 4);
+        produtoBean.create("Cholocate 12 unidade", "Chocolate", "Doze barra de chocolate", 12);
+        produtoBean.associateFabricante(1, "fabricante1");
+        produtoBean.associateFabricante(2, "fabricante1");
+        produtoBean.associateFabricante(3, "fabricante1");
     }
 }

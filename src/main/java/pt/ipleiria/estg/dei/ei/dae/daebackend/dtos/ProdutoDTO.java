@@ -20,18 +20,21 @@ public class ProdutoDTO {
 
     public List<ProdutoFisicoDTO> produtoFisicos;
 
+    private int quantidade;
+
     public long stock;
 
     public ProdutoDTO() {
         this.produtoFisicos = new ArrayList<>();
     }
 
-    public ProdutoDTO(int id, String nome, String categoria, String descricao) {
+    public ProdutoDTO(int id, String nome, String categoria, String descricao, int quantidade) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;
         this.produtoFisicos = new ArrayList<>();
+        this.quantidade = quantidade;
     }
 
     public int getId() {
@@ -52,6 +55,10 @@ public class ProdutoDTO {
 
     public Fabricante getFabricante() {
         return fabricante;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
     }
 
     public List<ProdutoFisicoDTO> getProdutoFisicos() {
@@ -76,6 +83,10 @@ public class ProdutoDTO {
 
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public void setProdutoFisicos(List<ProdutoFisicoDTO> produtoFisicos) {

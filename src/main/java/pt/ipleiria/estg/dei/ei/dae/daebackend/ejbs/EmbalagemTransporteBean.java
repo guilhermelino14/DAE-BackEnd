@@ -15,8 +15,10 @@ public class EmbalagemTransporteBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String nome, double altura, double largura){
-        entityManager.persist(new EmbalagemTransporte(nome, altura, largura));
+    public EmbalagemTransporte create(String nome, double altura, double largura){
+        EmbalagemTransporte embalagemTransporte = new EmbalagemTransporte(nome, altura, largura);
+        entityManager.persist(embalagemTransporte);
+        return embalagemTransporte;
     }
 
     public EmbalagemTransporte find(int id) {
