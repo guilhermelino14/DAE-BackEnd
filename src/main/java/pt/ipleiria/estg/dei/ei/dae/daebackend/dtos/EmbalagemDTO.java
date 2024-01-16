@@ -2,6 +2,8 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 public class EmbalagemDTO {
     @NotNull
     private int id;
@@ -11,6 +13,10 @@ public class EmbalagemDTO {
     private double altura;
     @NotNull
     private double largura;
+
+    public List<ProdutoFisicoDTO> produtosFisicos;
+
+    public List<EncomendaDTO> encomendas;
 
     public EmbalagemDTO() {
     }

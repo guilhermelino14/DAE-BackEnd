@@ -28,6 +28,13 @@ public class SensorBean {
 
     }
 
+    public List<Sensor> getAllInUse(){
+        return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList().stream()
+                .filter(sensor -> !sensor.getEmbalagens().isEmpty())
+                .collect(Collectors.toList());
+
+    }
+
     public Sensor create(TypeOfSensor typeOfSensor) {
         Sensor sensor = new Sensor(typeOfSensor);
         entityManager.persist(sensor);

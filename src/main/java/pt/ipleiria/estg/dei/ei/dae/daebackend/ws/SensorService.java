@@ -8,10 +8,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ObservacoesDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
@@ -52,12 +49,27 @@ public class SensorService {
     }
 
     private EmbalagemDTO toDTOEmbalagens(Embalagem embalagem) {
-        return new EmbalagemDTO(
+        var dto = new EmbalagemDTO(
                 embalagem.getId(),
                 embalagem.getNome(),
                 embalagem.getAltura(),
                 embalagem.getLargura()
         );
+        if (embalagem instanceof EmbalagemProduto) {
+            dto.produtosFisicos = ((EmbalagemProduto) embalagem).getProdutoFisicos().stream().map(this::toDTOEmbalagemProduto).collect(Collectors.toList());
+        }
+        if (embalagem instanceof EmbalagemTransporte){
+            dto.encomendas = ((EmbalagemTransporte) embalagem).getEncomendas().stream().map(this::toDTOEncomenda).collect(Collectors.toList());
+        }
+        return dto;
+    }
+
+    private ProdutoFisicoDTO toDTOEmbalagemProduto(ProdutoFisico produtoFisico) {
+        var dto = new ProdutoFisicoDTO(
+                produtoFisico.getReferencia()
+        );
+        dto.produto = toDTOProduto(produtoFisico.getProduto());
+        return dto;
     }
 
     private ObservacoesDTO toDTONoObservacoes(Observacoes observacao) {
@@ -66,6 +78,29 @@ public class SensorService {
                 observacao.getObservacao(),
                 observacao.getData()
         );
+    }
+
+    private ProdutoDTO toDTOProduto(Produto produto) {
+        return new ProdutoDTO(
+                produto.getId(),
+                produto.getNome(),
+                produto.getCategoria(),
+                produto.getDescricao(),
+                produto.getQuantidade(),
+                produto.getTypeOfSensor()
+        );
+    }
+
+    private EncomendaDTO toDTOEncomenda(Encomenda encomenda) {
+        var dto = new EncomendaDTO(
+                encomenda.getId(),
+                encomenda.getOperador(),
+                encomenda.getConsumidor(),
+                encomenda.getStatus(),
+                encomenda.getData(),
+                encomenda.getLocalizacao()
+        );
+        return dto;
     }
 
     private List<ObservacoesDTO> toDTOsNoObservacoes(List<Observacoes> observacoes)  {
@@ -82,6 +117,11 @@ public class SensorService {
     @Path("/available")
     public List<SensorDTO> getAllSensoresAvailable() {
         return toDTOsNoSensores(sensorBean.getAllAvailable());
+    }
+    @GET
+    @Path("/inUse")
+    public List<SensorDTO> getAllSensoresInUse() {
+        return toDTOsNoSensores(sensorBean.getAllInUse());
     }
 
     @GET

@@ -25,7 +25,6 @@ public class ProdutoDTO {
 
     public TypeOfSensor typeOfSensor;
 
-    public long stock;
 
     public ProdutoDTO() {
         this.produtoFisicos = new ArrayList<>();
