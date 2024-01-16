@@ -24,6 +24,7 @@ public class Produto {
 
     private int quantidade;
 
+    @Enumerated(EnumType.STRING)
     private TypeOfSensor typeOfSensor;
 
 

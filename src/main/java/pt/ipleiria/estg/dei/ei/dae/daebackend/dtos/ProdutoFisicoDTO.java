@@ -15,6 +15,8 @@ public class ProdutoFisicoDTO {
     public ProdutoDTO produto;
 
     public List<EmbalagemProdutoDTO> embalagensProduto;
+
+    public EncomendaDTO encomenda;
     public ProdutoFisicoDTO() {
         this.embalagensProduto = new ArrayList<>();
     }
@@ -32,6 +34,10 @@ public class ProdutoFisicoDTO {
         return produto;
     }
 
+    public EncomendaDTO getEncomenda() {
+        return encomenda;
+    }
+
     public void setReferencia(int referencia) {
         this.referencia = referencia;
     }
@@ -46,5 +52,9 @@ public class ProdutoFisicoDTO {
 
     public void setEmbalagensProduto(List<EmbalagemProdutoDTO> embalagensProduto) {
         this.embalagensProduto = embalagensProduto;
+    }
+
+    public void setEncomenda(EncomendaDTO encomenda) {
+        this.encomenda = encomenda;
     }
 }

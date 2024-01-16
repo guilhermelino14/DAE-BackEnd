@@ -23,6 +23,7 @@ public class SensorDTO {
     public SensorDTO(int id, TypeOfSensor typeOfSensor) {
         this.id = id;
         this.observacoes = new ArrayList<>();
+        this.typeOfSensor = typeOfSensor;
     }
 
     public int getId() {

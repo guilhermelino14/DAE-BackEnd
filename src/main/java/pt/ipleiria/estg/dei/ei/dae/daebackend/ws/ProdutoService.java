@@ -11,11 +11,13 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EmbalagemProdutoDTO;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoFisicoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyConstraintViolationException;
@@ -63,6 +65,9 @@ public class ProdutoService {
                 produtoFisico.getReferencia()
         );
         dto.embalagensProduto = toDTOsEmbalagensProduto(produtoFisico.getEmbalagensProduto());
+        if (produtoFisico.getEncomenda() != null) {
+            dto.encomenda = toDTOEncomenda(produtoFisico.getEncomenda());
+        }
         return dto;
     }
 
@@ -72,6 +77,18 @@ public class ProdutoService {
                 embalagemProduto.getNome(),
                 embalagemProduto.getAltura(),
                 embalagemProduto.getLargura()
+        );
+        return dto;
+    }
+
+    private EncomendaDTO toDTOEncomenda(Encomenda encomenda) {
+        var dto = new EncomendaDTO(
+                encomenda.getId(),
+                encomenda.getOperador(),
+                encomenda.getConsumidor(),
+                encomenda.getStatus(),
+                encomenda.getData(),
+                encomenda.getLocalizacao()
         );
         return dto;
     }
