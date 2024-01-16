@@ -51,8 +51,7 @@ public class EmbalagemProdutoService {
     private SensorDTO toDTONoSensores(Sensor sensor) {
         return new SensorDTO(
                 sensor.getId(),
-                sensor.getNome(),
-                sensor.getDescricao()
+                sensor.getTypeOfSensor()
         );
     }
 

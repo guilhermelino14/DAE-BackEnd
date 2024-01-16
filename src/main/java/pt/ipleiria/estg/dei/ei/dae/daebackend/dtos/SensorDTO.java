@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,7 @@ public class SensorDTO {
     @NotNull
     private int id;
     @NotNull
-    private String nome;
-    @NotNull
-    private String descricao;
+    private TypeOfSensor typeOfSensor;
 
     public List<ObservacoesDTO> observacoes;
 
@@ -21,10 +20,8 @@ public class SensorDTO {
         this.observacoes = new ArrayList<>();
     }
 
-    public SensorDTO(int id, String nome, String descricao) {
+    public SensorDTO(int id, TypeOfSensor typeOfSensor) {
         this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
         this.observacoes = new ArrayList<>();
     }
 
@@ -32,12 +29,8 @@ public class SensorDTO {
         return id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
+    public TypeOfSensor getTypeOfSensor() {
+        return typeOfSensor;
     }
 
     public List<ObservacoesDTO> getObservacoes() {
@@ -52,12 +45,8 @@ public class SensorDTO {
         this.id = id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setTypeOfSensor(TypeOfSensor typeOfSensor) {
+        this.typeOfSensor = typeOfSensor;
     }
 
     public void setObservacoes(List<ObservacoesDTO> observacoes) {

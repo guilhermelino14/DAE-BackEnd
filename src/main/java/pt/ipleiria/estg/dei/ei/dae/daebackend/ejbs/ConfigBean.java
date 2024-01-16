@@ -33,6 +33,8 @@ public class ConfigBean {
     private ProdutoFisicoBean produtoFisicoBean;
     @EJB
     private EncomendaBean encomendaBean;
+    @EJB
+    private SensorRulesBean sensorRulesBean;
 
     @PostConstruct
     public void populateDB() throws MyEntityNotFoundException {
@@ -43,8 +45,8 @@ public class ConfigBean {
         embalagemProdutoBean.create("embalagemProduto2", 2, 2);
         embalagemTransporteBean.create("embalagemTransporte1", 1, 1);
         embalagemTransporteBean.create("embalagemTransporte2", 2, 2);
-        sensorBean.create("sensor1", "Temperatura", SensorType.FABRICANTE);
-        sensorBean.create("sensor2", "Velocidade", SensorType.OPERADOR);
+        sensorBean.create(TypeOfSensor.TEMPERATURA);
+        sensorBean.create(TypeOfSensor.HUMIDADE);
         observacoesBean.create(sensorBean.find(1), "Temperatura atingiu 50ºC", new Date());
         observacoesBean.create(sensorBean.find(2), "Velocidade atingiu 150km/h", new Date());
 //        produtoBean.create("produto1", "categoria1", "descricao1");
@@ -57,6 +59,8 @@ public class ConfigBean {
         encomendaBean.addProduct(1, 1);
         sensorBean.associarSensorAEmbalagem(1, 1);
         produtoFisicoBean.addEmbalagemProduto(1, 1);
+        sensorRulesBean.create(produtoBean.find(1), TypeOfSensor.TEMPERATURA, 50, 25);
+        sensorRulesBean.create(produtoBean.find(1), TypeOfSensor.HUMIDADE, 50, 25);
     }
 
     public void createAListOfProducts() throws MyEntityNotFoundException{

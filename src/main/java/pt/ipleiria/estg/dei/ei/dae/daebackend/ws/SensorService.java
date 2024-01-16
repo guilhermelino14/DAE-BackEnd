@@ -40,8 +40,7 @@ public class SensorService {
     private SensorDTO toDTONoSensores(Sensor sensor) {
         var dto = new SensorDTO(
                 sensor.getId(),
-                sensor.getNome(),
-                sensor.getDescricao()
+                sensor.getTypeOfSensor()
         );
         dto.observacoes = sensor.getObservacoes().stream().map(this::toDTONoObservacoes).collect(Collectors.toList());
         dto.embalagens = sensor.getEmbalagens().stream().map(this::toDTOEmbalagens).collect(Collectors.toList());
@@ -76,22 +75,13 @@ public class SensorService {
     @GET
     @Path("/")
     public List<SensorDTO> getAllSensores() {
-        System.out.println(securityContext.isUserInRole("Operador"));
-        if (securityContext.isUserInRole("Operador"))
-            return toDTOsNoSensores(sensorBean.getAll(SensorType.OPERADOR));
-        if (securityContext.isUserInRole("Fabricante"))
-            return toDTOsNoSensores(sensorBean.getAll(SensorType.FABRICANTE));
-        return toDTOsNoSensores(new LinkedList<>());
+        return toDTOsNoSensores(sensorBean.getAll());
     }
 
     @GET
     @Path("/available")
     public List<SensorDTO> getAllSensoresAvailable() {
-        if (securityContext.isUserInRole("Operador"))
-            return toDTOsNoSensores(sensorBean.getAllAvailable(SensorType.OPERADOR));
-        if (securityContext.isUserInRole("Fabricante"))
-            return toDTOsNoSensores(sensorBean.getAllAvailable(SensorType.FABRICANTE));
-        return toDTOsNoSensores(new LinkedList<>());
+        return toDTOsNoSensores(sensorBean.getAllAvailable());
     }
 
     @GET
@@ -104,24 +94,19 @@ public class SensorService {
     @POST
     @Path("/")
     public Response createNewSensor(SensorDTO sensorDTO) {
-        if (securityContext.isUserInRole("Operador"))
-            sensorBean.create(sensorDTO.getNome(), sensorDTO.getDescricao(), SensorType.OPERADOR);
-        else if (securityContext.isUserInRole("Fabricante"))
-            sensorBean.create(sensorDTO.getNome(), sensorDTO.getDescricao(), SensorType.FABRICANTE);
-        else
-            return Response.status(Response.Status.FORBIDDEN).build();
+        sensorBean.create(sensorDTO.getTypeOfSensor());
         return Response.status(Response.Status.CREATED).build();
     }
 
-    @PUT
-    @Path("{id}")
-    public Response updateSensor(@PathParam("id") int id, SensorDTO sensorDTO) throws MyEntityNotFoundException {
-        boolean response = sensorBean.update(id, sensorDTO.getNome(), sensorDTO.getDescricao());
-        if (!response) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        return Response.status(Response.Status.OK).build();
-    }
+//    @PUT
+//    @Path("{id}")
+//    public Response updateSensor(@PathParam("id") int id, SensorDTO sensorDTO) throws MyEntityNotFoundException {
+//        boolean response = sensorBean.update(id, sensorDTO.getNome(), sensorDTO.getDescricao());
+//        if (!response) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
+//        return Response.status(Response.Status.OK).build();
+//    }
 
     @DELETE
     @Path("{id}")

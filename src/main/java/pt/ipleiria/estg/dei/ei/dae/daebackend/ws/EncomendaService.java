@@ -162,7 +162,7 @@ public class EncomendaService {
             Produto produto = produtoBean.find(produtoFromList.getId());
             EmbalagemProduto embalagemProduto = embalagemProdutoBean.create("Embalagem de "+produto.getQuantidade()+" Produtos", 10, 10);
             if (produto.getProdutoFisicos().isEmpty()){
-                Sensor sensor = sensorBean.create("Sensor de "+produto.getTypeOfSensor().toString(),"teste", SensorType.FABRICANTE);
+                Sensor sensor = sensorBean.create(produto.getTypeOfSensor());
                 sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
             }
             for (int i = 0; i < produto.getQuantidade(); i++){

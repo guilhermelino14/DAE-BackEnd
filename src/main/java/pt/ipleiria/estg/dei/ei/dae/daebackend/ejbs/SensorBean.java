@@ -3,14 +3,10 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.ForbiddenException;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.NotAuthorizedException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,22 +17,19 @@ public class SensorBean {
     private EntityManager entityManager;
 
 
-    public List<Sensor> getAll(SensorType sensorType){
-        return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList().stream()
-                .filter(sensor -> sensorType == sensor.getSensorType())
-                .collect(Collectors.toList());
+    public List<Sensor> getAll(){
+        return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList();
     }
 
-    public List<Sensor> getAllAvailable(SensorType sensorType){
+    public List<Sensor> getAllAvailable(){
         return entityManager.createNamedQuery("getAllSensores", Sensor.class).getResultList().stream()
-                .filter(sensor -> sensorType == sensor.getSensorType())
                 .filter(sensor -> sensor.getEmbalagens().isEmpty())
                 .collect(Collectors.toList());
 
     }
 
-    public Sensor create(String nome, String descricao, SensorType sensorType) {
-        Sensor sensor = new Sensor(nome, descricao, sensorType);
+    public Sensor create(TypeOfSensor typeOfSensor) {
+        Sensor sensor = new Sensor(typeOfSensor);
         entityManager.persist(sensor);
         return sensor;
     }
@@ -54,8 +47,6 @@ public class SensorBean {
         if (sensor == null) {
             throw new MyEntityNotFoundException("Sensor with id " + id + " not found.");
         }
-        sensor.setNome(nome);
-        sensor.setDescricao(descricao);
         entityManager.merge(sensor);
         return true;
     }

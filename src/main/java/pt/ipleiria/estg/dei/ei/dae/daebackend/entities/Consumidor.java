@@ -12,18 +12,13 @@ public class Consumidor extends User{
 
     private String morada;
 
-    @OneToMany(mappedBy = "consumidor")
-    private List<Notificacao> notificacoes;
-
     public Consumidor() {
         encomendas = new ArrayList<>();
-        notificacoes = new ArrayList<>();
     }
 
     public Consumidor(String username, String password, String name, String email, String morada) {
         super(username, password, name, email);
         this.encomendas = new ArrayList<>();
-        this.notificacoes = new ArrayList<>();
         this.morada = morada;
     }
 
@@ -43,13 +38,5 @@ public class Consumidor extends User{
 
     public void removeEncomenda(Encomenda encomenda){
         encomendas.remove(encomenda);
-    }
-
-    public void addNotificacao(Notificacao notificacao){
-        notificacoes.add(notificacao);
-    }
-
-    public void removeNotificacao(Notificacao notificacao){
-        notificacoes.remove(notificacao);
     }
 }

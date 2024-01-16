@@ -17,12 +17,8 @@ public class Sensor {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @NotNull
-    private String nome;
-    @NotNull
-    private String descricao;
-
     @Enumerated(EnumType.STRING)
-    private SensorType sensorType;
+    private TypeOfSensor typeOfSensor;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -46,37 +42,26 @@ public class Sensor {
         this.observacoes = new ArrayList<>();
     }
 
-    public Sensor(String nome, String descricao, SensorType sensorType) {
-        this.nome = nome;
-        this.descricao = descricao;
+    public Sensor(TypeOfSensor typeOfSensor) {
         this.embalagens = new ArrayList<>();
-        this.sensorType = sensorType;
         this.observacoes = new ArrayList<>();
+        this.typeOfSensor = typeOfSensor;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public TypeOfSensor getTypeOfSensor() {
+        return typeOfSensor;
     }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setTypeOfSensor(TypeOfSensor typeOfSensor) {
+        this.typeOfSensor = typeOfSensor;
     }
 
     public void addEmbalagem(Embalagem embalagem) {
@@ -85,14 +70,6 @@ public class Sensor {
 
     public void removeEmbalagem(Embalagem embalagem) {
         this.embalagens.remove(embalagem);
-    }
-
-    public SensorType getSensorType() {
-        return sensorType;
-    }
-
-    public void setSensorType(SensorType sensorType) {
-        this.sensorType = sensorType;
     }
 
     public List<Embalagem> getEmbalagens() {

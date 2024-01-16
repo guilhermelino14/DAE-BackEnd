@@ -34,6 +34,9 @@ public class Produto {
     @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<ProdutoFisico> produtoFisicos;
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<SensorRoles> sensorRoles;
+
 
     public Produto() {
         this.produtoFisicos = new ArrayList<>();
