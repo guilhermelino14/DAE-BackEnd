@@ -35,8 +35,10 @@ public class SensorBean {
 
     }
 
-    public void create(String nome, String descricao, SensorType sensorType) {
-        entityManager.persist(new Sensor(nome, descricao, sensorType));
+    public Sensor create(String nome, String descricao, SensorType sensorType) {
+        Sensor sensor = new Sensor(nome, descricao, sensorType);
+        entityManager.persist(sensor);
+        return sensor;
     }
 
     public Sensor find(int id) throws MyEntityNotFoundException {

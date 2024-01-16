@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Fabricante;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +23,22 @@ public class ProdutoDTO {
 
     private int quantidade;
 
+    public TypeOfSensor typeOfSensor;
+
     public long stock;
 
     public ProdutoDTO() {
         this.produtoFisicos = new ArrayList<>();
     }
 
-    public ProdutoDTO(int id, String nome, String categoria, String descricao, int quantidade) {
+    public ProdutoDTO(int id, String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;
         this.produtoFisicos = new ArrayList<>();
         this.quantidade = quantidade;
+        this.typeOfSensor = typeOfSensor;
     }
 
     public int getId() {
@@ -65,6 +69,10 @@ public class ProdutoDTO {
         return produtoFisicos;
     }
 
+    public TypeOfSensor getTypeOfSensor() {
+        return typeOfSensor;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -91,5 +99,9 @@ public class ProdutoDTO {
 
     public void setProdutoFisicos(List<ProdutoFisicoDTO> produtoFisicos) {
         this.produtoFisicos = produtoFisicos;
+    }
+
+    public void setTypeOfSensor(TypeOfSensor typeOfSensor) {
+        this.typeOfSensor = typeOfSensor;
     }
 }

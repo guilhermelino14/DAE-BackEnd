@@ -19,8 +19,8 @@ public class ProdutoBean {
     @EJB
     private FabricanteBean fabricanteBean;
 
-    public void create(String nome, String categoria, String descricao, int quantidade) {
-        Produto produto = new Produto(nome, categoria, descricao, quantidade);
+    public void create(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor) {
+        Produto produto = new Produto(nome, categoria, descricao, quantidade, typeOfSensor);
         entityManager.persist(produto);
     }
 

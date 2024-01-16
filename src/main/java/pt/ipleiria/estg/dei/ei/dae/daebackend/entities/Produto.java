@@ -24,6 +24,8 @@ public class Produto {
 
     private int quantidade;
 
+    private TypeOfSensor typeOfSensor;
+
 
     @ManyToOne
     @JoinColumn(name = "fabricante_id")
@@ -37,12 +39,13 @@ public class Produto {
         this.produtoFisicos = new ArrayList<>();
     }
 
-    public Produto(String nome, String categoria, String descricao, int quantidade) {
+    public Produto(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor) {
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;;
         this.produtoFisicos = new ArrayList<>();
         this.quantidade = quantidade;
+        this.typeOfSensor = typeOfSensor;
     }
 
     public int getId() {
@@ -73,6 +76,10 @@ public class Produto {
         return quantidade;
     }
 
+    public TypeOfSensor getTypeOfSensor() {
+        return typeOfSensor;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -99,6 +106,10 @@ public class Produto {
 
     public void setProdutoFisicos(List<ProdutoFisico> produtoFisico) {
         this.produtoFisicos = produtoFisicos;
+    }
+
+    public void setTypeOfSensor(TypeOfSensor typeOfSensor) {
+        this.typeOfSensor = typeOfSensor;
     }
 
 }

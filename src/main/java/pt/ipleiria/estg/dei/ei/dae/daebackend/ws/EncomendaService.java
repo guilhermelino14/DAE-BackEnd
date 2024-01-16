@@ -41,6 +41,8 @@ public class EncomendaService {
     private EmbalagemProdutoBean embalagemProdutoBean;
     @EJB
     private EmbalagemTransporteBean embalagemTransporteBean;
+    @EJB
+    private SensorBean sensorBean;
 
     private EncomendaDTO toDTO(Encomenda encomenda) {
         var dto = new EncomendaDTO(
@@ -81,7 +83,8 @@ public class EncomendaService {
                 produto.getNome(),
                 produto.getCategoria(),
                 produto.getDescricao(),
-                produto.getQuantidade()
+                produto.getQuantidade(),
+                produto.getTypeOfSensor()
         );
     }
 
@@ -158,6 +161,10 @@ public class EncomendaService {
         for (Produto produtoFromList : produtos) {
             Produto produto = produtoBean.find(produtoFromList.getId());
             EmbalagemProduto embalagemProduto = embalagemProdutoBean.create("Embalagem de "+produto.getQuantidade()+" Produtos", 10, 10);
+            if (produto.getProdutoFisicos().isEmpty()){
+                Sensor sensor = sensorBean.create("Sensor de "+produto.getTypeOfSensor().toString(),"teste", SensorType.FABRICANTE);
+                sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
+            }
             for (int i = 0; i < produto.getQuantidade(); i++){
               ProdutoFisico produtoFisico = produtoFisicoBean.create(produto);
               produtoFisicoBean.addEmbalagemProduto(produtoFisico.getReferencia(), embalagemProduto.getId());

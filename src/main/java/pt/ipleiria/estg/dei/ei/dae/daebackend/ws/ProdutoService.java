@@ -48,7 +48,8 @@ public class ProdutoService {
                 produto.getNome(),
                 produto.getCategoria(),
                 produto.getDescricao(),
-                produto.getQuantidade()
+                produto.getQuantidade(),
+                produto.getTypeOfSensor()
         );
         dto.produtoFisicos = produto.getProdutoFisicos().stream().map(this::toDTOProdutoFisico).collect(Collectors.toList());
         dto.fabricante = produto.getFabricante();
@@ -116,7 +117,7 @@ public class ProdutoService {
     @POST
     @Path("/")
     public Response createNewProduto(ProdutoDTO produtoDTO) {
-        produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade());
+        produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade(),produtoDTO.getTypeOfSensor());
         return Response.status(Response.Status.CREATED).build();
     }
 

@@ -4,10 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorType;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
 import java.util.Date;
@@ -63,9 +60,9 @@ public class ConfigBean {
     }
 
     public void createAListOfProducts() throws MyEntityNotFoundException{
-        produtoBean.create("Cholocate 1 unidade", "Chocolate", "Uma barra de chocolate", 1 );
-        produtoBean.create("Cholocate 4 unidade", "Chocolate", "Quatro barra de chocolate", 4);
-        produtoBean.create("Cholocate 12 unidade", "Chocolate", "Doze barra de chocolate", 12);
+        produtoBean.create("Cholocate 1 unidade", "Chocolate", "Uma barra de chocolate", 1 , null);
+        produtoBean.create("Cholocate 4 unidade", "Chocolate", "Quatro barra de chocolate", 4, null);
+        produtoBean.create("Cholocate 12 unidade", "Chocolate", "Doze barra de chocolate", 12, TypeOfSensor.HUMIDADE);
         produtoBean.associateFabricante(1, "fabricante1");
         produtoBean.associateFabricante(2, "fabricante1");
         produtoBean.associateFabricante(3, "fabricante1");
