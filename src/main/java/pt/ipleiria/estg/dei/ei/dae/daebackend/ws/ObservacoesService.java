@@ -2,20 +2,21 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ObservacoesDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Observacoes;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 public class ObservacoesService {
     @EJB
     private ObservacoesBean observacoesBean;
+    @EJB
+    private SensorBean sensorBean;
 
     @Context
     private SecurityContext securityContext;
@@ -47,5 +50,14 @@ public class ObservacoesService {
     @Path("/")
     public List<ObservacoesDTO> getAllObservacoes() {
         return toDTOsNoObservacoes(observacoesBean.getAll());
+    }
+
+    @POST
+    @Path("/")
+    public Response createNewObservacao(ObservacoesDTO observacaoDTO) throws MyEntityNotFoundException {
+        Sensor sensor = sensorBean.find(observacaoDTO.getSensor());
+        observacoesBean.create(sensor,observacaoDTO.getObservacao(), new Date());
+
+        return Response.status(Response.Status.CREATED).build();
     }
 }

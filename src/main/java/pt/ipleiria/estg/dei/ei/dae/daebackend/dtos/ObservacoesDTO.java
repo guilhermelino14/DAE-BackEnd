@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 
 import java.util.Date;
 
@@ -13,6 +14,8 @@ public class ObservacoesDTO {
 
     @NotNull
     private Date data;
+
+    private int sensor;
 
     public ObservacoesDTO() {
     }
@@ -35,6 +38,10 @@ public class ObservacoesDTO {
         return data;
     }
 
+    public int getSensor() {
+        return sensor;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -45,5 +52,9 @@ public class ObservacoesDTO {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public void setSensor(int sensor) {
+        this.sensor = sensor;
     }
 }
