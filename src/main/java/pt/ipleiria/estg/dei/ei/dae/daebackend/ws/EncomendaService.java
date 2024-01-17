@@ -309,12 +309,15 @@ public class EncomendaService {
     public Response getEncomendaObservacoes(@PathParam("id") int id) throws MyEntityNotFoundException {
         Encomenda encomenda = encomendaBean.find(id);
         List<Observacoes> observacoes = new ArrayList<>();
+        List<Sensor> sensoresList = new ArrayList<>();
         List<EmbalagemTransporte> embalagensTransporte = encomenda.getEmbalagensTransporte();
         List<ProdutoFisico> produtoFisicos = encomenda.getProdutosFisicos();
         for (EmbalagemTransporte embalagemTransporte : embalagensTransporte) {
             List<Sensor> sensores = embalagemTransporte.getSensores();
             for (Sensor sensor : sensores) {
-                observacoes.addAll(sensor.getObservacoes());
+                if (!sensoresList.contains(sensor)) {
+                    sensoresList.add(sensor);
+                }
             }
         }
         for (ProdutoFisico produtoFisico : produtoFisicos) {
@@ -322,11 +325,22 @@ public class EncomendaService {
             for (EmbalagemProduto embalagemProduto : embalagensProduto) {
                 List<Sensor> sensores = embalagemProduto.getSensores();
                 for (Sensor sensor : sensores) {
-                    observacoes.addAll(sensor.getObservacoes());
+                    if (!sensoresList.contains(sensor)) {
+                        sensoresList.add(sensor);
+                    }
                 }
             }
         }
-        observacoes.sort(Comparator.comparing(Observacoes::getData));
+        for (Sensor sensor : sensoresList) {
+            List<Observacoes> observacoesList = sensor.getObservacoes();
+            for (Observacoes observacao : observacoesList) {
+                if (!observacoes.contains(observacao)) {
+                    observacoes.add(observacao);
+                }
+            }
+        }
+        observacoes.sort(Comparator.comparing(Observacoes::getData).reversed());
+//        observacoes.sort(Comparator.comparing(Observacoes::getData));
         return Response.ok(toDTOsObservacoes(observacoes)).build();
     }
 }
