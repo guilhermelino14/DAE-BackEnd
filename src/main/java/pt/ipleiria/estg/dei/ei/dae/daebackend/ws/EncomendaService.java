@@ -150,34 +150,69 @@ public class EncomendaService {
 
     @POST
     @Path("/")
-    public Response createEncomenda(List<Produto> produtos) throws Exception {
-        String username = securityContext.getUserPrincipal().getName();
-        Consumidor consumidorFinded = consumidorBean.find(username);
-        Operador operadorFinded = operadorBean.find("operador1");
+    public Response createEncomenda(CriarEncomendaDTO criarEncomendaDTO) throws Exception {
+        // CLIENTE
+        Consumidor consumidor = consumidorBean.find("consumidor1");
+        // OPERADOR
+        Operador operador = operadorBean.find("operador1");
 
-        encomendaBean.create(operadorFinded, consumidorFinded);
-        Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
+        // CRIAR ENCOMENDA
+        Encomenda encomenda = encomendaBean.create(operador, consumidor);
 
-        for (Produto produtoFromList : produtos) {
-            Produto produto = produtoBean.find(produtoFromList.getId());
-            EmbalagemProduto embalagemProduto = embalagemProdutoBean.create("Embalagem de "+produto.getQuantidade()+" Produtos", 10, 10);
-            if (produto.getProdutoFisicos().isEmpty()){
-                System.out.println(produto.getTypeOfSensor());
-                Sensor sensor = sensorBean.create(produto.getTypeOfSensor());
+        // BUSCAR PRODUTOS
+        for (ProdutoDTO produto : criarEncomendaDTO.getProdutos()){
+            Produto produtoFinded = produtoBean.find(produto.getId());
+            // CRUAR EMBALAGEM DE PRODUTO
+            EmbalagemProduto embalagemProduto = embalagemProdutoBean.create("Embalagem de "+produtoFinded.getQuantidade()+" Produtos", 10, 10);
+            // CRIAR PRODUTO FISICO
+            produtoFisicoBean.createMany(produtoFinded, embalagemProduto.getId(), encomenda);
+            if (produtoFinded.getTypeOfSensor() != null){
+                Sensor sensor = sensorBean.create(produtoFinded.getTypeOfSensor());
                 sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
-            }
-            for (int i = 0; i < produto.getQuantidade(); i++){
-              ProdutoFisico produtoFisico = produtoFisicoBean.create(produto);
-              produtoFisicoBean.addEmbalagemProduto(produtoFisico.getReferencia(), embalagemProduto.getId());
-              encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
             }
         }
 
+        // CRUAR EMBALAGEM DE TRANSPORTE
         EmbalagemTransporte embalagemTransporte = embalagemTransporteBean.create("Embalagem de Transporte", 10, 10);
+        if (criarEncomendaDTO.isHas_sensor()){
+            Sensor sensor = sensorBean.create(criarEncomendaDTO.getTypeOfSensor());
+            sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemTransporte.getId());
+        }
         embalagemTransporteBean.addEncomenda(embalagemTransporte.getId(), encomenda.getId());
 
-        return Response.ok("Encomenda criada com sucesso!").build();
+        return Response.ok(criarEncomendaDTO).build();
     }
+
+//    @POST
+//    @Path("/")
+//    public Response createEncomenda(List<Produto> produtos) throws Exception {
+//        String username = securityContext.getUserPrincipal().getName();
+//        Consumidor consumidorFinded = consumidorBean.find(username);
+//        Operador operadorFinded = operadorBean.find("operador1");
+//
+//        encomendaBean.create(operadorFinded, consumidorFinded);
+//        Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
+//
+//        for (Produto produtoFromList : produtos) {
+//            Produto produto = produtoBean.find(produtoFromList.getId());
+//            EmbalagemProduto embalagemProduto = embalagemProdutoBean.create("Embalagem de "+produto.getQuantidade()+" Produtos", 10, 10);
+//            if (produto.getProdutoFisicos().isEmpty()){
+//                System.out.println(produto.getTypeOfSensor());
+//                Sensor sensor = sensorBean.create(produto.getTypeOfSensor());
+//                sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
+//            }
+//            for (int i = 0; i < produto.getQuantidade(); i++){
+//              ProdutoFisico produtoFisico = produtoFisicoBean.create(produto);
+//              produtoFisicoBean.addEmbalagemProduto(produtoFisico.getReferencia(), embalagemProduto.getId());
+//              encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
+//            }
+//        }
+//
+//        EmbalagemTransporte embalagemTransporte = embalagemTransporteBean.create("Embalagem de Transporte", 10, 10);
+//        embalagemTransporteBean.addEncomenda(embalagemTransporte.getId(), encomenda.getId());
+//
+//        return Response.ok("Encomenda criada com sucesso!").build();
+//    }
 
 //    @POST
 //    @Path("/")

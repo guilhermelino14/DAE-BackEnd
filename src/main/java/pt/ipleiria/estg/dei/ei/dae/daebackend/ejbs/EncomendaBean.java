@@ -17,8 +17,10 @@ public class EncomendaBean {
     private EntityManager entityManager;
 
 
-    public void create(Operador operador, Consumidor consumidor) {
-        entityManager.persist(new Encomenda(operador, consumidor, EncomendaStatus.PENDENTE, new Date(), "Fabrica"));
+    public Encomenda create(Operador operador, Consumidor consumidor) {
+        Encomenda encomenda =new Encomenda(operador, consumidor, EncomendaStatus.PENDENTE, new Date(), "Fabrica");
+        entityManager.persist(encomenda);
+        return encomenda;
     }
 
     public Encomenda find(int id) throws MyEntityNotFoundException {

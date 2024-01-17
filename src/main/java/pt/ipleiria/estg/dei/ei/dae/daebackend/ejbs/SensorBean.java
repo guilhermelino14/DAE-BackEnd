@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Embalagem;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
@@ -69,20 +70,20 @@ public class SensorBean {
 
     public void associarSensorAEmbalagem(int idSensor, int idEmbalagem) throws MyEntityNotFoundException {
         Sensor sensor = entityManager.find(Sensor.class, idSensor);
-        EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, idEmbalagem);
-        if (sensor != null && embalagemProduto != null) {
-            sensor.addEmbalagem(embalagemProduto);
-            embalagemProduto.addSensor(sensor);
+        Embalagem embalagem = entityManager.find(Embalagem.class, idEmbalagem);
+        if (sensor != null && embalagem != null) {
+            sensor.addEmbalagem(embalagem);
+            embalagem.addSensor(sensor);
         }
     }
 
     public void dissociarSensoresFromEmbalagem(int idEmbalagem) throws MyEntityNotFoundException {
-        EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, idEmbalagem);
-        if (embalagemProduto != null) {
-            embalagemProduto.getSensores().forEach(sensor -> {
-                sensor.removeEmbalagem(embalagemProduto);
+        Embalagem embalagem = entityManager.find(Embalagem.class, idEmbalagem);
+        if (embalagem != null) {
+            embalagem.getSensores().forEach(sensor -> {
+                sensor.removeEmbalagem(embalagem);
             });
-            embalagemProduto.getSensores().clear();
+            embalagem.getSensores().clear();
         }
     }
 }
