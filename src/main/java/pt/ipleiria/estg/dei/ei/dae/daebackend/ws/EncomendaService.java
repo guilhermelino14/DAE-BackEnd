@@ -185,6 +185,8 @@ public class EncomendaService {
             sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemTransporte.getId());
         }
         embalagemTransporteBean.addEncomenda(embalagemTransporte.getId(), encomenda.getId());
+        Sensor sensorGPS = sensorBean.create(TypeOfSensor.GPS);
+        sensorBean.associarSensorAEmbalagem(sensorGPS.getId(),embalagemTransporte.getId());
 
         return Response.ok(criarEncomendaDTO).build();
     }
