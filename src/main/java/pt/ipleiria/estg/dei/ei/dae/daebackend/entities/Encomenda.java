@@ -23,7 +23,11 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllEncomendasByConsumidorUsername",
                 query = "SELECT e FROM Encomenda e WHERE e.consumidor.id = :username ORDER BY e.id"
-        ) // JPQL
+        ),
+        @NamedQuery(
+                name = "getAllEncomendasFromHimAndNotPendentes",
+                query = "SELECT e FROM Encomenda e WHERE e.operador.username = :operadorUsername OR e.status != :status ORDER BY e.id"
+        ),
 })
 public class Encomenda {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)

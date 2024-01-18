@@ -306,6 +306,11 @@ public class EncomendaService {
         if (encomenda == null){
             throw new MyEntityNotFoundException("Encomenda com o id " + id + " não existe");
         }
+        if (status == EncomendaStatus.RECOLHIDA){
+            Operador operador = operadorBean.find(securityContext.getUserPrincipal().getName());
+            encomendaBean.updateOperador(id,operador);
+
+        }
         encomendaBean.updateStatus(id, status);
         return Response.ok("Encomenda atualizada com sucesso!").build();
     }

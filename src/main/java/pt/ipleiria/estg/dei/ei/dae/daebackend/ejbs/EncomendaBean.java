@@ -50,8 +50,8 @@ public class EncomendaBean {
         return entityManager.createNamedQuery("getAllEncomendasStatusPendetes", Encomenda.class).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
     }
 
-    public List<Encomenda> getEncomendasNotPendentes() {
-        return entityManager.createNamedQuery("getAllEncomendasStatusNotPendetes", Encomenda.class).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
+    public List<Encomenda> getEncomendasFromHimAndNotPendentes(String operadorUsername) {
+        return entityManager.createNamedQuery("getAllEncomendasFromHimAndNotPendentes", Encomenda.class).setParameter("operadorUsername", operadorUsername).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
     }
 
     public void updateStatus(int id, EncomendaStatus status) throws MyEntityNotFoundException {
@@ -66,6 +66,12 @@ public class EncomendaBean {
             encomenda.setLocalizacao("Rua do xico esperto");
         }
         encomenda.setStatus(status);
+        entityManager.merge(encomenda);
+    }
+
+    public void updateOperador(int id, Operador operador) throws MyEntityNotFoundException {
+        Encomenda encomenda = find(id);
+        encomenda.setOperador(operador);
         entityManager.merge(encomenda);
     }
 }

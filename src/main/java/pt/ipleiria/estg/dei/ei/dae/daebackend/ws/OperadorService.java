@@ -13,6 +13,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoFisicoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.OperadorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Operador;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
@@ -58,7 +59,7 @@ public class OperadorService {
 
     @GET
     @Path("/encomendas")
-    public List<EncomendaDTO> getEncomendasNotPendentes() {
-        return toDTOs(encomendaBean.getEncomendasNotPendentes());
+    public List<EncomendaDTO> getEncomendasFromHimAndNotPendentes() {
+        return toDTOs(encomendaBean.getEncomendasFromHimAndNotPendentes(securityContext.getUserPrincipal().getName()));
     }
 }
