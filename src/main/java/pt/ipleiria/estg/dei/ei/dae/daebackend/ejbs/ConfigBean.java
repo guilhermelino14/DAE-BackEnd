@@ -64,9 +64,9 @@ public class ConfigBean {
     }
 
     public void createAListOfProducts() throws MyEntityNotFoundException{
-        produtoBean.create("Cholocate 1 unidade", "Chocolate", "Uma barra de chocolate", 1 , null);
-        produtoBean.create("Cholocate 4 unidade", "Chocolate", "Quatro barra de chocolate", 4, null);
-        produtoBean.create("Cholocate 12 unidade", "Chocolate", "Doze barra de chocolate", 12, TypeOfSensor.HUMIDADE);
+        produtoBean.create("Cholocate 1 unidade", "Chocolate", "Uma barra de chocolate", 1 , null, "fabricante1");
+        produtoBean.create("Cholocate 4 unidade", "Chocolate", "Quatro barra de chocolate", 4, null,"fabricante1");
+        produtoBean.create("Cholocate 12 unidade", "Chocolate", "Doze barra de chocolate", 12, TypeOfSensor.HUMIDADE,"fabricante1");
         produtoBean.associateFabricante(1, "fabricante1");
         produtoBean.associateFabricante(2, "fabricante1");
         produtoBean.associateFabricante(3, "fabricante1");
