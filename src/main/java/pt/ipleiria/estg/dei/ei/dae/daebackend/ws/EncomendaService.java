@@ -15,6 +15,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,8 @@ public class EncomendaService {
     private EmbalagemTransporteBean embalagemTransporteBean;
     @EJB
     private SensorBean sensorBean;
+    @EJB
+    private ObservacoesBean observacoesBean;
 
     private EncomendaDTO toDTO(Encomenda encomenda) {
         var dto = new EncomendaDTO(
@@ -313,7 +316,33 @@ public class EncomendaService {
             encomendaBean.updateOperador(id,operador);
 
         }
+        if (status == EncomendaStatus.ENTREGUE){
+            EmbalagemTransporte embalagemTransporte = encomenda.getEmbalagensTransporte().get(0);
+            List<Sensor> sensores = embalagemTransporte.getSensores();
+            for (Sensor sensor : sensores) {
+                if (sensor.getTypeOfSensor() == TypeOfSensor.GPS){
+                    observacoesBean.create(sensor, 0, "", "Encomenda Entregue com Sucesso", new Date());
+                }
+            }
+        }
         encomendaBean.updateStatus(id, status);
+        return Response.ok("Encomenda atualizada com sucesso!").build();
+    }
+
+    @POST
+    @Path("{id}/status/tentativaEntrega")
+    public Response updateEncomendaStatusTentativaEntrega(@PathParam("id") int id) throws MyEntityNotFoundException {
+        Encomenda encomenda = encomendaBean.find(id);
+        if (encomenda == null){
+            throw new MyEntityNotFoundException("Encomenda com o id " + id + " não existe");
+        }
+        EmbalagemTransporte embalagemTransporte = encomenda.getEmbalagensTransporte().get(0);
+        List<Sensor> sensores = embalagemTransporte.getSensores();
+        for (Sensor sensor : sensores) {
+            if (sensor.getTypeOfSensor() == TypeOfSensor.GPS){
+                observacoesBean.create(sensor, 0, "", "Tentativa de Entrega", new Date());
+            }
+        }
         return Response.ok("Encomenda atualizada com sucesso!").build();
     }
 
