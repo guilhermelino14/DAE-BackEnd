@@ -66,27 +66,28 @@ public class ObservacoesService {
         Sensor sensor = sensorBean.find(observacaoDTO.getSensor());
         List<Embalagem> listaDeEmbalagens = sensor.getEmbalagens();
 
-        if (listaDeEmbalagens.isEmpty()) {
-        }
-        Embalagem embalagem = listaDeEmbalagens.get(0);
-        if (embalagem instanceof EmbalagemProduto) {
-            EmbalagemProduto embalagemProduto = (EmbalagemProduto) embalagem;
-            List<ProdutoFisico> produtoFisicos = embalagemProduto.getProdutoFisicos();
-            if (produtoFisicos.isEmpty()) {
-            }
-            ProdutoFisico produtoFisico = produtoFisicos.get(0);
-            Produto produto = produtoFisico.getProduto();
-            for (SensorRole role :produto.getSensorRoles()) {
-                if (role.getTypeOfSensor().equals(sensor.getTypeOfSensor())){
-                    if(observacaoDTO.getValue() > role.getVal_max()){
-                        observacaoDTO.setObservacao("Valor elevado");
-                    }
-                    if(observacaoDTO.getValue() < role.getVal_min()){
-                        observacaoDTO.setObservacao("Valor baixo");
+        if (!listaDeEmbalagens.isEmpty()) {
+            Embalagem embalagem = listaDeEmbalagens.get(0);
+            if (embalagem instanceof EmbalagemProduto) {
+                EmbalagemProduto embalagemProduto = (EmbalagemProduto) embalagem;
+                List<ProdutoFisico> produtoFisicos = embalagemProduto.getProdutoFisicos();
+                if (!produtoFisicos.isEmpty()) {
+                    ProdutoFisico produtoFisico = produtoFisicos.get(0);
+                    Produto produto = produtoFisico.getProduto();
+                    for (SensorRole role :produto.getSensorRoles()) {
+                        if (role.getTypeOfSensor().equals(sensor.getTypeOfSensor())){
+                            if(observacaoDTO.getValue() > role.getVal_max()){
+                                observacaoDTO.setObservacao("Valor elevado de " +sensor.getTypeOfSensor().toString().toLowerCase());
+                            }
+                            if(observacaoDTO.getValue() < role.getVal_min()){
+                                observacaoDTO.setObservacao("Valor baixo de " +sensor.getTypeOfSensor().toString().toLowerCase());
+                            }
+                        }
                     }
                 }
             }
         }
+
         observacoesBean.create(sensor,observacaoDTO.getValue(), observacaoDTO.getMedida(), observacaoDTO.getObservacao(), new Date());
         return Response.status(Response.Status.CREATED).build();
     }
