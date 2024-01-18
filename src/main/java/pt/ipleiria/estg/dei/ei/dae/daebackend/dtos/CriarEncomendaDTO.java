@@ -24,7 +24,7 @@ public class CriarEncomendaDTO {
         this.produtos = new ArrayList<>();
     }
 
-    public CriarEncomendaDTO(boolean has_sensor,TypeOfSensor typeOfSensor, List<ProdutoDTO> produtos, String consumidor_username) {
+    public CriarEncomendaDTO(boolean has_sensor,TypeOfSensor typeOfSensor, String consumidor_username, List<ProdutoDTO> produtos) {
         this.has_sensor = has_sensor;
         this.typeOfSensor = typeOfSensor;
         this.produtos = new ArrayList<>();
@@ -55,11 +55,11 @@ public class CriarEncomendaDTO {
         this.produtos = produtos;
     }
 
-    public String getConsumidor() {
+    public String getConsumidor_username() {
         return consumidor_username;
     }
 
-    public void setConsumidor(String consumidor_username) {
+    public void setConsumidor_username(String consumidor_username) {
         this.consumidor_username = consumidor_username;
     }
 }

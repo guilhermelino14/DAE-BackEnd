@@ -156,9 +156,9 @@ public class EncomendaService {
 
         System.out.println(criarEncomendaDTO.getTypeOfSensor());
         System.out.println(criarEncomendaDTO.getProdutos());
-        System.out.println(criarEncomendaDTO.getConsumidor());
+        System.out.println(criarEncomendaDTO.getConsumidor_username());
         // CLIENTE
-        Consumidor consumidor = consumidorBean.find(criarEncomendaDTO.getConsumidor());
+        Consumidor consumidor = consumidorBean.find(criarEncomendaDTO.getConsumidor_username());
         // OPERADOR
         //Operador operador = operadorBean.find("operador1");
 

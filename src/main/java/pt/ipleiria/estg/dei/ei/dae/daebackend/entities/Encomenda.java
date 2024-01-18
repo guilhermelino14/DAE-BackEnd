@@ -74,7 +74,7 @@ public class Encomenda {
         this.localizacao = localizacao;
     }
 
-    public Encomenda(Consumidor consumidor, EncomendaStatus pendente, Date date, String fabrica) {
+    public Encomenda(Consumidor consumidor, EncomendaStatus status, Date data, String localizacao) {
         this.consumidor = consumidor;
         this.embalagensTransporte = new ArrayList<>();
         this.produtosFisicos = new ArrayList<>();
