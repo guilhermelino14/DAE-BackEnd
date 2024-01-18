@@ -9,11 +9,8 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ObservacoesDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Observacoes;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.*;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
@@ -32,7 +29,13 @@ public class ObservacoesService {
     @EJB
     private SensorBean sensorBean;
     @EJB
-    private SensorBean produtoBean;
+    private ProdutoBean produtoBean;
+
+    @EJB
+    private EmbalagemProdutoBean embalagemProdutoBean;
+
+    @EJB
+    private ProdutoFisicoBean produtoFisicoBean;
 
     @Context
     private SecurityContext securityContext;
@@ -61,9 +64,29 @@ public class ObservacoesService {
     @Path("/")
     public Response createNewObservacao(ObservacoesDTO observacaoDTO) throws MyEntityNotFoundException {
         Sensor sensor = sensorBean.find(observacaoDTO.getSensor());
-        System.out.println(observacaoDTO.getObservacao());
-        System.out.println(observacaoDTO.getValue());
-        System.out.println(observacaoDTO.getMedida());
+        List<Embalagem> listaDeEmbalagens = sensor.getEmbalagens();
+
+        if (listaDeEmbalagens.isEmpty()) {
+        }
+        Embalagem embalagem = listaDeEmbalagens.get(0);
+        if (embalagem instanceof EmbalagemProduto) {
+            EmbalagemProduto embalagemProduto = (EmbalagemProduto) embalagem;
+            List<ProdutoFisico> produtoFisicos = embalagemProduto.getProdutoFisicos();
+            if (produtoFisicos.isEmpty()) {
+            }
+            ProdutoFisico produtoFisico = produtoFisicos.get(0);
+            Produto produto = produtoFisico.getProduto();
+            for (SensorRole role :produto.getSensorRoles()) {
+                if (role.getTypeOfSensor().equals(sensor.getTypeOfSensor())){
+                    if(observacaoDTO.getValue() > role.getVal_max()){
+                        observacaoDTO.setObservacao("Valor elevado");
+                    }
+                    if(observacaoDTO.getValue() < role.getVal_min()){
+                        observacaoDTO.setObservacao("Valor baixo");
+                    }
+                }
+            }
+        }
         observacoesBean.create(sensor,observacaoDTO.getValue(), observacaoDTO.getMedida(), observacaoDTO.getObservacao(), new Date());
         return Response.status(Response.Status.CREATED).build();
     }

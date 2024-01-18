@@ -7,11 +7,11 @@ import jakarta.persistence.*;
         {
                 @NamedQuery(
                         name = "getAllSensorRoles",
-                        query = "SELECT sr FROM SensorRoles sr"
+                        query = "SELECT sr FROM SensorRole sr"
                 )
         }
 )
-public class SensorRoles {
+public class SensorRole {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
@@ -24,10 +24,10 @@ public class SensorRoles {
 
     private double val_min;
 
-    public SensorRoles() {
+    public SensorRole() {
     }
 
-    public SensorRoles(Produto produto, TypeOfSensor typeOfSensor, double val_max, double val_min) {
+    public SensorRole(Produto produto, TypeOfSensor typeOfSensor, double val_max, double val_min) {
         this.produto = produto;
         this.typeOfSensor = typeOfSensor;
         this.val_max = val_max;

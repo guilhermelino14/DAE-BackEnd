@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
 import jakarta.persistence.*;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.FabricanteBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class Produto {
     private List<ProdutoFisico> produtoFisicos;
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private List<SensorRoles> sensorRoles;
+    private List<SensorRole> sensorRoles;
 
 
     public Produto() {
@@ -116,4 +115,11 @@ public class Produto {
         this.typeOfSensor = typeOfSensor;
     }
 
+    public List<SensorRole> getSensorRoles() {
+        return sensorRoles;
+    }
+
+    public void setSensorRoles(List<SensorRole> sensorRoles) {
+        this.sensorRoles = sensorRoles;
+    }
 }
