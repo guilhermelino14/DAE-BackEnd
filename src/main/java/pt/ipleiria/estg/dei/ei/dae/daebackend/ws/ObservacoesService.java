@@ -12,6 +12,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ObservacoesBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Observacoes;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
@@ -30,6 +31,8 @@ public class ObservacoesService {
     private ObservacoesBean observacoesBean;
     @EJB
     private SensorBean sensorBean;
+    @EJB
+    private SensorBean produtoBean;
 
     @Context
     private SecurityContext securityContext;
@@ -37,6 +40,8 @@ public class ObservacoesService {
     private ObservacoesDTO toDTONoObservacoes(Observacoes observacao) {
         return new ObservacoesDTO(
                 observacao.getId(),
+                observacao.getValue(),
+                observacao.getMedida(),
                 observacao.getObservacao(),
                 observacao.getData()
         );
@@ -56,8 +61,10 @@ public class ObservacoesService {
     @Path("/")
     public Response createNewObservacao(ObservacoesDTO observacaoDTO) throws MyEntityNotFoundException {
         Sensor sensor = sensorBean.find(observacaoDTO.getSensor());
-        observacoesBean.create(sensor,observacaoDTO.getObservacao(), new Date());
-
+        System.out.println(observacaoDTO.getObservacao());
+        System.out.println(observacaoDTO.getValue());
+        System.out.println(observacaoDTO.getMedida());
+        observacoesBean.create(sensor,observacaoDTO.getValue(), observacaoDTO.getMedida(), observacaoDTO.getObservacao(), new Date());
         return Response.status(Response.Status.CREATED).build();
     }
 }

@@ -10,6 +10,10 @@ public class ObservacoesDTO {
     private int id;
 
     @NotNull
+    private double value;
+    @NotNull
+    private String medida;
+    @NotNull
     private String observacao;
 
     @NotNull
@@ -20,8 +24,10 @@ public class ObservacoesDTO {
     public ObservacoesDTO() {
     }
 
-    public ObservacoesDTO(int id, String observacao, Date data) {
+    public ObservacoesDTO(int id, double value, String medida, String observacao, Date data) {
         this.id = id;
+        this.value = value;
+        this.medida = medida;
         this.observacao = observacao;
         this.data = data;
     }
@@ -56,5 +62,21 @@ public class ObservacoesDTO {
 
     public void setSensor(int sensor) {
         this.sensor = sensor;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public String getMedida() {
+        return medida;
+    }
+
+    public void setMedida(String medida) {
+        this.medida = medida;
     }
 }

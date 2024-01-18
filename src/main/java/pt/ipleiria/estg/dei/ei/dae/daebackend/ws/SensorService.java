@@ -75,6 +75,8 @@ public class SensorService {
     private ObservacoesDTO toDTONoObservacoes(Observacoes observacao) {
         return new ObservacoesDTO(
                 observacao.getId(),
+                observacao.getValue(),
+                observacao.getMedida(),
                 observacao.getObservacao(),
                 observacao.getData()
         );

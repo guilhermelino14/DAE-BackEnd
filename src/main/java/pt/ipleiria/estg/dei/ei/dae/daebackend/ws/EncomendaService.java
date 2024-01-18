@@ -111,6 +111,8 @@ public class EncomendaService {
     private ObservacoesDTO toDTO(Observacoes observacoes) {
         var dto = new ObservacoesDTO(
                 observacoes.getId(),
+                observacoes.getValue(),
+                observacoes.getMedida(),
                 observacoes.getObservacao(),
                 observacoes.getData()
         );

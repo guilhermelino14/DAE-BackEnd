@@ -29,7 +29,14 @@ public class Observacoes {
     private Sensor sensor;
 
     @NotNull
+    private double value;
+
+    @NotNull
+    private String medida;
+
+    @NotNull
     private String observacao;
+
 
     @NotNull
     private Date data;
@@ -37,8 +44,10 @@ public class Observacoes {
     public Observacoes() {
     }
 
-    public Observacoes(Sensor sensor, String observacao, Date data) {
+    public Observacoes(Sensor sensor, double value, String medida, String observacao, Date data) {
         this.sensor = sensor;
+        this.value = value;
+        this.medida = medida;
         this.observacao = observacao;
         this.data = data;
     }
@@ -73,5 +82,21 @@ public class Observacoes {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public String getMedida() {
+        return medida;
+    }
+
+    public void setMedida(String medida) {
+        this.medida = medida;
     }
 }

@@ -16,8 +16,9 @@ public class ObservacoesBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(Sensor sensor, String observacao, Date data) {
-        entityManager.persist(new Observacoes(sensor, observacao, data));
+    public void create(Sensor sensor, double value, String medida, String observacao, Date data) {
+
+        entityManager.persist(new Observacoes(sensor, value, medida, observacao, data));
     }
 
     public List<Observacoes> getAll() {

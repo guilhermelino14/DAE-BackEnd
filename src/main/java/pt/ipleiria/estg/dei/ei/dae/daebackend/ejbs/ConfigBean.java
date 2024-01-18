@@ -47,8 +47,8 @@ public class ConfigBean {
         embalagemTransporteBean.create("embalagemTransporte2", 2, 2);
         sensorBean.create(TypeOfSensor.TEMPERATURA);
         sensorBean.create(TypeOfSensor.HUMIDADE);
-        observacoesBean.create(sensorBean.find(1), "Temperatura atingiu 50ºC", new Date());
-        observacoesBean.create(sensorBean.find(2), "Velocidade atingiu 150km/h", new Date());
+        observacoesBean.create(sensorBean.find(1), 50, "ºC", "Temperatura atingiu 50ºC", new Date());
+        observacoesBean.create(sensorBean.find(2), 150, "km/h","Velocidade atingiu 150km/h", new Date());
 //        produtoBean.create("produto1", "categoria1", "descricao1");
 //        produtoBean.associateFabricante(1, "fabricante1");
         createAListOfProducts();
