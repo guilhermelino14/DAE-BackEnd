@@ -2,7 +2,8 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
 public enum EncomendaStatus {
     PENDENTE,
-    CONFIRMACAO,
+    PARA_RECOLHA,
+    RECOLHIDA,
     EM_TRANSITO,
     ENTREGUE,
     CANCELADA

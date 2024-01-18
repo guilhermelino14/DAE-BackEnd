@@ -56,7 +56,7 @@ public class EncomendaBean {
 
     public void updateStatus(int id, EncomendaStatus status) throws MyEntityNotFoundException {
         Encomenda encomenda = find(id);
-        if (status == EncomendaStatus.CONFIRMACAO){
+        if (status == EncomendaStatus.RECOLHIDA){
             encomenda.setLocalizacao("Armazem");
         }
         if (status == EncomendaStatus.EM_TRANSITO){

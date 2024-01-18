@@ -69,7 +69,7 @@ public class FabricanteService {
     @GET
     @Path("/encomendas")
     public List<EncomendaDTO> getEncomendasPendentes() {
-        return toDTOs(encomendaBean.getEncomendasPendentes());
+        return toDTOs(encomendaBean.getAll());
     }
 
 }
