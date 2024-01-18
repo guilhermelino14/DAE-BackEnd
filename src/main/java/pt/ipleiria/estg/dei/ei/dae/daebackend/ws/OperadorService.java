@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Authenticated
+@RolesAllowed({"Operador"})
 public class OperadorService {
     @Context
     private SecurityContext securityContext;

@@ -127,22 +127,6 @@ public class EncomendaService {
         return encomendas.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private List<ProdutoFisicoDTO> toDTOsProdutoFisicos(List<ProdutoFisico> produtoFisicos) {
-        return produtoFisicos.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-    private List<ProdutoDTO> toDTOsProdutos(List<Produto> produtos) {
-        return produtos.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-    private List<EmbalagemTransporteDTO> toDTOsEmbalagensTransporte(List<EmbalagemTransporte> embalagensTransporte) {
-        return embalagensTransporte.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-    private List<EmbalagemProdutoDTO> toDTOsEmbalagensProduto(List<EmbalagemProduto> embalagensProduto) {
-        return embalagensProduto.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
     private List<ObservacoesDTO> toDTOsObservacoes(List<Observacoes> observacoes) {
         return observacoes.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -193,106 +177,6 @@ public class EncomendaService {
 
         return Response.ok(criarEncomendaDTO).build();
     }
-
-//    @POST
-//    @Path("/")
-//    public Response createEncomenda(List<Produto> produtos) throws Exception {
-//        String username = securityContext.getUserPrincipal().getName();
-//        Consumidor consumidorFinded = consumidorBean.find(username);
-//        Operador operadorFinded = operadorBean.find("operador1");
-//
-//        encomendaBean.create(operadorFinded, consumidorFinded);
-//        Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
-//
-//        for (Produto produtoFromList : produtos) {
-//            Produto produto = produtoBean.find(produtoFromList.getId());
-//            EmbalagemProduto embalagemProduto = embalagemProdutoBean.create("Embalagem de "+produto.getQuantidade()+" Produtos", 10, 10);
-//            if (produto.getProdutoFisicos().isEmpty()){
-//                System.out.println(produto.getTypeOfSensor());
-//                Sensor sensor = sensorBean.create(produto.getTypeOfSensor());
-//                sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
-//            }
-//            for (int i = 0; i < produto.getQuantidade(); i++){
-//              ProdutoFisico produtoFisico = produtoFisicoBean.create(produto);
-//              produtoFisicoBean.addEmbalagemProduto(produtoFisico.getReferencia(), embalagemProduto.getId());
-//              encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
-//            }
-//        }
-//
-//        EmbalagemTransporte embalagemTransporte = embalagemTransporteBean.create("Embalagem de Transporte", 10, 10);
-//        embalagemTransporteBean.addEncomenda(embalagemTransporte.getId(), encomenda.getId());
-//
-//        return Response.ok("Encomenda criada com sucesso!").build();
-//    }
-
-//    @POST
-//    @Path("/")
-//    public Response createEncomenda(List<Produto> produtos) throws MyEntityNotFoundException{
-//
-//        List<ProdutoFisico> produtosEncomenda= new ArrayList<>();
-//        List<Integer> produtoIds = new ArrayList<>();
-//        for (Produto produto : produtos) {
-//            produtoIds.add(produto.getId());
-//        }
-//        List<ProdutoFisico> produtosFisicosFound = produtoFisicoBean.findProdutosFisicosByProdutoIds(produtoIds);
-//        for (Produto produto : produtos){
-//            // ir a lista buscar o primeiro produto fisico com o id do produto
-//            for (ProdutoFisico produtoFisico : produtosFisicosFound){
-//                if (produtoFisico.getProduto().getId() == produto.getId()){
-//                    produtosEncomenda.add(produtoFisico);
-//                    produtosFisicosFound.remove(produtoFisico);
-//                    break;
-//                }
-//            }
-//        }
-//        if (produtosEncomenda.size() != produtoIds.size()){
-//                throw new MyEntityNotFoundException("Encomenda não pode ser criada, não existe stock para todos os produtos");
-//        }
-//
-////        SE EXISTIR STOCK, CRIAMOS A ENCOMENDA
-//        String username = securityContext.getUserPrincipal().getName();
-//        Consumidor consumidorFinded = consumidorBean.find(username);
-//        Operador operadorFinded = operadorBean.find("operador1");
-//
-//        encomendaBean.create(operadorFinded, consumidorFinded);
-//        Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
-//
-//        for (ProdutoFisico produtoFisico : produtosEncomenda) {
-//            encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
-//        }
-//
-//        return Response.ok("Encomenda criada com sucesso!").build();
-//
-//
-//
-//
-////        // CRIAR UMA LISTA DE ITEMS VAZIA
-////        List<ProdutoFisico> produtoFisicos= new ArrayList<>();
-////        // RECEBEMOS OS PRODUTOS POR PARAMETRO E VERIFICAMOS SE EXISTE STOCK (PRODUTOS FISICOS)
-////        for (Produto produto : produtos) {
-////            // FALTA VERIFICAR O STOCK
-////            ProdutoFisico productFinded = produtoFisicoBean.findFirstProdutoFisicoByProdutoId(produto.getId());
-////            if (productFinded == null) {
-////                throw new MyEntityNotFoundException("Produto com o id " + produto.getId() + " não tem stock");
-////            }
-////            produtoFisicos.add(productFinded);
-////            System.out.println(produto.getId());
-////        }
-////        //SE EXISTIR STOCK, CRIAMOS A ENCOMENDA
-////        String username = securityContext.getUserPrincipal().getName();
-////        Consumidor consumidorFinded = consumidorBean.find(username);
-////        Operador operadorFinded = operadorBean.find("operador1");
-////
-////        encomendaBean.create(operadorFinded, consumidorFinded);
-////        Encomenda encomenda = encomendaBean.getAll().get(encomendaBean.getAll().size() - 1);
-////
-////        //ADICIONAMOS OS PRODUTOS FISICOS A ENCOMENDA
-////        for (ProdutoFisico produtoFisico : produtoFisicos) {
-////            encomendaBean.addProduct(encomenda.getId(), produtoFisico.getReferencia());
-////        }
-////
-////        return Response.ok("Encomenda criada com sucesso!").build();
-//    }
 
     @GET
     @Path("{id}")

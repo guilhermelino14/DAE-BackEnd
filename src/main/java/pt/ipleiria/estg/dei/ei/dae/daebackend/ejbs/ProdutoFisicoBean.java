@@ -46,35 +46,6 @@ public class ProdutoFisicoBean {
         return query.getResultList();
     }
 
-    public List<ProdutoFisico> findProdutosFisicosByProdutoIds(List<Integer> produtoIds) {
-        return entityManager.createNamedQuery("getAllProdutosFisicosByProdutoIds", ProdutoFisico.class)
-                .setParameter("produtoIds", produtoIds)
-                .getResultList();
-    }
-    public List<ProdutoFisico> findProdutosFisicosByProdutoId(int produtoId) {
-        return entityManager.createNamedQuery("getAllProdutosFisicosByProdutoId", ProdutoFisico.class)
-                .setParameter("produtoId", produtoId)
-                .getResultList();
-    }
-
-
-//    public List<ProdutoFisico> findFirstProdutoFisicoByProdutoId(int produtoId) throws MyEntityNotFoundException {
-//        List<ProdutoFisico> query = entityManager.createNamedQuery("getAllProdutosFisicosByProdutoId", ProdutoFisico.class)
-//                .setParameter("produtoId", produtoId)
-//                .getResultList();
-//
-//        if (query.isEmpty()) {
-//            throw new MyEntityNotFoundException("Produto with produtoId: " + produtoId + " dont have stock");
-//        }
-//        return query;
-//    }
-
-    public long getCountProdutosFisicosByProdutoIdWithoutEncomenda(int produtoId) {
-        return entityManager.createNamedQuery("getCountProdutosFisicosByProdutoIdWithoutEncomenda", Long.class)
-                .setParameter("produtoId", produtoId)
-                .getSingleResult();
-    }
-
     public void addEmbalagemProduto(int referencia, int embalagemProdutoId) throws MyEntityNotFoundException {
         ProdutoFisico produtoFisico = find(referencia);
         EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, embalagemProdutoId);

@@ -46,10 +46,6 @@ public class EncomendaBean {
         return false;
     }
 
-    public List<Encomenda> getEncomendasPendentes() {
-        return entityManager.createNamedQuery("getAllEncomendasStatusPendetes", Encomenda.class).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
-    }
-
     public List<Encomenda> getEncomendasFromHimAndNotPendentes(String operadorUsername) {
         return entityManager.createNamedQuery("getAllEncomendasFromHimAndNotPendentes", Encomenda.class).setParameter("operadorUsername", operadorUsername).setParameter("status", EncomendaStatus.PENDENTE).getResultList();
     }

@@ -50,15 +50,6 @@ public class SensorBean {
         return sensor;
     }
 
-    public boolean update(int id, String nome, String descricao) throws MyEntityNotFoundException {
-        Sensor sensor = find(id);
-        if (sensor == null) {
-            throw new MyEntityNotFoundException("Sensor with id " + id + " not found.");
-        }
-        entityManager.merge(sensor);
-        return true;
-    }
-
     public boolean delete(int id) throws MyEntityNotFoundException {
         Sensor sensor = find(id);
         if (sensor == null) {

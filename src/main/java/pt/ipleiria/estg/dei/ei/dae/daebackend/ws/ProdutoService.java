@@ -97,13 +97,9 @@ public class ProdutoService {
         return embalagensProduto.stream().map(this::toDTOEmbalagemProduto).collect(Collectors.toList());
     }
 
-    private List<ProdutoFisicoDTO> toDTOsProdutosFisicos(List<ProdutoFisico> produtosFisicos) {
-        return produtosFisicos.stream().map(this::toDTOProdutoFisico).collect(Collectors.toList());
-    }
-
     @GET
     @Path("/")
-    @RolesAllowed({"Fabricante", "Consumidor"})
+    @RolesAllowed({"Fabricante"})
     public List<ProdutoDTO> getAllProdutos() {
         return toDTOsProdutos(produtoBean.getAll());
     }

@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Authenticated
+@RolesAllowed({"Consumidor", "Fabricante"})
 public class ConsumidorService {
     @Context
     private SecurityContext securityContext;

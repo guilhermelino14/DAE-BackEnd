@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Authenticated
+@RolesAllowed({"Fabricante"})
 public class FabricanteService {
 
     @EJB
