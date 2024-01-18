@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
 
 import java.util.ArrayList;
@@ -15,14 +16,19 @@ public class CriarEncomendaDTO {
     @NotNull
     private List<ProdutoDTO> produtos;
 
+    @NotNull
+    private String consumidor_username;
+
+
     public CriarEncomendaDTO() {
         this.produtos = new ArrayList<>();
     }
 
-    public CriarEncomendaDTO(boolean has_sensor,TypeOfSensor typeOfSensor, List<ProdutoDTO> produtos) {
+    public CriarEncomendaDTO(boolean has_sensor,TypeOfSensor typeOfSensor, List<ProdutoDTO> produtos, String consumidor_username) {
         this.has_sensor = has_sensor;
         this.typeOfSensor = typeOfSensor;
         this.produtos = new ArrayList<>();
+        this.consumidor_username = consumidor_username;
     }
 
     public boolean isHas_sensor() {
@@ -34,7 +40,7 @@ public class CriarEncomendaDTO {
     }
 
     public List<ProdutoDTO> getProdutos() {
-        return produtos;
+        return new ArrayList<>(produtos);
     }
 
     public void setHas_sensor(boolean has_sensor) {
@@ -45,4 +51,15 @@ public class CriarEncomendaDTO {
         this.typeOfSensor = typeOfSensor;
     }
 
+    public void setProdutos(List<ProdutoDTO> produtos) {
+        this.produtos = produtos;
+    }
+
+    public String getConsumidor() {
+        return consumidor_username;
+    }
+
+    public void setConsumidor(String consumidor_username) {
+        this.consumidor_username = consumidor_username;
+    }
 }

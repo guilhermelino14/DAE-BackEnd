@@ -74,6 +74,15 @@ public class Encomenda {
         this.localizacao = localizacao;
     }
 
+    public Encomenda(Consumidor consumidor, EncomendaStatus pendente, Date date, String fabrica) {
+        this.consumidor = consumidor;
+        this.embalagensTransporte = new ArrayList<>();
+        this.produtosFisicos = new ArrayList<>();
+        this.status = status;
+        this.data = data;
+        this.localizacao = localizacao;
+    }
+
     public int getId() {
         return id;
     }

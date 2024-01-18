@@ -17,8 +17,8 @@ public class EncomendaBean {
     private EntityManager entityManager;
 
 
-    public Encomenda create(Operador operador, Consumidor consumidor) {
-        Encomenda encomenda =new Encomenda(operador, consumidor, EncomendaStatus.PENDENTE, new Date(), "Fabrica");
+    public Encomenda create(Consumidor consumidor) {
+        Encomenda encomenda = new Encomenda(consumidor, EncomendaStatus.PENDENTE, new Date(), "Fabrica");
         entityManager.persist(encomenda);
         return encomenda;
     }

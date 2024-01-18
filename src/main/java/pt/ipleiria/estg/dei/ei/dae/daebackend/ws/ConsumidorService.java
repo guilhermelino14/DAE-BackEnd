@@ -70,4 +70,11 @@ public class ConsumidorService {
         return Response.ok(toDTOsEncomenda(encomendas)).build();
     }
 
+    @GET
+    @Path("/")
+    public Response getConsumidores(){
+        List<Consumidor> consumidores = consumidorBean.getAll();
+        return  Response.ok(toDTOs(consumidores)).build();
+    }
+
 }

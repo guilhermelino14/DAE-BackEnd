@@ -153,13 +153,17 @@ public class EncomendaService {
     @POST
     @Path("/")
     public Response createEncomenda(CriarEncomendaDTO criarEncomendaDTO) throws Exception {
+
+        System.out.println(criarEncomendaDTO.getTypeOfSensor());
+        System.out.println(criarEncomendaDTO.getProdutos());
+        System.out.println(criarEncomendaDTO.getConsumidor());
         // CLIENTE
-        Consumidor consumidor = consumidorBean.find("consumidor1");
+        Consumidor consumidor = consumidorBean.find(criarEncomendaDTO.getConsumidor());
         // OPERADOR
-        Operador operador = operadorBean.find("operador1");
+        //Operador operador = operadorBean.find("operador1");
 
         // CRIAR ENCOMENDA
-        Encomenda encomenda = encomendaBean.create(operador, consumidor);
+        Encomenda encomenda = encomendaBean.create(consumidor);
 
         // BUSCAR PRODUTOS
         for (ProdutoDTO produto : criarEncomendaDTO.getProdutos()){
