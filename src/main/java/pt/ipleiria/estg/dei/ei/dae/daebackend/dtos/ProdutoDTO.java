@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Fabricante;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorRole;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
 
 import java.util.ArrayList;
@@ -25,9 +26,12 @@ public class ProdutoDTO {
 
     public TypeOfSensor typeOfSensor;
 
+    public List<SensorRoleDTO> sensorRoles;
+
 
     public ProdutoDTO() {
         this.produtoFisicos = new ArrayList<>();
+        this.sensorRoles = new ArrayList<>();
     }
 
     public ProdutoDTO(int id, String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor) {
@@ -36,6 +40,7 @@ public class ProdutoDTO {
         this.categoria = categoria;
         this.descricao = descricao;
         this.produtoFisicos = new ArrayList<>();
+        this.sensorRoles = new ArrayList<>();
         this.quantidade = quantidade;
         this.typeOfSensor = typeOfSensor;
     }
@@ -72,6 +77,10 @@ public class ProdutoDTO {
         return typeOfSensor;
     }
 
+    public List<SensorRoleDTO> getSensorRoles() {
+        return sensorRoles;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -102,5 +111,9 @@ public class ProdutoDTO {
 
     public void setTypeOfSensor(TypeOfSensor typeOfSensor) {
         this.typeOfSensor = typeOfSensor;
+    }
+
+    public void setSensorRoles(List<SensorRoleDTO> sensorRoles) {
+        this.sensorRoles = sensorRoles;
     }
 }
