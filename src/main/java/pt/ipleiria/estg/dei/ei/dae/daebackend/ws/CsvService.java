@@ -5,16 +5,20 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.CsvDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.ProdutoDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.EncomendaBean;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.FabricanteBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ProdutoBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Fabricante;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.providers.CSVExporter;
@@ -31,6 +35,10 @@ import java.util.stream.Collectors;
 @RolesAllowed({"Fabricante"})
 
 public class CsvService {
+    @Context
+    private SecurityContext securityContext;
+    @EJB
+    private FabricanteBean fabricanteBean;
 
     @EJB
     private EncomendaBean encomendaBean;
@@ -114,6 +122,18 @@ public class CsvService {
         List<ProdutoDTO> produtoDTOS = toDTOsProdutos(produtoBean.getAll());
         CSVExporter<ProdutoDTO> exporter = new CSVExporter<ProdutoDTO>();
         return Response.ok(exporter.generateCSV(produtoDTOS, new ProdutoDTO())).build();
+    }
+
+    @POST
+    @Path("/produtos")
+    public Response createProdutosCSV(CsvDTO csvDTO) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+        Fabricante fabricante = fabricanteBean.find(securityContext.getUserPrincipal().getName());
+        CSVImporter<ProdutoDTO> importer = new CSVImporter<>();
+        List<ProdutoDTO> produtoDTOS = importer.importManyFromCSV(csvDTO.getCsv(), new ProdutoDTO());
+        for (ProdutoDTO produtoDTO : produtoDTOS) {
+            produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade(), produtoDTO.getTypeOfSensor(), fabricante.getUsername());
+        }
+        return Response.ok().build();
     }
 
 }
