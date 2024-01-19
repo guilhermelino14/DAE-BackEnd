@@ -21,6 +21,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Fabricante;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.providers.CSVExporter;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.providers.CSVImporter;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
@@ -127,7 +128,7 @@ public class CsvService {
 
     @POST
     @Path("/produtos")
-    public Response createProdutosCSV(CsvDTO csvDTO) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+    public Response createProdutosCSV(CsvDTO csvDTO) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException, MyEntityNotFoundException {
         Fabricante fabricante = fabricanteBean.find(securityContext.getUserPrincipal().getName());
         CSVImporter<ProdutoDTO> importer = new CSVImporter<>();
         List<ProdutoDTO> produtoDTOS = importer.importManyFromCSV(csvDTO.getCsv(), new ProdutoDTO());

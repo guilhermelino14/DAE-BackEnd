@@ -12,6 +12,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.EncomendaDTO;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.ConsumidorBean;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class ConsumidorService {
 
     @GET
     @Path("{username}")
-    public Response getConsumidor(@PathParam("username") String username) {
+    public Response getConsumidor(@PathParam("username") String username) throws MyEntityNotFoundException {
         var consumidor = consumidorBean.find(username);
         return Response.ok(toDTO(consumidor)).build();
     }
