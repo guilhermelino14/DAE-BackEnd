@@ -38,13 +38,9 @@ public class ConfigBean {
 
     @PostConstruct
     public void populateDB() throws MyEntityNotFoundException {
-        fabricanteBean.create("fabricante1", "fabricante1", "fabricante1", "fabricante1@mail.com");
-        operadorBean.create("operador1", "operador1", "operador1", "operador1@mail.com");
-        consumidorBean.create("consumidor1", "consumidor1", "consumidor1", "consumidor1@mail.com", "Morada1");
-        embalagemProdutoBean.create("embalagemProduto1", 1, 1);
-        embalagemProdutoBean.create("embalagemProduto2", 2, 2);
-        embalagemTransporteBean.create("embalagemTransporte1", 1, 1);
-        embalagemTransporteBean.create("embalagemTransporte2", 2, 2);
+        fabricanteBean.create("fabricante1", "fabricante1", "João Antonio", "fabricante1@mail.com");
+        operadorBean.create("operador1", "operador1", "GLS", "operador1@mail.com");
+        consumidorBean.create("consumidor1", "consumidor1", "Tomas Andrade", "consumidor1@mail.com", "Morada1");
         sensorBean.create(TypeOfSensor.TEMPERATURA);
         sensorBean.create(TypeOfSensor.HUMIDADE);
         observacoesBean.create(sensorBean.find(1), 50, "ºC", "Temperatura atingiu 50ºC", new Date());
@@ -52,13 +48,6 @@ public class ConfigBean {
 //        produtoBean.create("produto1", "categoria1", "descricao1");
 //        produtoBean.associateFabricante(1, "fabricante1");
         createAListOfProducts();
-        produtoFisicoBean.create(produtoBean.find(1));
-        produtoFisicoBean.create(produtoBean.find(2));
-        produtoFisicoBean.create(produtoBean.find(1));
-        encomendaBean.create(consumidorBean.find("consumidor1"));
-        encomendaBean.addProduct(1, 1);
-        sensorBean.associarSensorAEmbalagem(1, 1);
-        produtoFisicoBean.addEmbalagemProduto(1, 1);
         sensorRulesBean.create(produtoBean.find(1), TypeOfSensor.TEMPERATURA, 50, 25);
         sensorRulesBean.create(produtoBean.find(1), TypeOfSensor.HUMIDADE, 50, 25);
     }
