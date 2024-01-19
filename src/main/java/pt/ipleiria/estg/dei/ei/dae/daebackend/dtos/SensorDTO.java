@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import jakarta.validation.constraints.NotNull;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
 
@@ -8,8 +10,12 @@ import java.util.List;
 
 public class SensorDTO {
     @NotNull
+    @CsvBindByName(column = "id")
+    @CsvBindByPosition(position = 0)
     private int id;
     @NotNull
+    @CsvBindByName(column = "typeOfSensor")
+    @CsvBindByPosition(position = 1)
     private TypeOfSensor typeOfSensor;
 
     public List<ObservacoesDTO> observacoes;

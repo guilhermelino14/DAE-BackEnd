@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.ws;
 
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
@@ -11,6 +13,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.ejbs.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.providers.CSVExporter;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Authenticated;
 
 import java.util.ArrayList;

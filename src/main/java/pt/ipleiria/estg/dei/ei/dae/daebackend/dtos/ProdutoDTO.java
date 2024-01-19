@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import jakarta.validation.constraints.NotNull;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Fabricante;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.SensorRole;
@@ -10,20 +12,32 @@ import java.util.List;
 
 public class ProdutoDTO {
     @NotNull
+    @CsvBindByName(column = "id")
+    @CsvBindByPosition(position = 0)
     private int id;
     @NotNull
+    @CsvBindByName(column = "nome")
+    @CsvBindByPosition(position = 1)
     private String nome;
     @NotNull
+    @CsvBindByName(column = "categoria")
+    @CsvBindByPosition(position = 2)
     private String categoria;
     @NotNull
+    @CsvBindByName(column = "descricao")
+    @CsvBindByPosition(position = 3)
     private String descricao;
 
     public Fabricante fabricante;
 
     public List<ProdutoFisicoDTO> produtoFisicos;
 
+    @CsvBindByName(column = "quantidade")
+    @CsvBindByPosition(position = 4)
     private int quantidade;
 
+    @CsvBindByName(column = "typeOfSensor")
+    @CsvBindByPosition(position = 5)
     public TypeOfSensor typeOfSensor;
 
     public List<SensorRoleDTO> sensorRoles;

@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.entities;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -54,12 +56,12 @@ public class Encomenda {
                     referencedColumnName = "id"
             )
     )
+
     private List<EmbalagemTransporte> embalagensTransporte;
 
     private Date data;
 
     private EncomendaStatus status;
-
     private String localizacao;
 
 

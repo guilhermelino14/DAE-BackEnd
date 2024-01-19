@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.daebackend.dtos;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 import jakarta.validation.constraints.NotNull;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 
@@ -9,6 +11,8 @@ import java.util.List;
 
 public class EncomendaDTO {
     @NotNull
+    @CsvBindByName(column = "id")
+    @CsvBindByPosition(position = 0)
     private int id;
 
     @NotNull
@@ -20,12 +24,19 @@ public class EncomendaDTO {
     public List<EmbalagemTransporteDTO> embalagensTransporte;
     public List<ProdutoFisicoDTO> produtosFisicos;
 
+
     public List<EmbalagemProdutoDTO> embalagensProduto;
 
+    @CsvBindByName(column = "status")
+    @CsvBindByPosition(position = 1)
     public EncomendaStatus status;
 
+    @CsvBindByName(column = "data")
+    @CsvBindByPosition(position = 2)
     public Date data;
 
+    @CsvBindByName(column = "localizacao")
+    @CsvBindByPosition(position = 3)
     public String localizacao;
 
     public EncomendaDTO() {
