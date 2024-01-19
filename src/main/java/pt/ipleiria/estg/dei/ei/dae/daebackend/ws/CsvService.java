@@ -91,6 +91,7 @@ public class CsvService {
 
     @GET
     @Path("/encomendas")
+    @RolesAllowed({"Fabricante", "Operador"})
     public Response getEncomendasCSV() throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
         List<EncomendaDTO> encomendaDTOS = toDTOs(encomendaBean.getAll());
         CSVExporter<EncomendaDTO> exporter = new CSVExporter<EncomendaDTO>();
