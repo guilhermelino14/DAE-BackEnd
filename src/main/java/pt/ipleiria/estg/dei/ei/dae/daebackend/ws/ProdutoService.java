@@ -160,4 +160,11 @@ public class ProdutoService {
         return Response.status(Response.Status.OK).build();
     }
 
+    @POST
+    @Path("{id}/createRole")
+    public Response createSensorRole(@PathParam("id") int id, SensorRoleDTO sensorRoleDTO) throws MyEntityNotFoundException {
+        produtoBean.createSensorRole(id, sensorRoleDTO.getTypeOfSensor(), sensorRoleDTO.getVal_max(), sensorRoleDTO.getVal_min());
+        return Response.ok("Sensor role created").build();
+    }
+
 }

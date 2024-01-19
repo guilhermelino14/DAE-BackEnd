@@ -66,4 +66,11 @@ public class ProdutoBean {
         return false;
     }
 
+    public SensorRole createSensorRole(int produto_id, TypeOfSensor typeOfSensor, double val_max, double val_min) throws MyEntityNotFoundException {
+        Produto produto = find(produto_id);
+        SensorRole sensorRole = new SensorRole(produto,typeOfSensor, val_max, val_min);
+        entityManager.persist(sensorRole);
+        return sensorRole;
+    }
+
 }
