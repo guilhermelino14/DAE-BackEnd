@@ -65,9 +65,15 @@ public class ObservacoesService {
     public Response createNewObservacao(ObservacoesDTO observacaoDTO) throws MyEntityNotFoundException {
         Sensor sensor = sensorBean.find(observacaoDTO.getSensor());
         List<Embalagem> listaDeEmbalagens = sensor.getEmbalagens();
-
         if (!listaDeEmbalagens.isEmpty()) {
             Embalagem embalagem = listaDeEmbalagens.get(0);
+            if(sensor.getTypeOfSensor() == TypeOfSensor.ABERTURA){
+                if(observacaoDTO.getValue()!=0){
+                    observacaoDTO.setObservacao("Embalagem foi aberta");
+                }else{
+                    observacaoDTO.setObservacao("Embalagem foi fechada");
+                }
+            }
             if (embalagem instanceof EmbalagemProduto) {
                 EmbalagemProduto embalagemProduto = (EmbalagemProduto) embalagem;
                 List<ProdutoFisico> produtoFisicos = embalagemProduto.getProdutoFisicos();
@@ -76,6 +82,7 @@ public class ObservacoesService {
                     Produto produto = produtoFisico.getProduto();
                     for (SensorRole role :produto.getSensorRoles()) {
                         if (role.getTypeOfSensor().equals(sensor.getTypeOfSensor())){
+
                             if(observacaoDTO.getValue() > role.getVal_max()){
                                 observacaoDTO.setObservacao("Valor elevado de " +sensor.getTypeOfSensor().toString().toLowerCase());
                             }
