@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemTransporte;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyIllegalArgumentException;
 
 import java.util.List;
 
@@ -21,40 +22,46 @@ public class EmbalagemTransporteBean {
         return embalagemTransporte;
     }
 
-    public EmbalagemTransporte find(int id) {
-        return entityManager.find(EmbalagemTransporte.class, id);
+    public EmbalagemTransporte find(int id) throws MyEntityNotFoundException {
+        EmbalagemTransporte embalagemTransporte = entityManager.find(EmbalagemTransporte.class, id);
+        if(embalagemTransporte == null){
+            throw new MyEntityNotFoundException("EmbalagemTransporte with id '" + id + " not found'");
+        }
+        return embalagemTransporte;
     }
 
-    public void remove(int id) {
+    public void remove(int id) throws MyEntityNotFoundException {
         EmbalagemTransporte embalagemTransporte = find(id);
-        if (embalagemTransporte != null) {
-            entityManager.remove(embalagemTransporte);
-        }
+        entityManager.remove(embalagemTransporte);
     }
 
     public List<EmbalagemTransporte> getAll()  {
         return entityManager.createNamedQuery("getAllEmbalagensTransporte", EmbalagemTransporte.class).getResultList();
     }
 
-    public void addEncomenda(int idEmbalagemTransporte, int idEncomenda) throws Exception {
+    public void addEncomenda(int idEmbalagemTransporte, int idEncomenda) throws MyEntityNotFoundException, MyIllegalArgumentException {
         EmbalagemTransporte embalagemTransporte = find(idEmbalagemTransporte);
         Encomenda encomenda = entityManager.find(Encomenda.class, idEncomenda);
-        if (embalagemTransporte != null && encomenda != null) {
-            if (!embalagemTransporte.getEncomendas().isEmpty()) {
-                throw new Exception("Embalagem de Transporte ja esta associada a uma encomenda");
-            }
-            embalagemTransporte.addEncomenda(encomenda);
-            encomenda.addEmbalagemTransporte(embalagemTransporte);
+        if (encomenda == null) {
+            throw new MyEntityNotFoundException("Encomenda with id '" + idEncomenda + "' not found");
         }
+        if (!embalagemTransporte.getEncomendas().isEmpty()) {
+            throw new MyIllegalArgumentException("Embalagem de Transporte ja esta associada a uma encomenda");
+        }
+        embalagemTransporte.addEncomenda(encomenda);
+        encomenda.addEmbalagemTransporte(embalagemTransporte);
+
     }
 
-    public void removeEncomenda(int idEmbalagemTransporte, int idEncomenda) {
+    public void removeEncomenda(int idEmbalagemTransporte, int idEncomenda) throws MyEntityNotFoundException {
         EmbalagemTransporte embalagemTransporte = find(idEmbalagemTransporte);
         Encomenda encomenda = entityManager.find(Encomenda.class, idEncomenda);
-        if (embalagemTransporte != null && encomenda != null) {
-            embalagemTransporte.removeEncomenda(encomenda);
-            encomenda.removeEmbalagemTransporte(embalagemTransporte);
+        if (encomenda == null) {
+            throw new MyEntityNotFoundException("Encomenda with id '" + idEncomenda + "' not found");
         }
+        embalagemTransporte.removeEncomenda(encomenda);
+        encomenda.removeEmbalagemTransporte(embalagemTransporte);
+
     }
 
     public void associarEmbalagemAoSensor(int idEmbalagem, int idSensor) throws MyEntityNotFoundException {

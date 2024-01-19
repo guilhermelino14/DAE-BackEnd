@@ -81,7 +81,7 @@ public class EmbalagemTransporteService {
 
     @GET
     @Path("{id}")
-    public Response getEmbalagemTransporteDetails(@PathParam("id") int id) {
+    public Response getEmbalagemTransporteDetails(@PathParam("id") int id) throws MyEntityNotFoundException {
         EmbalagemTransporte embalagemTransporte = embalagemTransporteBean.find(id);
         if (embalagemTransporte != null) {
             return Response.status(Response.Status.OK).entity(toDTO(embalagemTransporte)).build();
@@ -102,7 +102,7 @@ public class EmbalagemTransporteService {
 
     @DELETE
     @Path("{id}")
-    public Response deleteEmbalagemTransporte(@PathParam("id") int id) {
+    public Response deleteEmbalagemTransporte(@PathParam("id") int id) throws MyEntityNotFoundException {
         embalagemTransporteBean.remove(id);
         return Response.ok("Embalagem de transporte removida com sucesso").build();
     }
@@ -116,7 +116,7 @@ public class EmbalagemTransporteService {
 
     @DELETE
     @Path("{id}/removeEncomenda/{idEncomenda}")
-    public Response removeEncomenda(@PathParam("id") int id, @PathParam("idEncomenda") int idEncomenda) {
+    public Response removeEncomenda(@PathParam("id") int id, @PathParam("idEncomenda") int idEncomenda) throws MyEntityNotFoundException {
         embalagemTransporteBean.removeEncomenda(id, idEncomenda);
         return Response.ok("Encomenda removida com sucesso").build();
     }

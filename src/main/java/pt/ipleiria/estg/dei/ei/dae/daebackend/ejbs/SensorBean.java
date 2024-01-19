@@ -4,7 +4,6 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Embalagem;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Sensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.TypeOfSensor;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
@@ -45,36 +44,35 @@ public class SensorBean {
     public Sensor find(int id) throws MyEntityNotFoundException {
         Sensor sensor = entityManager.find(Sensor.class, id);
         if (sensor == null) {
-            throw new MyEntityNotFoundException("Sensor with id " + id + " not found.");
+            throw new MyEntityNotFoundException("Sensor with id '" + id + "' not found.");
         }
         return sensor;
     }
 
     public boolean delete(int id) throws MyEntityNotFoundException {
         Sensor sensor = find(id);
-        if (sensor == null) {
-            throw new MyEntityNotFoundException("Sensor with id " + id + " not found.");
-        }
         entityManager.remove(sensor);
         return true;
     }
 
     public void associarSensorAEmbalagem(int idSensor, int idEmbalagem) throws MyEntityNotFoundException {
-        Sensor sensor = entityManager.find(Sensor.class, idSensor);
+        Sensor sensor = find(idSensor);
         Embalagem embalagem = entityManager.find(Embalagem.class, idEmbalagem);
-        if (sensor != null && embalagem != null) {
-            sensor.addEmbalagem(embalagem);
-            embalagem.addSensor(sensor);
+        if (embalagem == null) {
+            throw  new MyEntityNotFoundException("Embalagem with id '" + idEmbalagem + "' not found");
         }
+        sensor.addEmbalagem(embalagem);
+        embalagem.addSensor(sensor);
     }
 
     public void dissociarSensoresFromEmbalagem(int idEmbalagem) throws MyEntityNotFoundException {
         Embalagem embalagem = entityManager.find(Embalagem.class, idEmbalagem);
-        if (embalagem != null) {
-            embalagem.getSensores().forEach(sensor -> {
-                sensor.removeEmbalagem(embalagem);
-            });
-            embalagem.getSensores().clear();
+        if (embalagem == null) {
+            throw  new MyEntityNotFoundException("Embalagem with id " + idEmbalagem + " not found");
         }
+        embalagem.getSensores().forEach(sensor -> {
+            sensor.removeEmbalagem(embalagem);
+        });
+        embalagem.getSensores().clear();
     }
 }
