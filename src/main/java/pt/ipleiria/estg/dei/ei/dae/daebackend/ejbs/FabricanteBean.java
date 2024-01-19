@@ -4,8 +4,8 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Fabricante;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Hasher;
 
 import java.util.List;
@@ -25,7 +25,11 @@ public class FabricanteBean {
     public List<Fabricante> getAll()  {
         return entityManager.createNamedQuery("getAllFabricantes", Fabricante.class).getResultList();
     }
-    public Fabricante find(String username) {
-        return entityManager.find(Fabricante.class, username);
+    public Fabricante find(String username) throws MyEntityNotFoundException {
+        Fabricante fabricante = entityManager.find(Fabricante.class, username);
+        if(fabricante == null){
+            throw new MyEntityNotFoundException("Fabricante with username '" + username + "' not found.");
+        }
+        return fabricante;
     }
 }

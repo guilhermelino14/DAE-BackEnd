@@ -19,7 +19,7 @@ public class ProdutoBean {
     @EJB
     private FabricanteBean fabricanteBean;
 
-    public void create(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor,String fabricanteUsername) {
+    public void create(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor,String fabricanteUsername) throws MyEntityNotFoundException {
         Produto produto = new Produto(nome, categoria, descricao, quantidade, typeOfSensor);
         Fabricante fabricante = fabricanteBean.find(fabricanteUsername);
         produto.setFabricante(fabricante);
@@ -33,7 +33,7 @@ public class ProdutoBean {
     public Produto find(int id) throws MyEntityNotFoundException {
         Produto produto = entityManager.find(Produto.class, id);
         if (produto == null) {
-            throw new MyEntityNotFoundException("Produto with id " + id + " not found.");
+            throw new MyEntityNotFoundException("Produto with id '" + id + "' not found.");
         }
         return produto;
     }

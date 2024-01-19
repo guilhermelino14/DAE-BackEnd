@@ -26,7 +26,7 @@ public class EncomendaBean {
     public Encomenda find(int id) throws MyEntityNotFoundException {
         Encomenda encomenda = entityManager.find(Encomenda.class, id);
         if (encomenda == null) {
-            throw new MyEntityNotFoundException("Produto with id " + id + " not found.");
+            throw new MyEntityNotFoundException("Encomenda with id '" + id + "' not found.");
         }
         return encomenda;
     }
@@ -35,15 +35,15 @@ public class EncomendaBean {
         return entityManager.createNamedQuery("getAllEncomendas", Encomenda.class).getResultList();
     }
 
-    public boolean addProduct(int id, int productReference) {
-        Encomenda encomenda = entityManager.find(Encomenda.class, id);
+    public ProdutoFisico addProduct(int id, int productReference) throws MyEntityNotFoundException {
+        Encomenda encomenda = find(id);
         ProdutoFisico produtoFisico = entityManager.find(ProdutoFisico.class, productReference);
-        if (encomenda != null && produtoFisico != null) {
-            encomenda.addProdutoFisico(produtoFisico);
-            produtoFisico.addEncomenda(encomenda);
-            return true;
+        if (produtoFisico == null) {
+            throw new MyEntityNotFoundException("ProdutoFisico with id '" + id + "' not found.");
         }
-        return false;
+        encomenda.addProdutoFisico(produtoFisico);
+        produtoFisico.addEncomenda(encomenda);
+        return produtoFisico;
     }
 
     public List<Encomenda> getEncomendasFromHimAndNotPendentes(String operadorUsername) {

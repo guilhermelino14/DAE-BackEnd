@@ -24,20 +24,10 @@ public class EmbalagemProdutoBean {
         return entityManager.createNamedQuery("getAllEmbalagens", EmbalagemProduto.class).getResultList();
     }
 
-    public EmbalagemProduto find(String nome) throws MyEntityNotFoundException {
-        EmbalagemProduto student = entityManager.find(EmbalagemProduto.class, nome);
-        if(student == null){
-            throw new MyEntityNotFoundException(
-                    "Embalagem with name '" + nome + "' not found"
-            );
-        }
-        return student;
-    }
-
     public EmbalagemProduto find(int id) throws MyEntityNotFoundException {
         EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, id);
         if (embalagemProduto == null) {
-            throw new MyEntityNotFoundException("Embalagem with id " + id + " not found.");
+            throw new MyEntityNotFoundException("EmbalagemProduto with id '" + id + "' not found.");
         }
         return embalagemProduto;
     }
@@ -50,24 +40,26 @@ public class EmbalagemProdutoBean {
     public void associarEmbalagemAoSensor(int idEmbalagem, int idSensor) throws MyEntityNotFoundException {
         EmbalagemProduto embalagemProduto = find(idEmbalagem);
         Sensor sensor = entityManager.find(Sensor.class, idSensor);
-        if (embalagemProduto != null && sensor != null) {
-            if (embalagemProduto.getSensores().contains(sensor)) {
-                throw new MyEntityNotFoundException("Sensor with id " + idSensor + " already associated with Embalagem with id " + idEmbalagem);
-            }
-            embalagemProduto.addSensor(sensor);
-            sensor.addEmbalagem(embalagemProduto);
+        if(sensor == null){
+            throw new MyEntityNotFoundException("Sensor with id '" + idSensor + "' not found.");
         }
+        if (embalagemProduto.getSensores().contains(sensor)) {
+            throw new MyEntityNotFoundException("Sensor with id '" + idSensor + "' already associated with Embalagem with id '" + idEmbalagem + "'");
+        }
+        embalagemProduto.addSensor(sensor);
+        sensor.addEmbalagem(embalagemProduto);
     }
 
     public void desassociarEmbalagemAoSensor(int idEmbalagem, int idSensor) throws MyEntityNotFoundException {
         EmbalagemProduto embalagemProduto = find(idEmbalagem);
         Sensor sensor = entityManager.find(Sensor.class, idSensor);
-        if (embalagemProduto != null && sensor != null) {
-            if (!embalagemProduto.getSensores().contains(sensor)) {
-                throw new MyEntityNotFoundException("Sensor with id " + idSensor + " not associated with Embalagem with id " + idEmbalagem);
-            }
-            embalagemProduto.removeSensor(sensor);
-            sensor.removeEmbalagem(embalagemProduto);
+        if(sensor == null){
+            throw new MyEntityNotFoundException("Sensor with id '" + idSensor + "' not found.");
         }
+        if (!embalagemProduto.getSensores().contains(sensor)) {
+            throw new MyEntityNotFoundException("Sensor with id '" + idSensor + "' not associated with Embalagem with id '" + idEmbalagem + "'");
+        }
+        embalagemProduto.removeSensor(sensor);
+        sensor.removeEmbalagem(embalagemProduto);
     }
 }

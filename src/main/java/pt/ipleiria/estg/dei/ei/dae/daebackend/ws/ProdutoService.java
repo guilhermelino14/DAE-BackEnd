@@ -118,7 +118,7 @@ public class ProdutoService {
 
     @POST
     @Path("/")
-    public Response createNewProduto(ProdutoDTO produtoDTO) {
+    public Response createNewProduto(ProdutoDTO produtoDTO) throws MyEntityNotFoundException {
         produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade(),produtoDTO.getTypeOfSensor(), securityContext.getUserPrincipal().getName());
         return Response.status(Response.Status.CREATED).build();
     }

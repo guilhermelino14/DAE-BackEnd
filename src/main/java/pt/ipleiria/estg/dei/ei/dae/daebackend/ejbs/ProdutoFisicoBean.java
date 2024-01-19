@@ -36,7 +36,7 @@ public class ProdutoFisicoBean {
     public ProdutoFisico find(int referencia) throws MyEntityNotFoundException {
         ProdutoFisico produtoFisico = entityManager.find(ProdutoFisico.class, referencia);
         if(produtoFisico == null){
-            throw new MyEntityNotFoundException("ProdutoFisico not found");
+            throw new MyEntityNotFoundException("ProdutoFisico with referencia '" + referencia + "' not found");
         }
         return  produtoFisico;
     }
@@ -50,7 +50,7 @@ public class ProdutoFisicoBean {
         ProdutoFisico produtoFisico = find(referencia);
         EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, embalagemProdutoId);
         if (embalagemProduto == null) {
-            throw new MyEntityNotFoundException("EmbalagemProduto with id: " + embalagemProdutoId + " not found");
+            throw new MyEntityNotFoundException("EmbalagemProduto with id '" + embalagemProdutoId + "' not found");
         }
         produtoFisico.addEmbalagemProduto(embalagemProduto);
         embalagemProduto.addProdutoFisico(produtoFisico);
@@ -60,7 +60,7 @@ public class ProdutoFisicoBean {
         ProdutoFisico produtoFisico = find(referencia);
         EmbalagemProduto embalagemProduto = entityManager.find(EmbalagemProduto.class, embalagemId);
         if (embalagemProduto == null) {
-            throw new MyEntityNotFoundException("EmbalagemProduto with id: " + embalagemId + " not found");
+            throw new MyEntityNotFoundException("EmbalagemProduto with id '" + embalagemId + "' not found");
         }
         produtoFisico.removeEmbalagemProduto(embalagemProduto);
         embalagemProduto.removeProdutoFisico(produtoFisico);

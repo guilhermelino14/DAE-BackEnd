@@ -5,8 +5,8 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Consumidor;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.security.Hasher;
 
 import java.util.List;
@@ -23,8 +23,12 @@ public class ConsumidorBean {
         entityManager.persist(new Consumidor(username, hasher.hash(password), name, email, morada));
     }
 
-    public Consumidor find(String username) {
-        return entityManager.find(Consumidor.class, username);
+    public Consumidor find(String username) throws MyEntityNotFoundException {
+        Consumidor consumidor = entityManager.find(Consumidor.class, username);
+        if(consumidor == null){
+            throw new MyEntityNotFoundException("Consumidor with username '" + username + "' not found.");
+        }
+        return consumidor;
     }
 
     public List<Encomenda> getAllEncomendasFromConsumidor(String username) {
