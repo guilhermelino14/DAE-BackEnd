@@ -7,7 +7,6 @@ public class SensorRoleDTO {
     @NotNull
     public int id;
 
-    public ProdutoDTO produto;
     public TypeOfSensor typeOfSensor;
     public double val_max;
     public double val_min;
@@ -15,9 +14,8 @@ public class SensorRoleDTO {
     public SensorRoleDTO() {
     }
 
-    public SensorRoleDTO(int id, ProdutoDTO produto, TypeOfSensor typeOfSensor, double val_max, double val_min) {
+    public SensorRoleDTO(int id, TypeOfSensor typeOfSensor, double val_max, double val_min) {
         this.id = id;
-        this.produto = produto;
         this.typeOfSensor = typeOfSensor;
         this.val_max = val_max;
         this.val_min = val_min;
@@ -26,11 +24,6 @@ public class SensorRoleDTO {
     public int getId() {
         return id;
     }
-
-    public ProdutoDTO getProduto() {
-        return produto;
-    }
-
     public TypeOfSensor getTypeOfSensor() {
         return typeOfSensor;
     }
@@ -47,9 +40,6 @@ public class SensorRoleDTO {
         this.id = id;
     }
 
-    public void setProduto(ProdutoDTO produto) {
-        this.produto = produto;
-    }
 
     public void setTypeOfSensor(TypeOfSensor typeOfSensor) {
         this.typeOfSensor = typeOfSensor;
