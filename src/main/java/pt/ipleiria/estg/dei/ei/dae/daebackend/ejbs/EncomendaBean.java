@@ -52,14 +52,24 @@ public class EncomendaBean {
 
     public void updateStatus(int id, EncomendaStatus status) throws MyEntityNotFoundException {
         Encomenda encomenda = find(id);
+        EmbalagemTransporte embalagemTransporte = encomenda.getEmbalagensTransporte().get(0);
+        Sensor sensorGPS = null;
+        // get sensor typeOfSensor GPS from embalagemTransporte
+        for (Sensor sensor : embalagemTransporte.getSensores()) {
+            if (sensor.getTypeOfSensor() == TypeOfSensor.GPS) {
+                sensorGPS = sensor;
+            }
+        }
         if (status == EncomendaStatus.RECOLHIDA){
             encomenda.setLocalizacao("Armazem");
+            entityManager.persist(new Observacoes(sensorGPS,0,"","Encomenda foi recolhida, está no armazem", new Date()));
         }
         if (status == EncomendaStatus.EM_TRANSITO){
             encomenda.setLocalizacao("Rua do Quim");
+            entityManager.persist(new Observacoes(sensorGPS,0,"","Encomenda esta na Rua do Quim", new Date()));
         }
         if (status == EncomendaStatus.ENTREGUE){
-            encomenda.setLocalizacao("Rua do xico esperto");
+            encomenda.setLocalizacao(encomenda.getConsumidor().getMorada());
         }
         encomenda.setStatus(status);
         entityManager.merge(encomenda);
