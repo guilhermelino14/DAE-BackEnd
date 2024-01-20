@@ -166,8 +166,9 @@ public class EncomendaService {
                 produtoFisicoBean.createManyLiquid(produtoFinded, embalagemProduto.getId(), encomenda);
                 Sensor sensor = sensorBean.create(TypeOfSensor.NIVEL_DE_LIQUIDO);
                 sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
+            }else{
+                produtoFisicoBean.createMany(produtoFinded, embalagemProduto.getId(), encomenda);
             }
-            produtoFisicoBean.createMany(produtoFinded, embalagemProduto.getId(), encomenda);
             if (produtoFinded.getTypeOfSensor() != null){
                 Sensor sensor = sensorBean.create(produtoFinded.getTypeOfSensor());
                 sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
