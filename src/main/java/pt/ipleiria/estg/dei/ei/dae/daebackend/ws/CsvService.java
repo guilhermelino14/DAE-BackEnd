@@ -134,7 +134,7 @@ public class CsvService {
         CSVImporter<ProdutoDTO> importer = new CSVImporter<>();
         List<ProdutoDTO> produtoDTOS = importer.importManyFromCSV(csvDTO.getCsv(), new ProdutoDTO());
         for (ProdutoDTO produtoDTO : produtoDTOS) {
-            produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade(), produtoDTO.getTypeOfSensor(), fabricante.getUsername(), false);
+            produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade(), produtoDTO.getTypeOfSensor(), fabricante.getUsername(), produtoDTO.isLiquido());
         }
         return Response.ok().build();
     }
