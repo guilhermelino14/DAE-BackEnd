@@ -36,6 +36,8 @@ public class ProdutoDTO {
     @CsvBindByPosition(position = 4)
     private int quantidade;
 
+    private boolean isLiquido;
+
     @CsvBindByName(column = "typeOfSensor")
     @CsvBindByPosition(position = 5)
     public TypeOfSensor typeOfSensor;
@@ -48,7 +50,7 @@ public class ProdutoDTO {
         this.sensorRoles = new ArrayList<>();
     }
 
-    public ProdutoDTO(int id, String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor) {
+    public ProdutoDTO(int id, String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor, boolean isLiquido) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
@@ -57,6 +59,7 @@ public class ProdutoDTO {
         this.sensorRoles = new ArrayList<>();
         this.quantidade = quantidade;
         this.typeOfSensor = typeOfSensor;
+        this.isLiquido = isLiquido;
     }
 
     public int getId() {
@@ -129,5 +132,13 @@ public class ProdutoDTO {
 
     public void setSensorRoles(List<SensorRoleDTO> sensorRoles) {
         this.sensorRoles = sensorRoles;
+    }
+
+    public boolean isLiquido() {
+        return isLiquido;
+    }
+
+    public void setLiquido(boolean liquido) {
+        isLiquido = liquido;
     }
 }

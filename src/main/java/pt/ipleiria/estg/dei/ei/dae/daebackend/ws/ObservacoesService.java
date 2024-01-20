@@ -91,6 +91,20 @@ public class ObservacoesService {
                             }
                         }
                     }
+                    if(produtoFisico instanceof ProdutoLiquido){
+                        ProdutoLiquido produtoLiquido = (ProdutoLiquido) produtoFisico;
+                        produtoLiquido.setPercentagem((int)observacaoDTO.getValue());
+                        observacaoDTO.setMedida("%");
+                        if(observacaoDTO.getValue()==0){
+                            observacaoDTO.setObservacao("Acabou o liquido");
+                        }
+                        else if(observacaoDTO.getValue()<20){
+                            observacaoDTO.setObservacao("Valor baixo de liquido");
+                        }
+                        else{
+                            observacaoDTO.setObservacao(produto.getNome() + " - " +observacaoDTO.getValue() + " " + observacaoDTO.getMedida());
+                        }
+                    }
                 }
             }
         }

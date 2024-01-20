@@ -23,6 +23,8 @@ public class Produto {
 
     private int quantidade;
 
+    private boolean isLiquido;
+
     @Enumerated(EnumType.STRING)
     private TypeOfSensor typeOfSensor;
 
@@ -42,13 +44,15 @@ public class Produto {
         this.produtoFisicos = new ArrayList<>();
     }
 
-    public Produto(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor) {
+    public Produto(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor, boolean isLiquido) {
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;;
         this.produtoFisicos = new ArrayList<>();
         this.quantidade = quantidade;
         this.typeOfSensor = typeOfSensor;
+        this.isLiquido = isLiquido;
+
     }
 
     public int getId() {
@@ -121,5 +125,13 @@ public class Produto {
 
     public void setSensorRoles(List<SensorRole> sensorRoles) {
         this.sensorRoles = sensorRoles;
+    }
+
+    public boolean isLiquido() {
+        return isLiquido;
+    }
+
+    public void setLiquido(boolean liquido) {
+        isLiquido = liquido;
     }
 }

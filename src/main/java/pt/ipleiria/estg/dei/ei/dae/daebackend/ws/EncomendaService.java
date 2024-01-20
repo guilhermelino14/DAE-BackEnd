@@ -90,7 +90,8 @@ public class EncomendaService {
                 produto.getCategoria(),
                 produto.getDescricao(),
                 produto.getQuantidade(),
-                produto.getTypeOfSensor()
+                produto.getTypeOfSensor(),
+                produto.isLiquido()
         );
     }
 
@@ -161,6 +162,11 @@ public class EncomendaService {
             // CRUAR EMBALAGEM DE PRODUTO
             EmbalagemProduto embalagemProduto = embalagemProdutoBean.create("Embalagem de "+produtoFinded.getQuantidade()+" Produtos", 10, 10);
             // CRIAR PRODUTO FISICO
+            if(produtoFinded.isLiquido()){
+                produtoFisicoBean.createManyLiquid(produtoFinded, embalagemProduto.getId(), encomenda);
+                Sensor sensor = sensorBean.create(TypeOfSensor.NIVEL_DE_LIQUIDO);
+                sensorBean.associarSensorAEmbalagem(sensor.getId(),embalagemProduto.getId());
+            }
             produtoFisicoBean.createMany(produtoFinded, embalagemProduto.getId(), encomenda);
             if (produtoFinded.getTypeOfSensor() != null){
                 Sensor sensor = sensorBean.create(produtoFinded.getTypeOfSensor());
@@ -168,7 +174,7 @@ public class EncomendaService {
             }
         }
 
-        // CRUAR EMBALAGEM DE TRANSPORTE
+        // CRIAR EMBALAGEM DE TRANSPORTE
         EmbalagemTransporte embalagemTransporte = embalagemTransporteBean.create("Embalagem de Transporte", 10, 10);
         if (criarEncomendaDTO.isHas_sensor()){
             Sensor sensor = sensorBean.create(criarEncomendaDTO.getTypeOfSensor());

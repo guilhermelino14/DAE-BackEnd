@@ -89,7 +89,8 @@ public class SensorService {
                 produto.getCategoria(),
                 produto.getDescricao(),
                 produto.getQuantidade(),
-                produto.getTypeOfSensor()
+                produto.getTypeOfSensor(),
+                produto.isLiquido()
         );
     }
 

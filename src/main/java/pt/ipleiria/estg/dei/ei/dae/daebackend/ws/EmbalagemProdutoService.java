@@ -62,7 +62,8 @@ public class EmbalagemProdutoService {
                 produto.getCategoria(),
                 produto.getDescricao(),
                 produto.getQuantidade(),
-                produto.getTypeOfSensor()
+                produto.getTypeOfSensor(),
+                produto.isLiquido()
         );
         return dto;
     }

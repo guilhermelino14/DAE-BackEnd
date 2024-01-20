@@ -4,10 +4,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.EmbalagemProduto;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Encomenda;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.Produto;
-import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.ProdutoFisico;
+import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
 
 import java.util.List;
@@ -23,6 +20,15 @@ public class ProdutoFisicoBean {
         return produtoFisico;
     }
 
+    public void createManyLiquid(Produto produto, int embalagemProdutoId, Encomenda encomenda) throws MyEntityNotFoundException {
+        for (int i = 0; i < produto.getQuantidade(); i++) {
+            ProdutoFisico produtoFisico = new ProdutoLiquido(produto, 100);
+            entityManager.persist(produtoFisico);
+            addEmbalagemProduto(produtoFisico.getReferencia(), embalagemProdutoId);
+            encomenda.addProdutoFisico(produtoFisico);
+            produtoFisico.addEncomenda(encomenda);
+        }
+    }
     public void createMany(Produto produto, int embalagemProdutoId, Encomenda encomenda) throws MyEntityNotFoundException {
         for (int i = 0; i < produto.getQuantidade(); i++) {
             ProdutoFisico produtoFisico = new ProdutoFisico(produto);
@@ -31,7 +37,7 @@ public class ProdutoFisicoBean {
             encomenda.addProdutoFisico(produtoFisico);
             produtoFisico.addEncomenda(encomenda);
         }
-    }
+}
 
     public ProdutoFisico find(int referencia) throws MyEntityNotFoundException {
         ProdutoFisico produtoFisico = entityManager.find(ProdutoFisico.class, referencia);

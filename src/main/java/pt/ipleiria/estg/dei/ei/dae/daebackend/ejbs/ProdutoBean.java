@@ -5,6 +5,7 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.daebackend.exceptions.MyEntityNotFoundException;
@@ -19,8 +20,11 @@ public class ProdutoBean {
     @EJB
     private FabricanteBean fabricanteBean;
 
-    public void create(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor,String fabricanteUsername) throws MyEntityNotFoundException {
-        Produto produto = new Produto(nome, categoria, descricao, quantidade, typeOfSensor);
+    @EJB
+    private FabricanteBean produtoBean;
+
+    public void create(String nome, String categoria, String descricao, int quantidade, TypeOfSensor typeOfSensor,String fabricanteUsername, boolean isLiquid) throws MyEntityNotFoundException {
+        Produto produto = new Produto(nome, categoria, descricao, quantidade, typeOfSensor, isLiquid);
         Fabricante fabricante = fabricanteBean.find(fabricanteUsername);
         produto.setFabricante(fabricante);
         entityManager.persist(produto);

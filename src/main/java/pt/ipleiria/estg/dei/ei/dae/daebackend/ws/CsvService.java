@@ -74,7 +74,8 @@ public class CsvService {
                 produto.getCategoria(),
                 produto.getDescricao(),
                 produto.getQuantidade(),
-                produto.getTypeOfSensor()
+                produto.getTypeOfSensor(),
+                produto.isLiquido()
         );
     }
 
@@ -133,7 +134,7 @@ public class CsvService {
         CSVImporter<ProdutoDTO> importer = new CSVImporter<>();
         List<ProdutoDTO> produtoDTOS = importer.importManyFromCSV(csvDTO.getCsv(), new ProdutoDTO());
         for (ProdutoDTO produtoDTO : produtoDTOS) {
-            produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade(), produtoDTO.getTypeOfSensor(), fabricante.getUsername());
+            produtoBean.create(produtoDTO.getNome(), produtoDTO.getCategoria(), produtoDTO.getDescricao(), produtoDTO.getQuantidade(), produtoDTO.getTypeOfSensor(), fabricante.getUsername(), false);
         }
         return Response.ok().build();
     }

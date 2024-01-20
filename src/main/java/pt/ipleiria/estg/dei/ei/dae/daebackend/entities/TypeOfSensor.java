@@ -5,5 +5,6 @@ public enum TypeOfSensor {
     HUMIDADE,
     VELOCIDADE,
     ABERTURA,
-    GPS
+    GPS,
+    NIVEL_DE_LIQUIDO
 }
