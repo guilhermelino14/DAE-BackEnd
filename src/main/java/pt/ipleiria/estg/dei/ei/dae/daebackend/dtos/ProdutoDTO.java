@@ -35,7 +35,8 @@ public class ProdutoDTO {
     @CsvBindByName(column = "quantidade")
     @CsvBindByPosition(position = 4)
     private int quantidade;
-
+    @CsvBindByName(column = "isLiquido")
+    @CsvBindByPosition(position = 6)
     private boolean isLiquido;
 
     @CsvBindByName(column = "typeOfSensor")
